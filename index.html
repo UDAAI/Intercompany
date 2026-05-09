@@ -658,13 +658,13 @@ box-shadow: 0 4px 24px rgba(0,0,0,0.4); max-width: 300px;
       <div class="pair-topbar">
         <div class="pair-entity">
           <select id="entity-a-select" style="background:var(--surface2);border:1px solid rgba(79,255,176,0.3);color:var(--accent);padding:5px 10px;border-radius:5px;font-family:var(--font-mono);font-size:11px;" onchange="loadPair()">
-            <option>ALPHA-SA</option><option>BETA-UK</option><option>GAMMA-DE</option><option>DELTA-AE</option><option>EPSILON-JP</option>
+            <option>ALPHA-SA</option><option>BETA-UK</option><option>GAMMA-DE</option><option>DELTA-AE</option><option>EPSILON-JP</option><option>ZETA-SG</option><option>ETA-AU</option><option>THETA-ZA</option><option>IOTA-BR</option><option>KAPPA-FR</option><option>LAMBDA-CN</option>
           </select>
         </div>
         <span class="pair-arrow">⇄</span>
         <div class="pair-entity">
           <select id="entity-b-select" style="background:var(--surface2);border:1px solid rgba(61,224,255,0.3);color:var(--accent2);padding:5px 10px;border-radius:5px;font-family:var(--font-mono);font-size:11px;" onchange="loadPair()">
-            <option>BETA-UK</option><option>ALPHA-SA</option><option>GAMMA-DE</option><option>DELTA-AE</option><option>EPSILON-JP</option>
+            <option>BETA-UK</option><option>ALPHA-SA</option><option>GAMMA-DE</option><option>DELTA-AE</option><option>EPSILON-JP</option><option>ZETA-SG</option><option>ETA-AU</option><option>THETA-ZA</option><option>IOTA-BR</option><option>KAPPA-FR</option><option>LAMBDA-CN</option>
           </select>
         </div>
         <span class="pair-meta" id="pair-meta">14 transactions · USD ↔ GBP → USD reporting</span>
@@ -978,6 +978,21 @@ box-shadow: 0 4px 24px rgba(0,0,0,0.4); max-width: 300px;
   </div>
 </div>
 
+<!-- ONE-SIDED TRANSACTION MODAL -->
+
+<div class="modal-overlay" id="one-sided-modal">
+  <div class="modal modal-lg">
+    <button class="modal-close" onclick="closeModal('one-sided-modal')">✕</button>
+    <div class="modal-title" id="os-title">One-Sided Transaction</div>
+    <div class="modal-sub" id="os-sub">This transaction has no matching counter-entry</div>
+    <div id="os-content"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('one-sided-modal')">Close</button>
+      <button class="btn btn-warn" onclick="flagToEntity()">⚑ Flag to Entity Team</button>
+    </div>
+  </div>
+</div>
+
 <!-- TOAST -->
 
 <div class="toast" id="toast"><span id="toast-icon">✓</span><span id="toast-msg"></span></div>
@@ -1022,70 +1037,10 @@ ENTITIES.forEach((a,i) => {
   });
 });
 
-// Transactions
-let txnsA = [
-  { id:'TXN-A-001', desc:'Product Sales — Q1 Delivery', desc2:'Goods dispatched 31 Mar', gl:'IC-REV-5000', glType:'PL', period:'Mar 2025', txnCcy:'USD', txnAmt:245000, entityCcy:'USD', entityAmt:245000, status:'eliminated', matchId:'MS-001', conf:98 },
-  { id:'TXN-A-002', desc:'Product Sales — Q2 Delivery', desc2:'Goods dispatched 30 Jun', gl:'IC-REV-5000', glType:'PL', period:'Jun 2025', txnCcy:'USD', txnAmt:312000, entityCcy:'USD', entityAmt:312000, status:'suggested', matchId:'MS-002', conf:91 },
-  { id:'TXN-A-003', desc:'Rental Cross Charge — Jan', desc2:'Monthly office rent — Mumbai', gl:'IC-INC-6100', glType:'PL', period:'Jan 2025', txnCcy:'USD', txnAmt:15000, entityCcy:'USD', entityAmt:15000, status:'eliminated', matchId:'MS-004', conf:97 },
-  { id:'TXN-A-004', desc:'Rental Cross Charge — Feb', desc2:'Monthly office rent — Mumbai', gl:'IC-INC-6100', glType:'PL', period:'Feb 2025', txnCcy:'USD', txnAmt:15000, entityCcy:'USD', entityAmt:15000, status:'suggested', matchId:'MS-005', conf:96 },
-  { id:'TXN-A-005', desc:'Management Fee — FY25', desc2:'Annual management services', gl:'IC-MGMT-6200', glType:'PL', period:'Dec 2025', txnCcy:'USD', txnAmt:180000, entityCcy:'USD', entityAmt:180000, status:'suggested', matchId:'MS-003', conf:72 },
-  { id:'TXN-A-006', desc:'IC Loan Advanced — Tranche 1', desc2:'Intercompany facility drawdown', gl:'IC-LOAN-1500', glType:'BS', period:'Apr 2025', txnCcy:'USD', txnAmt:500000, entityCcy:'USD', entityAmt:500000, status:'open', matchId:null, conf:0 },
-  { id:'TXN-A-007', desc:'Interest on IC Loan', desc2:'6-month interest accrual', gl:'IC-INT-6300', glType:'PL', period:'Sep 2025', txnCcy:'USD', txnAmt:18750, entityCcy:'USD', entityAmt:18750, status:'open', matchId:null, conf:0 },
-];
-
-let txnsB = [
-  { id:'TXN-B-001', desc:'Purchase of Goods — March', desc2:'Received at warehouse 04 Apr', gl:'IC-COGS-6000', glType:'PL', period:'Apr 2025', txnCcy:'USD', txnAmt:245000, entityCcy:'GBP', entityAmt:193050, status:'eliminated', matchId:'MS-001', conf:98 },
-  { id:'TXN-B-002', desc:'Goods Received Note — June', desc2:'Stock received 03 Jul', gl:'IC-COGS-6000', glType:'PL', period:'Jul 2025', txnCcy:'USD', txnAmt:312000, entityCcy:'GBP', entityAmt:245880, status:'suggested', matchId:'MS-002', conf:91 },
-  { id:'TXN-B-003', desc:'Rent Payable — January', desc2:'London office — charged by parent', gl:'IC-RENT-6100', glType:'PL', period:'Jan 2025', txnCcy:'USD', txnAmt:15000, entityCcy:'GBP', entityAmt:11820, status:'eliminated', matchId:'MS-004', conf:97 },
-  { id:'TXN-B-004', desc:'Rent Payable — February', desc2:'London office — charged by parent', gl:'IC-RENT-6100', glType:'PL', period:'Feb 2025', txnCcy:'USD', txnAmt:15000, entityCcy:'GBP', entityAmt:11820, status:'suggested', matchId:'MS-005', conf:96 },
-  { id:'TXN-B-005a', desc:'Group Management Services', desc2:'Per group cost allocation policy', gl:'IC-MGMT-6200', glType:'PL', period:'Dec 2025', txnCcy:'USD', txnAmt:120000, entityCcy:'GBP', entityAmt:94560, status:'suggested', matchId:'MS-003', conf:72 },
-  { id:'TXN-B-005b', desc:'Advisory Fee — Group Centre', desc2:'Additional advisory scope billed', gl:'IC-MGMT-6200', glType:'PL', period:'Dec 2025', txnCcy:'USD', txnAmt:86600, entityCcy:'GBP', entityAmt:68231, status:'suggested', matchId:'MS-003', conf:72 },
-  { id:'TXN-B-007', desc:'IC Loan Interest — GBP', desc2:'Interest on facility from parent', gl:'IC-INT-3300', glType:'BS', period:'Sep 2025', txnCcy:'GBP', txnAmt:14800, entityCcy:'GBP', entityAmt:14800, status:'open', matchId:null, conf:0 },
-];
-
-const MATCH_SETS = [
-  {
-    id:'MS-001', jeId:'ELIM-ALPHSA-BETAUK-FY25-001', layer:1, layerLabel:'L1 — Exact Match',
-    legsA:['TXN-A-001'], legsB:['TXN-B-001'],
-    txnCcy:'USD', amtA:245000, amtB:245000, diff:0, matOk:true,
-    type:'1:1 · IC Sales/Purchase', status:'eliminated', conf:98,
-    fctr:{ gl:'FCTR-OCI-ALPHSA', amt:1240, ccy:'USD' },
-    approvedBy:'J. Smith', approvedAt:'Today 10:15',
-  },
-  {
-    id:'MS-002', jeId:'ELIM-ALPHSA-BETAUK-FY25-002', layer:2, layerLabel:'L2 — Strong Match',
-    legsA:['TXN-A-002'], legsB:['TXN-B-002'],
-    txnCcy:'USD', amtA:312000, amtB:312000, diff:0, matOk:true,
-    type:'1:1 · IC Sales/Purchase — Timing Diff (1 month)', status:'suggested', conf:91,
-    fctr:{ gl:'FCTR-OCI-ALPHSA', amt:2100, ccy:'USD' },
-    approvedBy:null, approvedAt:null,
-  },
-  {
-    id:'MS-003', jeId:'ELIM-ALPHSA-BETAUK-FY25-003', layer:3, layerLabel:'L3 — Semantic Match',
-    legsA:['TXN-A-005'], legsB:['TXN-B-005a','TXN-B-005b'],
-    txnCcy:'USD', amtA:180000, amtB:206600, diff:26600, matOk:false,
-    type:'1:2 · IC Management Fee — Over Materiality', status:'review', conf:72,
-    fctr:{ gl:'FCTR-OCI-ALPHSA', amt:0, ccy:'USD' },
-    approvedBy:null, approvedAt:null,
-  },
-  {
-    id:'MS-004', jeId:'ELIM-ALPHSA-BETAUK-FY25-004', layer:4, layerLabel:'L4 — Standing Rule',
-    legsA:['TXN-A-003'], legsB:['TXN-B-003'],
-    txnCcy:'USD', amtA:15000, amtB:15000, diff:0, matOk:true,
-    type:'1:1 · Recurring Monthly Rent — Jan', status:'eliminated', conf:97,
-    fctr:{ gl:'FCTR-OCI-ALPHSA', amt:320, ccy:'USD' },
-    approvedBy:'A. Patel', approvedAt:'Yesterday 16:30',
-  },
-  {
-    id:'MS-005', jeId:'ELIM-ALPHSA-BETAUK-FY25-005', layer:4, layerLabel:'L4 — Standing Rule',
-    legsA:['TXN-A-004'], legsB:['TXN-B-004'],
-    txnCcy:'USD', amtA:15000, amtB:15000, diff:0, matOk:true,
-    type:'1:1 · Recurring Monthly Rent — Feb', status:'suggested', conf:96,
-    fctr:{ gl:'FCTR-OCI-ALPHSA', amt:310, ccy:'USD' },
-    approvedBy:null, approvedAt:null,
-  },
-];
-
+// Active pair data — populated by loadPair()
+let txnsA = [];
+let txnsB = [];
+const MATCH_SETS = [];
 let currentMatchId = null;
 
 // ═══════════════════════════════════════════════════
@@ -1167,20 +1122,121 @@ function buildUploadGrid() {
 // ═══════════════════════════════════════════════════
 //  PAIR WORKBENCH
 // ═══════════════════════════════════════════════════
+// Per-pair transaction store — all transactions keyed by entity pair
+const ALL_TXN_DATA = {
+  'ALPHA-SA|BETA-UK': {
+    A: [
+      { id:'TXN-A-001', desc:'Product Sales — Q1 Delivery', desc2:'Goods dispatched 31 Mar', gl:'IC-REV-5000', glType:'PL', period:'Mar 2025', txnCcy:'USD', txnAmt:245000, entityCcy:'USD', entityAmt:245000, status:'eliminated', matchId:'MS-001', conf:98 },
+      { id:'TXN-A-002', desc:'Product Sales — Q2 Delivery', desc2:'Goods dispatched 30 Jun', gl:'IC-REV-5000', glType:'PL', period:'Jun 2025', txnCcy:'USD', txnAmt:312000, entityCcy:'USD', entityAmt:312000, status:'suggested', matchId:'MS-002', conf:91 },
+      { id:'TXN-A-003', desc:'Rental Cross Charge — Jan', desc2:'Monthly office rent — Mumbai', gl:'IC-INC-6100', glType:'PL', period:'Jan 2025', txnCcy:'USD', txnAmt:15000, entityCcy:'USD', entityAmt:15000, status:'eliminated', matchId:'MS-004', conf:97 },
+      { id:'TXN-A-004', desc:'Rental Cross Charge — Feb', desc2:'Monthly office rent — Mumbai', gl:'IC-INC-6100', glType:'PL', period:'Feb 2025', txnCcy:'USD', txnAmt:15000, entityCcy:'USD', entityAmt:15000, status:'suggested', matchId:'MS-005', conf:96 },
+      { id:'TXN-A-005', desc:'Management Fee — FY25', desc2:'Annual management services', gl:'IC-MGMT-6200', glType:'PL', period:'Dec 2025', txnCcy:'USD', txnAmt:180000, entityCcy:'USD', entityAmt:180000, status:'suggested', matchId:'MS-003', conf:72 },
+      { id:'TXN-A-006', desc:'IC Loan Advanced — Tranche 1', desc2:'Intercompany facility drawdown', gl:'IC-LOAN-1500', glType:'BS', period:'Apr 2025', txnCcy:'USD', txnAmt:500000, entityCcy:'USD', entityAmt:500000, status:'open', matchId:null, conf:0 },
+      { id:'TXN-A-007', desc:'Interest on IC Loan', desc2:'6-month interest accrual', gl:'IC-INT-6300', glType:'PL', period:'Sep 2025', txnCcy:'USD', txnAmt:18750, entityCcy:'USD', entityAmt:18750, status:'open', matchId:null, conf:0 },
+    ],
+    B: [
+      { id:'TXN-B-001', desc:'Purchase of Goods — March', desc2:'Received at warehouse 04 Apr', gl:'IC-COGS-6000', glType:'PL', period:'Apr 2025', txnCcy:'USD', txnAmt:245000, entityCcy:'GBP', entityAmt:193050, status:'eliminated', matchId:'MS-001', conf:98 },
+      { id:'TXN-B-002', desc:'Goods Received Note — June', desc2:'Stock received 03 Jul', gl:'IC-COGS-6000', glType:'PL', period:'Jul 2025', txnCcy:'USD', txnAmt:312000, entityCcy:'GBP', entityAmt:245880, status:'suggested', matchId:'MS-002', conf:91 },
+      { id:'TXN-B-003', desc:'Rent Payable — January', desc2:'London office — charged by parent', gl:'IC-RENT-6100', glType:'PL', period:'Jan 2025', txnCcy:'USD', txnAmt:15000, entityCcy:'GBP', entityAmt:11820, status:'eliminated', matchId:'MS-004', conf:97 },
+      { id:'TXN-B-004', desc:'Rent Payable — February', desc2:'London office — charged by parent', gl:'IC-RENT-6100', glType:'PL', period:'Feb 2025', txnCcy:'USD', txnAmt:15000, entityCcy:'GBP', entityAmt:11820, status:'suggested', matchId:'MS-005', conf:96 },
+      { id:'TXN-B-005a', desc:'Group Management Services', desc2:'Per group cost allocation policy', gl:'IC-MGMT-6200', glType:'PL', period:'Dec 2025', txnCcy:'USD', txnAmt:120000, entityCcy:'GBP', entityAmt:94560, status:'suggested', matchId:'MS-003', conf:72 },
+      { id:'TXN-B-005b', desc:'Advisory Fee — Group Centre', desc2:'Additional advisory scope billed', gl:'IC-MGMT-6200', glType:'PL', period:'Dec 2025', txnCcy:'USD', txnAmt:86600, entityCcy:'GBP', entityAmt:68231, status:'suggested', matchId:'MS-003', conf:72 },
+      { id:'TXN-B-007', desc:'IC Loan Interest — GBP', desc2:'Interest on facility from parent', gl:'IC-INT-3300', glType:'BS', period:'Sep 2025', txnCcy:'GBP', txnAmt:14800, entityCcy:'GBP', entityAmt:14800, status:'open', matchId:null, conf:0 },
+    ],
+    matchSets: [
+      { id:'MS-001', jeId:'ELIM-ALPHSA-BETAUK-FY25-001', layer:1, layerLabel:'L1 — Exact Match', legsA:['TXN-A-001'], legsB:['TXN-B-001'], txnCcy:'USD', amtA:245000, amtB:245000, diff:0, matOk:true, type:'1:1 · IC Sales/Purchase', status:'eliminated', conf:98, fctr:{gl:'FCTR-OCI-ALPHSA',amt:1240,ccy:'USD'}, approvedBy:'J. Smith', approvedAt:'Today 10:15' },
+      { id:'MS-002', jeId:'ELIM-ALPHSA-BETAUK-FY25-002', layer:2, layerLabel:'L2 — Strong Match', legsA:['TXN-A-002'], legsB:['TXN-B-002'], txnCcy:'USD', amtA:312000, amtB:312000, diff:0, matOk:true, type:'1:1 · IC Sales/Purchase — Timing Diff', status:'suggested', conf:91, fctr:{gl:'FCTR-OCI-ALPHSA',amt:2100,ccy:'USD'}, approvedBy:null, approvedAt:null },
+      { id:'MS-003', jeId:'ELIM-ALPHSA-BETAUK-FY25-003', layer:3, layerLabel:'L3 — Semantic Match', legsA:['TXN-A-005'], legsB:['TXN-B-005a','TXN-B-005b'], txnCcy:'USD', amtA:180000, amtB:206600, diff:26600, matOk:false, type:'1:2 · IC Management Fee — Over Materiality', status:'review', conf:72, fctr:{gl:'FCTR-OCI-ALPHSA',amt:0,ccy:'USD'}, approvedBy:null, approvedAt:null },
+      { id:'MS-004', jeId:'ELIM-ALPHSA-BETAUK-FY25-004', layer:4, layerLabel:'L4 — Standing Rule', legsA:['TXN-A-003'], legsB:['TXN-B-003'], txnCcy:'USD', amtA:15000, amtB:15000, diff:0, matOk:true, type:'1:1 · Recurring Monthly Rent — Jan', status:'eliminated', conf:97, fctr:{gl:'FCTR-OCI-ALPHSA',amt:320,ccy:'USD'}, approvedBy:'A. Patel', approvedAt:'Yesterday 16:30' },
+      { id:'MS-005', jeId:'ELIM-ALPHSA-BETAUK-FY25-005', layer:4, layerLabel:'L4 — Standing Rule', legsA:['TXN-A-004'], legsB:['TXN-B-004'], txnCcy:'USD', amtA:15000, amtB:15000, diff:0, matOk:true, type:'1:1 · Recurring Monthly Rent — Feb', status:'suggested', conf:96, fctr:{gl:'FCTR-OCI-ALPHSA',amt:310,ccy:'USD'}, approvedBy:null, approvedAt:null },
+    ]
+  },
+  'ALPHA-SA|GAMMA-DE': {
+    A: [
+      { id:'TXN-AG-A-001', desc:'Software Licence Fee', desc2:'Annual group software licence', gl:'IC-LIC-6100', glType:'PL', period:'Jan 2025', txnCcy:'EUR', txnAmt:95000, entityCcy:'USD', entityAmt:103075, status:'eliminated', matchId:'MS-AG-001', conf:96 },
+      { id:'TXN-AG-A-002', desc:'Technical Support Services', desc2:'Q1 support recharge', gl:'IC-TECH-6200', glType:'PL', period:'Mar 2025', txnCcy:'EUR', txnAmt:22000, entityCcy:'USD', entityAmt:23870, status:'open', matchId:null, conf:0 },
+    ],
+    B: [
+      { id:'TXN-AG-B-001', desc:'Softwarelizenzgebühr', desc2:'Jährliche Gruppenlizenz', gl:'IC-KOST-6100', glType:'PL', period:'Jan 2025', txnCcy:'EUR', txnAmt:95000, entityCcy:'EUR', entityAmt:95000, status:'eliminated', matchId:'MS-AG-001', conf:96 },
+    ],
+    matchSets: [
+      { id:'MS-AG-001', jeId:'ELIM-ALPHSA-GAMMADE-FY25-001', layer:3, layerLabel:'L3 — Semantic Match', legsA:['TXN-AG-A-001'], legsB:['TXN-AG-B-001'], txnCcy:'EUR', amtA:95000, amtB:95000, diff:0, matOk:true, type:'1:1 · IC Licence Fee (EN/DE)', status:'eliminated', conf:96, fctr:{gl:'FCTR-OCI-ALPHSA',amt:890,ccy:'USD'}, approvedBy:'M. Mueller', approvedAt:'Today 11:20' },
+    ]
+  },
+};
+
+function getPairKey(a, b) {
+  // Canonical key — always alphabetical
+  return [a,b].sort().join('|');
+}
+
+function getPairData(a, b) {
+  const key = getPairKey(a, b);
+  if (ALL_TXN_DATA[key]) return ALL_TXN_DATA[key];
+  // Return empty pair for pairs with no data
+  return { A:[], B:[], matchSets:[] };
+}
+
 function loadPair() {
   const a = document.getElementById('entity-a-select').value;
   const b = document.getElementById('entity-b-select').value;
+
+  if (a === b) {
+    toast('⚠','An entity cannot transact with itself', true);
+    return;
+  }
+
+  const data = getPairData(a, b);
+  txnsA = data.A;
+  txnsB = data.B;
+  // Replace global MATCH_SETS for this pair
+  MATCH_SETS.length = 0;
+  data.matchSets.forEach(m => MATCH_SETS.push(m));
+
   document.getElementById('panel-a-title').textContent = a;
   document.getElementById('panel-b-title').textContent = b;
-  document.getElementById('pair-meta').textContent = `${txnsA.length + txnsB.length} transactions · ${ENTITY_CCY[a]||'USD'} ↔ ${ENTITY_CCY[b]||'USD'} → USD reporting`;
+
+  const ccyA = ENTITY_CCY[a]||'USD';
+  const ccyB = ENTITY_CCY[b]||'USD';
+  const totalTxns = txnsA.length + txnsB.length;
+  document.getElementById('pair-meta').textContent =
+    `${totalTxns} transactions · ${ccyA} ↔ ${ccyB} → USD reporting · ${txnsA.length} from ${a} · ${txnsB.length} from ${b}`;
+
+  // Update panel header transaction counts
+  document.querySelector('#view-pair .txn-panels .txn-panel:first-child .tph-meta').textContent =
+    `${a} IC Statement · ${txnsA.length} transaction${txnsA.length!==1?'s':''}`;
+  document.querySelector('#view-pair .txn-panels .txn-panel:last-child .tph-meta').textContent =
+    `${b} IC Statement · ${txnsB.length} transaction${txnsB.length!==1?'s':''}`;
+
+  // Warn if one side is empty
+  if (txnsA.length === 0) {
+    toast('⚠', `${a} has not uploaded an IC statement for this pair`, true);
+  } else if (txnsB.length === 0) {
+    toast('⚠', `${b} has not uploaded an IC statement for this pair`, true);
+  }
+
   renderTxnTable('txn-a-body', txnsA, 'A');
   renderTxnTable('txn-b-body', txnsB, 'B');
   renderMatchCards();
   renderJELog();
 }
 
+function flagToEntity() {
+  closeModal('one-sided-modal');
+  toast('⚑', 'Transaction flagged — entity team will be notified to review their IC statement');
+}
+
 function renderTxnTable(bodyId, txns, side) {
   const body = document.getElementById(bodyId);
+  if (!txns || txns.length === 0) {
+    const entity = document.getElementById(side==='A'?'entity-a-select':'entity-b-select').value;
+    body.innerHTML = `<tr><td colspan="9" style="padding:32px;text-align:center;">
+      <div style="font-size:12px;color:var(--warn);margin-bottom:6px;">⚠ No IC statement uploaded</div>
+      <div style="font-size:10px;color:var(--muted2);">${entity} has not uploaded an intercompany statement for this pair and period.</div>
+      <div style="margin-top:10px;"><button class="btn btn-ghost" style="font-size:10px;" onclick="openUploadModal()">⬆ Upload Statement for ${entity}</button></div>
+    </td></tr>`;
+    return;
+  }
   body.innerHTML = txns.map(t => {
     const isElim = t.status==='eliminated';
     const rowClass = isElim ? 'matched-row' : '';
@@ -1192,7 +1248,7 @@ function renderTxnTable(bodyId, txns, side) {
       ? `<div class="conf-wrap"><div class="conf-bar"><div class="conf-fill ${confClass(t.conf)}" style="width:${t.conf}%"></div></div><div class="conf-pct">${t.conf}%</div></div>`
       : '<span style="color:var(--muted);font-size:9px;">—</span>';
 
-    let acts = `<div class="row-acts"><button class="icon-btn ib-view" data-tip="View detail" onclick="openMatchDetail('${t.matchId||''}')">⊙</button>`;
+    let acts = `<div class="row-acts"><button class="icon-btn ib-view" data-tip="View detail" onclick="openTxnDetail('${t.id}','${side}')">⊙</button>`;
     if (t.status==='suggested') acts += `<button class="icon-btn ib-accept" onclick="acceptTxnMatch('${t.id}','${side}')">✓</button><button class="icon-btn ib-reject" onclick="rejectTxnMatch('${t.id}','${side}')">✕</button>`;
     acts += '</div>';
 
@@ -1340,6 +1396,95 @@ function openMatchDetail(id) {
 
   document.getElementById('md-approve-btn').style.display = (m.status==='eliminated') ? 'none' : 'inline-flex';
   document.getElementById('match-detail-modal').classList.add('open');
+}
+
+// View detail for ANY transaction — matched or unmatched
+function openTxnDetail(txnId, side) {
+  const txns = side==='A' ? txnsA : txnsB;
+  const t = txns.find(x=>x.id===txnId);
+  if (!t) return;
+  // If matched — open the normal match detail modal
+  if (t.matchId) { openMatchDetail(t.matchId); return; }
+  // If unmatched — open one-sided modal
+  openOneSidedModal(t, side);
+}
+
+function openOneSidedModal(t, side) {
+  const entityA = document.getElementById('entity-a-select').value;
+  const entityB = document.getElementById('entity-b-select').value;
+  const entity = side==='A' ? entityA : entityB;
+  const counterEntity = side==='A' ? entityB : entityA;
+
+  document.getElementById('os-title').textContent = `One-Sided Transaction — ${t.id}`;
+  document.getElementById('os-sub').textContent = `${entity} has booked this transaction. No corresponding entry found on ${counterEntity}.`;
+
+  document.getElementById('os-content').innerHTML = `
+    <div style="background:rgba(255,92,122,0.06);border:1px solid rgba(255,92,122,0.2);border-radius:var(--radius);padding:14px;margin-bottom:14px;">
+      <div style="font-size:9px;color:var(--danger);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">⚠ No Counter-Entry Found on ${counterEntity}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+        <div><div style="font-size:9px;color:var(--muted2);">Transaction ID</div><div style="font-size:11px;color:var(--accent2);margin-top:2px;">${t.id}</div></div>
+        <div><div style="font-size:9px;color:var(--muted2);">GL Code</div><div style="font-size:11px;color:var(--text);margin-top:2px;">${t.gl}</div></div>
+        <div><div style="font-size:9px;color:var(--muted2);">GL Type</div><div style="font-size:11px;color:var(--text);margin-top:2px;">${t.glType==='PL'?'Profit & Loss':'Balance Sheet'}</div></div>
+        <div><div style="font-size:9px;color:var(--muted2);">Period</div><div style="font-size:11px;color:var(--text);margin-top:2px;">${t.period}</div></div>
+        <div><div style="font-size:9px;color:var(--muted2);">Txn Currency</div><div style="font-size:12px;color:var(--accent);margin-top:2px;font-weight:500;">${t.txnCcy} ${new Intl.NumberFormat('en-US').format(t.txnAmt)}</div></div>
+        <div><div style="font-size:9px;color:var(--muted2);">Entity Currency</div><div style="font-size:11px;color:var(--text2);margin-top:2px;">${t.entityCcy} ${new Intl.NumberFormat('en-US').format(t.entityAmt)}</div></div>
+      </div>
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:10px;color:var(--text2);">${t.desc}<br><span style="color:var(--muted2);font-size:9px;">${t.desc2}</span></div>
+    </div>
+
+    <div style="font-size:10px;font-weight:500;color:var(--text);margin-bottom:8px;">Possible Reasons</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;">
+      <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:5px;padding:10px 12px;font-size:10px;color:var(--text2);">
+        <span style="color:var(--warn);">①</span> ${counterEntity} has not yet uploaded their IC statement for this period
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:5px;padding:10px 12px;font-size:10px;color:var(--text2);">
+        <span style="color:var(--warn);">②</span> ${counterEntity} booked the transaction in a different period (timing difference)
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:5px;padding:10px 12px;font-size:10px;color:var(--text2);">
+        <span style="color:var(--warn);">③</span> ${counterEntity} has not yet recognised the transaction in their books
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:5px;padding:10px 12px;font-size:10px;color:var(--text2);">
+        <span style="color:var(--warn);">④</span> GL code mismatch — ${counterEntity} may have coded it differently, preventing a match
+      </div>
+    </div>
+
+    <div style="font-size:10px;font-weight:500;color:var(--text);margin-bottom:8px;">JE Position if Eliminated Unilaterally</div>
+    <table class="je-table" style="margin-bottom:14px;">
+      <thead><tr><th>Leg</th><th>GL Code</th><th>Description</th><th style="text-align:right">Txn CCY</th><th style="text-align:right">Entity CCY</th><th style="text-align:right">Reporting USD</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="je-dr">Dr</td>
+          <td class="je-dr">${t.gl}</td>
+          <td style="color:var(--text2);">Eliminate IC entry — ${entity}</td>
+          <td style="text-align:right" class="je-dr">${t.txnCcy} ${new Intl.NumberFormat('en-US').format(t.txnAmt)}</td>
+          <td style="text-align:right" class="je-dr">${t.entityCcy} ${new Intl.NumberFormat('en-US').format(t.entityAmt)}</td>
+          <td style="text-align:right" class="je-dr">USD ${new Intl.NumberFormat('en-US').format(Math.round(t.txnAmt))}</td>
+          <td><span class="pill pill-elim" style="font-size:7px;">Dr</span></td>
+        </tr>
+        <tr>
+          <td class="je-cr" style="color:var(--danger);">Cr</td>
+          <td class="je-cr" style="color:var(--danger);">MISSING</td>
+          <td style="color:var(--danger);font-size:10px;">⚠ No counter-entry — ${counterEntity} statement required</td>
+          <td style="text-align:right;color:var(--danger);">—</td>
+          <td style="text-align:right;color:var(--danger);">—</td>
+          <td style="text-align:right;color:var(--danger);">—</td>
+          <td><span class="pill pill-open" style="font-size:7px;">Open</span></td>
+        </tr>
+        <tr class="je-total">
+          <td colspan="3" style="color:var(--danger);">⚠ JE cannot be posted — one-sided. Held open until ${counterEntity} uploads.</td>
+          <td colspan="4"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius);padding:12px;">
+      <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Audit Trail</div>
+      <div class="audit-item"><div class="audit-dot ad-red"></div><div><div class="audit-text"><strong>Transaction held open</strong> — no counter-entry on ${counterEntity}</div><div class="audit-time">Today · matching engine run</div></div></div>
+      <div class="audit-item"><div class="audit-dot ad-blue"></div><div><div class="audit-text">Flagged in <strong>AI Insights</strong> panel for consolidation team attention</div><div class="audit-time">Today 09:30</div></div></div>
+    </div>
+  `;
+
+  document.getElementById('one-sided-modal').classList.add('open');
 }
 
 function buildJERows(m, eliminateAmt) {
