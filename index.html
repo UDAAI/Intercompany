@@ -4,1709 +4,1414 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>ConsolIQ — IC Eliminations</title>
+<title>ConsolIQ — IC Eliminations UAT</title>
 <style>
-html, body { background: #0a0c12; color: #e2e6f3; }
-
-@import url(‘https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&display=swap’);
-
-:root {
-–font-mono: ‘DM Mono’, ui-monospace, ‘Cascadia Code’, Menlo, Consolas, monospace;
-–font-serif: ‘Fraunces’, Georgia, serif;
-–bg: #0a0c12;
-–bg2: #0d0f16;
-–surface: #11141c;
-–surface2: #171b26;
-–surface3: #1d2130;
-–border: #1f2335;
-–border2: #2a2f45;
-–border3: #353c58;
-–accent: #4fffb0;
-–accent2: #3de0ff;
-–accent3: #b87fff;
-–warn: #ffb347;
-–danger: #ff5c7a;
-–muted: #4a5070;
-–muted2: #6b7299;
-–text: #e2e6f3;
-–text2: #8890b0;
-–radius: 8px;
-–radius2: 12px;
+html,body{background:#0a0c12;color:#e2e6f3;margin:0;padding:0;}
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&display=swap');
+:root{
+  --font-mono:'DM Mono',ui-monospace,Menlo,Consolas,monospace;
+  --font-serif:'Fraunces',Georgia,serif;
+  --bg:#0a0c12;--surface:#11141c;--surface2:#171b26;--surface3:#1d2130;
+  --border:#1f2335;--border2:#2a2f45;--border3:#353c58;
+  --accent:#4fffb0;--accent2:#3de0ff;--accent3:#b87fff;
+  --warn:#ffb347;--danger:#ff5c7a;
+  --muted:#4a5070;--muted2:#6b7299;--text:#e2e6f3;--text2:#8890b0;
+  --radius:8px;
 }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-mono);background:var(--bg);color:var(--text);font-size:12px;line-height:1.6;}
+.shell{display:flex;height:100vh;overflow:hidden;}
 
-- { box-sizing: border-box; margin: 0; padding: 0; }
+/* SIDEBAR */
+.sidebar{width:220px;min-width:220px;background:var(–surface);border-right:1px solid var(–border);display:flex;flex-direction:column;}
+.logo{padding:20px 18px 16px;border-bottom:1px solid var(–border);}
+.logo-name{font-family:var(–font-serif);font-size:18px;font-weight:600;color:var(–accent);}
+.logo-sub{font-size:9px;color:var(–muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
+.nav{flex:1;overflow-y:auto;padding:10px 0;}
+.nav-sec{padding:8px 18px 3px;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(–muted);}
+.nav-item{display:flex;align-items:center;gap:8px;padding:7px 18px;cursor:pointer;color:var(–text2);transition:all 0.15s;border-left:2px solid transparent;font-size:11px;}
+.nav-item:hover{color:var(–text);background:var(–surface2);}
+.nav-item.active{color:var(–accent);border-left-color:var(–accent);background:rgba(79,255,176,0.05);}
+.progress-sidebar{padding:12px 18px;border-top:1px solid var(–border);}
+.ps-label{font-size:9px;color:var(–muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;display:flex;justify-content:space-between;}
+.ps-track{height:5px;background:var(–border);border-radius:3px;overflow:hidden;margin-bottom:8px;}
+.ps-fill{height:100%;background:var(–accent);border-radius:3px;transition:width 0.4s;}
+.ps-counts{display:flex;gap:10px;font-size:9px;flex-wrap:wrap;}
 
-body {
-font-family: var(–font-mono);
-background: var(–bg);
-color: var(–text);
-min-height: 100vh;
-font-size: 12px;
-line-height: 1.6;
-overflow: hidden;
-}
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{height:52px;border-bottom:1px solid var(–border);display:flex;align-items:center;padding:0 24px;gap:12px;background:var(–surface);flex-shrink:0;}
+.topbar-title{font-family:var(–font-serif);font-size:15px;font-weight:300;font-style:italic;}
+.doc-ref{font-size:9px;color:var(–muted2);background:var(–surface2);border:1px solid var(–border2);padding:2px 8px;border-radius:3px;}
+.topbar-right{margin-left:auto;display:flex;gap:8px;}
+.btn{padding:6px 14px;border-radius:var(–radius);border:none;font-family:var(–font-mono);font-size:10px;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:5px;}
+.btn-ghost{background:transparent;color:var(–text2);border:1px solid var(–border2);}
+.btn-ghost:hover{color:var(–text);border-color:var(–border3);}
+.btn-primary{background:var(–accent);color:#000;font-weight:500;}
+.btn-primary:hover{background:#6effc2;}
 
-/* ═══════════════════════════════
-LAYOUT
-═══════════════════════════════ */
-.shell { display: flex; height: 100vh; overflow: hidden; }
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:20px 24px;}
 
-/* ═══════════════════════════════
-SIDEBAR
-═══════════════════════════════ */
-.sidebar {
-width: 210px; min-width: 210px;
-background: var(–surface);
-border-right: 1px solid var(–border);
-display: flex; flex-direction: column;
-}
-.logo { padding: 22px 18px 18px; border-bottom: 1px solid var(–border); }
-.logo-name { font-family: var(–font-serif); font-size: 19px; font-weight: 600; color: var(–accent); letter-spacing: -0.5px; }
-.logo-sub { font-size: 9px; color: var(–muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+/* META HEADER */
+.meta-header{background:var(–surface);border:1px solid var(–border2);border-radius:var(–radius);padding:18px 22px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;}
+.mh-label{font-size:9px;color:var(–muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+.mh-input{width:100%;background:var(–surface2);border:1px solid var(–border2);color:var(–text);padding:5px 9px;border-radius:5px;font-family:var(–font-mono);font-size:11px;}
+.mh-input:focus{outline:none;border-color:var(–accent3);}
+.mh-big{font-family:var(–font-serif);font-size:24px;color:var(–accent);font-weight:600;}
 
-.nav { padding: 14px 0; flex: 1; overflow-y: auto; }
-.nav-section { padding: 8px 18px 4px; font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: var(–muted); }
-.nav-item {
-display: flex; align-items: center; gap: 9px;
-padding: 8px 18px; cursor: pointer; color: var(–text2);
-transition: all 0.15s; border-left: 2px solid transparent; font-size: 11px;
-}
-.nav-item:hover { color: var(–text); background: var(–surface2); }
-.nav-item.active { color: var(–accent); border-left-color: var(–accent); background: rgba(79,255,176,0.05); }
-.nav-icon { font-size: 13px; width: 15px; text-align: center; }
-.nav-badge {
-margin-left: auto; font-size: 9px; padding: 1px 6px;
-border-radius: 10px; font-weight: 500;
-}
-.nb-red { background: var(–danger); color: #fff; }
-.nb-warn { background: var(–warn); color: #000; }
-.nb-green { background: var(–accent); color: #000; }
+/* SECTION */
+.section{background:var(–surface);border:1px solid var(–border);border-radius:var(–radius);margin-bottom:14px;overflow:hidden;}
+.sec-hdr{display:flex;align-items:center;gap:10px;padding:13px 18px;cursor:pointer;background:var(–surface2);border-bottom:1px solid var(–border);user-select:none;}
+.sec-hdr:hover{background:var(–surface3);}
+.sec-num{font-family:var(–font-serif);font-size:17px;font-weight:600;color:var(–muted);min-width:26px;}
+.sec-title{font-family:var(–font-serif);font-size:13px;font-weight:600;color:var(–text);flex:1;}
+.sec-sub{font-size:9px;color:var(–muted2);margin-top:1px;}
+.sec-badge{font-size:9px;padding:2px 8px;border-radius:10px;font-weight:500;white-space:nowrap;border:1px solid;}
+.sb-pending{background:transparent;color:var(–muted2);border-color:var(–border2);}
+.sb-pass{background:rgba(79,255,176,0.1);color:var(–accent);border-color:rgba(79,255,176,0.3);}
+.sb-fail{background:rgba(255,92,122,0.1);color:var(–danger);border-color:rgba(255,92,122,0.3);}
+.sb-partial{background:rgba(255,179,71,0.1);color:var(–warn);border-color:rgba(255,179,71,0.3);}
+.sec-count{font-size:9px;color:var(–muted);background:var(–surface3);border:1px solid var(–border2);padding:2px 7px;border-radius:10px;}
+.sec-toggle{font-size:10px;color:var(–muted);transition:transform 0.2s;}
+.sec-toggle.closed{transform:rotate(-90deg);}
+.sec-body{}
+.sec-body.hidden{display:none;}
 
-.sidebar-footer { padding: 14px 18px; border-top: 1px solid var(–border); }
-.sf-label { font-size: 9px; color: var(–muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-.sf-select {
-width: 100%; background: var(–surface2); border: 1px solid var(–border2);
-color: var(–text); padding: 6px 9px; border-radius: var(–radius);
-font-family: var(–font-mono); font-size: 10px; cursor: pointer; margin-bottom: 8px;
-}
+/* PREREQ */
+.prereq{background:rgba(61,224,255,0.05);border-bottom:1px solid rgba(61,224,255,0.12);padding:9px 18px;font-size:10px;color:var(–accent2);display:flex;gap:8px;}
+.prereq strong{color:var(–text);}
 
-/* ═══════════════════════════════
-MAIN
-═══════════════════════════════ */
-.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+/* TEST CASE */
+.tc{border-bottom:1px solid var(–border);}
+.tc:last-child{border-bottom:none;}
+.tc:hover{background:rgba(255,255,255,0.008);}
+.tc.tc-pass{background:rgba(79,255,176,0.025);}
+.tc.tc-fail{background:rgba(255,92,122,0.025);}
+.tc-hdr{display:flex;align-items:flex-start;gap:12px;padding:13px 18px 9px;}
+.tc-id{font-size:9px;color:var(–muted2);min-width:60px;padding-top:1px;}
+.tc-main{flex:1;}
+.tc-action{font-size:12px;color:var(–text);font-weight:500;margin-bottom:3px;}
+.tc-detail{font-size:10px;color:var(–text2);line-height:1.5;margin-bottom:7px;}
+.tc-icon{font-size:14px;min-width:18px;text-align:center;color:var(–muted);}
 
-.topbar {
-height: 52px; border-bottom: 1px solid var(–border);
-display: flex; align-items: center; padding: 0 24px; gap: 14px;
-background: var(–surface); flex-shrink: 0;
-}
-.topbar-title { font-family: var(–font-serif); font-size: 15px; font-weight: 300; font-style: italic; }
-.period-chip {
-background: rgba(79,255,176,0.1); color: var(–accent);
-padding: 3px 10px; border-radius: 4px; font-size: 10px;
-border: 1px solid rgba(79,255,176,0.2);
-}
-.topbar-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+/* STEPS */
+.steps{list-style:none;counter-reset:s;padding:0;margin-bottom:7px;}
+.steps li{display:flex;gap:7px;font-size:10px;color:var(–text2);margin-bottom:3px;line-height:1.5;counter-increment:s;}
+.steps li::before{content:counter(s);background:var(–surface3);color:var(–muted2);min-width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;margin-top:2px;flex-shrink:0;border:1px solid var(–border2);}
 
-.btn {
-padding: 6px 14px; border-radius: var(–radius); border: none;
-font-family: var(–font-mono); font-size: 10px; cursor: pointer;
-transition: all 0.15s; display: inline-flex; align-items: center; gap: 5px;
-}
-.btn-ghost { background: transparent; color: var(–text2); border: 1px solid var(–border2); }
-.btn-ghost:hover { color: var(–text); border-color: var(–border3); }
-.btn-primary { background: var(–accent); color: #000; font-weight: 500; }
-.btn-primary:hover { background: #6effc2; }
-.btn-accent2 { background: var(–accent2); color: #000; font-weight: 500; }
-.btn-accent2:hover { background: #6ae8ff; }
-.btn-warn { background: var(–warn); color: #000; font-weight: 500; }
-.btn-danger { background: transparent; color: var(–danger); border: 1px solid rgba(255,92,122,0.4); }
-.btn-danger:hover { background: rgba(255,92,122,0.1); }
-.btn-purple { background: var(–accent3); color: #000; font-weight: 500; }
+/* BOXES */
+.box{border-radius:5px;padding:7px 11px;font-size:10px;margin-bottom:5px;line-height:1.5;}
+.box-ok{background:rgba(79,255,176,0.05);border:1px solid rgba(79,255,176,0.18);color:var(–accent);}
+.box-ok::before{content:’✓ Expected: ’;font-weight:500;}
+.box-data{background:rgba(184,127,255,0.05);border:1px solid rgba(184,127,255,0.18);color:var(–accent3);}
+.box-data::before{content:’⬡ Data: ’;font-weight:500;}
+.box-note{background:rgba(255,179,71,0.05);border:1px solid rgba(255,179,71,0.18);color:var(–warn);}
+.box-note::before{content:’⚠ Note: ’;font-weight:500;}
+.box-crit{background:rgba(255,92,122,0.05);border:1px solid rgba(255,92,122,0.18);color:var(–danger);}
+.box-crit::before{content:’🔴 Critical: ’;font-weight:500;}
+.ic{background:var(–surface3);border:1px solid var(–border2);color:var(–accent3);padding:1px 5px;border-radius:3px;font-size:10px;}
 
-/* ═══════════════════════════════
-VIEWS
-═══════════════════════════════ */
-.view { display: none; flex: 1; overflow: hidden; flex-direction: column; }
-.view.active { display: flex; }
+/* RESULT ROW */
+.tc-result{display:flex;align-items:center;gap:7px;padding:7px 18px 11px 90px;flex-wrap:wrap;}
+.res-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 13px;border-radius:20px;border:1px solid;font-family:var(–font-mono);font-size:10px;cursor:pointer;transition:all 0.15s;font-weight:500;background:transparent;}
+.res-p{color:var(–accent);border-color:rgba(79,255,176,0.35);}
+.res-p:hover,.res-p.on{background:var(–accent);color:#000;border-color:var(–accent);}
+.res-f{color:var(–danger);border-color:rgba(255,92,122,0.35);}
+.res-f:hover,.res-f.on{background:var(–danger);color:#000;border-color:var(–danger);}
+.res-s{color:var(–muted2);border-color:var(–border2);}
+.res-s:hover,.res-s.on{background:var(–surface3);color:var(–text2);}
+.bug-inp{flex:1;min-width:170px;background:var(–surface2);border:1px solid var(–border2);color:var(–text);padding:5px 9px;border-radius:var(–radius);font-family:var(–font-mono);font-size:10px;display:none;}
+.bug-inp.show{display:block;}
+.bug-inp:focus{outline:none;border-color:var(–danger);}
+.bug-inp::placeholder{color:var(–muted);}
+.sev-sel{background:var(–surface2);border:1px solid var(–border2);color:var(–text2);padding:5px 7px;border-radius:var(–radius);font-family:var(–font-mono);font-size:10px;cursor:pointer;display:none;}
+.sev-sel.show{display:block;}
 
-/* ═══════════════════════════════
-MATRIX VIEW
-═══════════════════════════════ */
-.matrix-wrap { flex: 1; overflow: auto; padding: 24px; }
-.matrix-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; }
-.matrix-title { font-family: var(–font-serif); font-size: 22px; font-weight: 300; font-style: italic; color: var(–text); }
-.matrix-sub { font-size: 10px; color: var(–muted2); margin-top: 4px; }
+/* BUG REPORT */
+.bug-report{background:var(–surface);border:1px solid rgba(255,92,122,0.25);border-radius:var(–radius);margin-bottom:14px;overflow:hidden;}
+.br-hdr{padding:13px 18px;background:rgba(255,92,122,0.05);border-bottom:1px solid rgba(255,92,122,0.15);display:flex;align-items:center;gap:10px;}
+.br-title{font-family:var(–font-serif);font-size:13px;font-weight:600;color:var(–danger);flex:1;}
+.bug-item{display:flex;gap:10px;padding:9px 18px;border-bottom:1px solid var(–border);font-size:10px;align-items:flex-start;}
+.bug-item:last-child{border-bottom:none;}
+.bug-id{color:var(–danger);font-weight:500;min-width:75px;}
+.bug-desc{flex:1;color:var(–text2);}
+.bug-tc{color:var(–muted2);font-size:9px;white-space:nowrap;}
+.sev-tag{font-size:8px;padding:1px 6px;border-radius:3px;font-weight:500;white-space:nowrap;}
+.sev-c{background:rgba(255,92,122,0.12);color:var(–danger);border:1px solid rgba(255,92,122,0.25);}
+.sev-m{background:rgba(255,179,71,0.12);color:var(–warn);border:1px solid rgba(255,179,71,0.25);}
+.sev-n{background:rgba(61,224,255,0.08);color:var(–accent2);border:1px solid rgba(61,224,255,0.2);}
+.no-bugs{padding:18px;text-align:center;font-size:11px;color:var(–muted2);}
 
-.stats-row { display: grid; grid-template-columns: repeat(6,1fr); gap: 12px; margin-bottom: 24px; }
-.stat-card {
-background: var(–surface); border: 1px solid var(–border);
-border-radius: var(–radius); padding: 14px 16px; position: relative; overflow: hidden;
-}
-.stat-card::before { content:’’; position:absolute; top:0;left:0;right:0;height:2px; }
-.sc-green::before { background: var(–accent); }
-.sc-blue::before { background: var(–accent2); }
-.sc-purple::before { background: var(–accent3); }
-.sc-warn::before { background: var(–warn); }
-.sc-danger::before { background: var(–danger); }
-.sc-muted::before { background: var(–muted); }
-.stat-label { font-size: 9px; color: var(–muted); text-transform: uppercase; letter-spacing: 1.5px; }
-.stat-value { font-size: 24px; font-family: var(–font-serif); font-weight: 600; margin-top: 4px; line-height: 1; }
-.sc-green .stat-value { color: var(–accent); }
-.sc-blue .stat-value { color: var(–accent2); }
-.sc-purple .stat-value { color: var(–accent3); }
-.sc-warn .stat-value { color: var(–warn); }
-.sc-danger .stat-value { color: var(–danger); }
-.sc-muted .stat-value { color: var(–text2); }
-.stat-sub { font-size: 9px; color: var(–muted); margin-top: 3px; }
+/* SIGN OFF */
+.signoff-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding:18px;}
+.sof{background:var(–surface2);border:1px solid var(–border2);border-radius:var(–radius);padding:13px;}
+.sof-role{font-size:9px;color:var(–muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.sof-line{height:1px;background:var(–border2);margin:18px 0 7px;}
+.sof-date{font-size:9px;color:var(–muted2);}
 
-/* ENTITY GRID */
-.entity-grid-wrap { background: var(–surface); border: 1px solid var(–border); border-radius: var(–radius2); overflow: hidden; margin-bottom: 20px; }
-.eg-header { padding: 14px 18px; border-bottom: 1px solid var(–border); display: flex; align-items: center; gap: 10px; }
-.eg-title { font-size: 12px; font-weight: 500; }
-.eg-sub { font-size: 10px; color: var(–muted2); margin-left: auto; }
+/* EXPORT BAR */
+.export-bar{border-top:1px solid var(–border);background:var(–surface);padding:10px 24px;display:flex;gap:8px;align-items:center;flex-shrink:0;}
+.exp-label{font-size:10px;color:var(–muted2);flex:1;}
 
-.matrix-table-wrap { overflow: auto; }
-.matrix-table { border-collapse: collapse; }
-.matrix-table th, .matrix-table td { padding: 0; }
-.matrix-corner { width: 110px; min-width: 110px; height: 40px; background: var(–surface2); border-right: 1px solid var(–border); border-bottom: 1px solid var(–border); }
-.matrix-col-header {
-width: 80px; min-width: 80px; height: 40px;
-background: var(–surface2); border-right: 1px solid var(–border); border-bottom: 1px solid var(–border);
-font-size: 9px; color: var(–text2); text-align: center; vertical-align: middle; padding: 0 4px;
-white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.5px;
-}
-.matrix-row-header {
-width: 110px; min-width: 110px; height: 36px;
-background: var(–surface2); border-right: 1px solid var(–border); border-bottom: 1px solid var(–border);
-font-size: 9px; color: var(–text2); padding: 0 10px; vertical-align: middle;
-white-space: nowrap;
-}
-.matrix-cell {
-width: 80px; min-width: 80px; height: 36px;
-border-right: 1px solid var(–border); border-bottom: 1px solid var(–border);
-text-align: center; vertical-align: middle; cursor: pointer;
-transition: all 0.15s; position: relative;
-}
-.matrix-cell:hover { background: var(–surface3); }
-.matrix-cell.self { background: var(–bg2); cursor: default; }
-.matrix-cell.self:hover { background: var(–bg2); }
-
-.cell-inner { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 4px; }
-.cell-dot { width: 8px; height: 8px; border-radius: 50%; }
-.cell-label { font-size: 8px; color: var(–muted2); }
-
-.cell-full { background: rgba(79,255,176,0.08); }
-.cell-full .cell-dot { background: var(–accent); }
-.cell-partial { background: rgba(255,179,71,0.08); }
-.cell-partial .cell-dot { background: var(–warn); }
-.cell-pending { background: rgba(255,92,122,0.08); }
-.cell-pending .cell-dot { background: var(–danger); }
-.cell-empty { background: transparent; }
-.cell-empty .cell-dot { background: var(–border2); }
-
-/* UPLOAD STATUS */
-.upload-status-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
-.upload-card {
-background: var(–surface); border: 1px solid var(–border);
-border-radius: var(–radius); padding: 12px 14px; cursor: pointer; transition: all 0.15s;
-}
-.upload-card:hover { border-color: var(–border3); }
-.uc-entity { font-size: 11px; font-weight: 500; color: var(–text); }
-.uc-erp { font-size: 9px; color: var(–muted2); margin-top: 1px; }
-.uc-status { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
-.uc-dot { width: 6px; height: 6px; border-radius: 50%; }
-.uc-dot-green { background: var(–accent); }
-.uc-dot-warn { background: var(–warn); }
-.uc-dot-red { background: var(–danger); }
-.uc-dot-muted { background: var(–muted); }
-.uc-status-text { font-size: 9px; }
-.uc-txns { font-size: 9px; color: var(–muted2); margin-top: 3px; }
-.uc-updated { font-size: 9px; color: var(–muted); margin-top: 2px; }
-
-/* ═══════════════════════════════
-PAIR VIEW
-═══════════════════════════════ */
-.pair-view { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-.pair-topbar {
-padding: 12px 24px; border-bottom: 1px solid var(–border);
-display: flex; align-items: center; gap: 14px; flex-shrink: 0;
-background: var(–surface2);
-}
-.pair-entity { display: flex; align-items: center; gap: 8px; }
-.entity-badge {
-padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 500;
-border: 1px solid; white-space: nowrap;
-}
-.eb-a { background: rgba(79,255,176,0.1); color: var(–accent); border-color: rgba(79,255,176,0.3); }
-.eb-b { background: rgba(61,224,255,0.1); color: var(–accent2); border-color: rgba(61,224,255,0.3); }
-.pair-arrow { font-size: 14px; color: var(–muted2); }
-.pair-meta { font-size: 10px; color: var(–muted2); }
-.pair-actions { margin-left: auto; display: flex; gap: 8px; }
-
-.run-btn {
-display: flex; align-items: center; gap: 6px;
-padding: 7px 16px; border-radius: var(–radius);
-background: linear-gradient(135deg, var(–accent3), var(–accent2));
-color: #000; font-family: var(–font-mono); font-size: 11px; font-weight: 500;
-border: none; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;
-}
-.run-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(184,127,255,0.3); }
-.run-btn.running { animation: runPulse 1.5s infinite; }
-@keyframes runPulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
-
-.new-indicator {
-background: rgba(255,92,122,0.15); border: 1px solid rgba(255,92,122,0.3);
-color: var(–danger); padding: 4px 10px; border-radius: 4px; font-size: 9px;
-display: flex; align-items: center; gap: 5px;
-}
-.pulse-dot { width: 5px; height: 5px; border-radius: 50%; background: var(–danger); animation: pulse 1.5s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-/* PAIR CONTENT */
-.pair-content { flex: 1; display: grid; grid-template-columns: 1fr 320px; overflow: hidden; }
-.pair-main { display: flex; flex-direction: column; overflow: hidden; border-right: 1px solid var(–border); }
-
-/* TXN PANELS */
-.txn-panels { flex: 1; display: grid; grid-template-rows: 1fr 1fr; overflow: hidden; }
-.txn-panel { display: flex; flex-direction: column; overflow: hidden; border-bottom: 1px solid var(–border); }
-.txn-panel:last-child { border-bottom: none; }
-.txn-panel-header {
-padding: 10px 18px; border-bottom: 1px solid var(–border);
-display: flex; align-items: center; gap: 10px; flex-shrink: 0;
-background: var(–surface);
-}
-.tph-title { font-size: 11px; font-weight: 500; }
-.tph-meta { font-size: 9px; color: var(–muted2); }
-.tph-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
-
-.txn-table-wrap { overflow: auto; flex: 1; }
-table { width: 100%; border-collapse: collapse; }
-thead { position: sticky; top: 0; z-index: 2; }
-th {
-background: var(–surface2); padding: 7px 12px;
-text-align: left; font-size: 8px; text-transform: uppercase;
-letter-spacing: 1.5px; color: var(–muted); border-bottom: 1px solid var(–border);
-font-weight: 500; white-space: nowrap;
-}
-td { padding: 8px 12px; border-bottom: 1px solid var(–border); vertical-align: middle; }
-tr:last-child td { border-bottom: none; }
-tr:hover td { background: rgba(255,255,255,0.015); }
-tr.selected td { background: rgba(79,255,176,0.06); }
-tr.matched-row td { background: rgba(79,255,176,0.04); }
-tr.highlight-flash td { animation: rowFlash 0.7s ease; }
-@keyframes rowFlash { 0%{background:rgba(79,255,176,0.2)} 100%{background:transparent} }
-
-.txn-id { font-size: 10px; color: var(–accent2); font-family: var(–font-mono); }
-.txn-desc { font-size: 10px; color: var(–text); max-width: 180px; }
-.txn-desc-sub { font-size: 9px; color: var(–muted2); margin-top: 1px; }
-.amount-cell { text-align: right; font-size: 11px; font-variant-numeric: tabular-nums; font-weight: 500; }
-.amt-base { color: var(–text); }
-.amt-entity { color: var(–text2); font-size: 9px; margin-top: 1px; }
-.amt-report { color: var(–muted2); font-size: 9px; }
-.gl-chip { font-size: 9px; color: var(–accent2); background: rgba(61,224,255,0.08); border: 1px solid rgba(61,224,255,0.2); padding: 1px 6px; border-radius: 3px; white-space: nowrap; }
-.period-chip-sm { font-size: 9px; color: var(–muted2); background: var(–surface2); border: 1px solid var(–border2); padding: 1px 6px; border-radius: 3px; }
-
-/* STATUS PILLS */
-.pill { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 20px; font-size: 8px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; white-space: nowrap; }
-.pill-elim { background: rgba(79,255,176,0.12); color: var(–accent); border: 1px solid rgba(79,255,176,0.25); }
-.pill-suggested { background: rgba(184,127,255,0.12); color: var(–accent3); border: 1px solid rgba(184,127,255,0.3); }
-.pill-open { background: rgba(255,92,122,0.1); color: var(–danger); border: 1px solid rgba(255,92,122,0.25); }
-.pill-partial { background: rgba(255,179,71,0.1); color: var(–warn); border: 1px solid rgba(255,179,71,0.25); }
-.pill-review { background: rgba(61,224,255,0.1); color: var(–accent2); border: 1px solid rgba(61,224,255,0.25); }
-.pill-reverted { background: rgba(255,179,71,0.1); color: var(–warn); border: 1px solid rgba(255,179,71,0.3); }
-.pdot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
-
-/* CONFIDENCE */
-.conf-wrap { display: flex; align-items: center; gap: 6px; min-width: 80px; }
-.conf-bar { flex: 1; height: 3px; background: var(–border); border-radius: 2px; overflow: hidden; }
-.conf-fill { height: 100%; border-radius: 2px; }
-.cf-high { background: var(–accent); }
-.cf-med { background: var(–warn); }
-.cf-low { background: var(–danger); }
-.conf-pct { font-size: 9px; color: var(–muted2); min-width: 26px; text-align: right; }
-
-/* MATCH LINK */
-.match-link { font-size: 9px; color: var(–accent3); cursor: pointer; white-space: nowrap; }
-.match-link:hover { text-decoration: underline; }
-
-/* ROW ACTIONS */
-.row-acts { display: flex; gap: 4px; }
-.icon-btn {
-background: transparent; border: 1px solid var(–border2);
-color: var(–text2); width: 24px; height: 24px;
-border-radius: 5px; display: flex; align-items: center; justify-content: center;
-cursor: pointer; font-size: 11px; transition: all 0.15s; flex-shrink: 0;
-}
-.icon-btn:hover { color: var(–text); border-color: var(–border3); }
-.icon-btn.ib-accept:hover { border-color: var(–accent); color: var(–accent); }
-.icon-btn.ib-reject:hover { border-color: var(–danger); color: var(–danger); }
-.icon-btn.ib-view:hover { border-color: var(–accent2); color: var(–accent2); }
-
-/* ═══════════════════════════════
-MATCH SUGGESTIONS AREA
-═══════════════════════════════ */
-.match-area {
-padding: 12px 18px; border-top: 1px solid var(–border);
-background: var(–surface2); flex-shrink: 0; max-height: 200px; overflow-y: auto;
-}
-.ma-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-.ma-title { font-size: 10px; font-weight: 500; color: var(–text); }
-.ma-count { font-size: 9px; color: var(–muted2); }
-.ma-actions { margin-left: auto; display: flex; gap: 6px; }
-
-.match-card {
-background: var(–surface3); border: 1px solid var(–border2);
-border-radius: var(–radius); padding: 10px 12px; margin-bottom: 8px;
-cursor: pointer; transition: all 0.15s;
-}
-.match-card:hover { border-color: var(–border3); }
-.match-card:last-child { margin-bottom: 0; }
-.match-card.mc-high { border-left: 3px solid var(–accent); }
-.match-card.mc-med { border-left: 3px solid var(–warn); }
-.match-card.mc-low { border-left: 3px solid var(–danger); }
-
-.mc-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-.mc-je { font-size: 9px; color: var(–accent3); font-weight: 500; }
-.mc-type { font-size: 9px; color: var(–muted2); }
-.mc-conf { margin-left: auto; display: flex; align-items: center; gap: 6px; }
-
-.mc-legs { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; margin-bottom: 6px; }
-.mc-leg { background: var(–surface2); border: 1px solid var(–border); border-radius: 5px; padding: 6px 8px; }
-.mc-leg-entity { font-size: 8px; color: var(–muted2); margin-bottom: 2px; }
-.mc-leg-txns { font-size: 9px; color: var(–text); }
-.mc-leg-amt { font-size: 10px; font-weight: 500; margin-top: 2px; }
-.mc-leg-a .mc-leg-amt { color: var(–accent); }
-.mc-leg-b .mc-leg-amt { color: var(–accent2); }
-.mc-arrow { font-size: 12px; color: var(–muted2); text-align: center; }
-
-.mc-footer { display: flex; align-items: center; gap: 8px; }
-.mc-diff { font-size: 9px; }
-.mc-diff.diff-ok { color: var(–accent); }
-.mc-diff.diff-warn { color: var(–warn); }
-.mc-diff.diff-over { color: var(–danger); }
-.mc-layer { font-size: 8px; color: var(–muted2); background: var(–surface2); padding: 1px 6px; border-radius: 3px; }
-.mc-acts { margin-left: auto; display: flex; gap: 5px; }
-
-/* ═══════════════════════════════
-RIGHT PANEL — COPILOT
-═══════════════════════════════ */
-.copilot-panel { display: flex; flex-direction: column; overflow: hidden; background: var(–surface); }
-
-.cp-section { padding: 14px 16px; border-bottom: 1px solid var(–border); }
-.cp-section-title { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: var(–muted); margin-bottom: 10px; }
-
-.ai-orb-row { display: flex; align-items: center; gap: 7px; margin-bottom: 2px; }
-.ai-orb { width: 7px; height: 7px; border-radius: 50%; background: var(–accent3); box-shadow: 0 0 7px var(–accent3); animation: pulse 2s infinite; }
-.cp-panel-title { font-size: 12px; font-weight: 500; }
-
-/* PROGRESS */
-.prog-row { display: flex; justify-content: space-between; font-size: 9px; color: var(–text2); margin-bottom: 4px; }
-.prog-track { height: 5px; background: var(–border); border-radius: 3px; overflow: hidden; margin-bottom: 10px; }
-.prog-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
-.pf-green { background: var(–accent); }
-.pf-blue { background: var(–accent2); }
-.pf-orange { background: var(–warn); }
-.pf-purple { background: var(–accent3); }
-
-/* INSIGHT CARDS */
-.insight-card {
-background: var(–surface2); border: 1px solid var(–border2);
-border-radius: var(–radius); padding: 10px 12px; margin-bottom: 8px;
-cursor: pointer; transition: border-color 0.15s;
-}
-.insight-card:hover { border-color: var(–border3); }
-.insight-card:last-child { margin-bottom: 0; }
-.ic-ai { border-left: 3px solid var(–accent3); }
-.ic-warn { border-left: 3px solid var(–warn); }
-.ic-danger { border-left: 3px solid var(–danger); }
-.ic-blue { border-left: 3px solid var(–accent2); }
-.ic-title { font-size: 10px; color: var(–text); font-weight: 500; }
-.ic-body { font-size: 9px; color: var(–text2); margin-top: 3px; line-height: 1.5; }
-.ic-action { font-size: 9px; color: var(–accent3); margin-top: 6px; cursor: pointer; }
-.ic-action:hover { text-decoration: underline; }
-
-/* JE PREVIEW */
-.je-table { width: 100%; border-collapse: collapse; font-size: 9px; }
-.je-table th { background: var(–surface3); padding: 5px 8px; color: var(–muted); text-align: left; border-bottom: 1px solid var(–border); }
-.je-table td { padding: 5px 8px; border-bottom: 1px solid var(–border); color: var(–text2); }
-.je-table tr:last-child td { border-bottom: none; }
-.je-dr { color: var(–accent); }
-.je-cr { color: var(–accent2); }
-.je-fctr { color: var(–accent3); font-style: italic; }
-.je-total { background: var(–surface3); font-weight: 500; }
-
-/* CHAT */
-.chat-wrap { flex: 1; overflow-y: auto; padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; min-height: 120px; }
-.chat-bubble { padding: 8px 10px; border-radius: 7px; font-size: 10px; line-height: 1.5; max-width: 92%; }
-.cb-ai { background: var(–surface2); border: 1px solid var(–border2); color: var(–text); align-self: flex-start; border-bottom-left-radius: 2px; }
-.cb-ai::before { content:‘⬡ Copilot’; display:block; font-size:8px; color:var(–accent3); margin-bottom:3px; letter-spacing:1px; text-transform:uppercase; }
-.cb-user { background: rgba(184,127,255,0.08); border: 1px solid rgba(184,127,255,0.2); color: var(–text); align-self: flex-end; border-bottom-right-radius: 2px; }
-.chat-input-row { padding: 10px 16px; border-top: 1px solid var(–border); display: flex; gap: 6px; flex-shrink: 0; }
-.chat-input {
-flex: 1; background: var(–surface2); border: 1px solid var(–border2);
-color: var(–text); padding: 6px 10px; border-radius: var(–radius);
-font-family: var(–font-mono); font-size: 10px; resize: none;
-}
-.chat-input:focus { outline: none; border-color: var(–accent3); }
-.chat-input::placeholder { color: var(–muted); }
-
-/* ═══════════════════════════════
-JE LOG VIEW
-═══════════════════════════════ */
-.je-log-wrap { flex: 1; overflow: auto; padding: 24px; }
-
-/* ═══════════════════════════════
-MODALS
-═══════════════════════════════ */
-.modal-overlay {
-display: none; position: fixed; inset: 0;
-background: rgba(0,0,0,0.75); z-index: 100;
-align-items: center; justify-content: center;
-backdrop-filter: blur(4px);
-}
-.modal-overlay.open { display: flex; }
-.modal {
-background: var(–surface); border: 1px solid var(–border2);
-border-radius: 14px; width: 640px; max-width: 95vw;
-max-height: 85vh; overflow-y: auto; padding: 26px;
-position: relative;
-}
-.modal-sm { width: 460px; }
-.modal-lg { width: 820px; }
-.modal-title { font-family: var(–font-serif); font-size: 18px; font-weight: 300; font-style: italic; margin-bottom: 4px; }
-.modal-sub { font-size: 10px; color: var(–text2); margin-bottom: 20px; }
-.modal-close { position: absolute; top: 18px; right: 18px; background: transparent; border: none; color: var(–muted); font-size: 16px; cursor: pointer; }
-.modal-close:hover { color: var(–text); }
-.modal-actions { display: flex; gap: 8px; margin-top: 20px; justify-content: flex-end; }
-
-.field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-.field-label { font-size: 9px; color: var(–muted); text-transform: uppercase; letter-spacing: 1px; }
-.field-input {
-background: var(–surface2); border: 1px solid var(–border2);
-color: var(–text); padding: 7px 10px; border-radius: var(–radius);
-font-family: var(–font-mono); font-size: 11px;
-}
-.field-input:focus { outline: none; border-color: var(–accent3); }
-.field-input[readonly] { color: var(–text2); cursor: default; }
-.field-input.highlight { border-color: var(–accent3); color: var(–accent3); }
-
-/* AUDIT TRAIL */
-.audit-item { display: flex; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(–border); }
-.audit-item:last-child { border-bottom: none; }
-.audit-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
-.ad-green { background: var(–accent); }
-.ad-blue { background: var(–accent2); }
-.ad-purple { background: var(–accent3); }
-.ad-warn { background: var(–warn); }
-.ad-red { background: var(–danger); }
-.audit-text { font-size: 10px; color: var(–text2); line-height: 1.4; }
-.audit-text strong { color: var(–text); }
-.audit-time { font-size: 8px; color: var(–muted); margin-top: 1px; }
-
-/* UPLOAD ZONE */
-.upload-zone {
-border: 2px dashed var(–border2); border-radius: var(–radius);
-padding: 28px; text-align: center; cursor: pointer; transition: all 0.2s; margin-bottom: 14px;
-}
-.upload-zone:hover { border-color: var(–accent3); background: rgba(184,127,255,0.03); }
-.uz-icon { font-size: 24px; margin-bottom: 6px; }
-.uz-text { font-size: 11px; color: var(–text2); }
-.uz-sub { font-size: 9px; color: var(–muted); margin-top: 3px; }
-
-/* TOAST */
-.toast {
-position: fixed; bottom: 20px; right: 20px;
-background: var(–surface2); border: 1px solid var(–accent3);
-color: var(–text); padding: 10px 16px; border-radius: var(–radius);
-font-size: 11px; z-index: 200; display: none; align-items: center; gap: 8px;
-box-shadow: 0 4px 24px rgba(0,0,0,0.4); max-width: 300px;
-}
-.toast.show { display: flex; animation: slideIn 0.3s ease; }
-@keyframes slideIn { from{transform:translateY(10px);opacity:0} to{transform:translateY(0);opacity:1} }
-
-/* SECTION DIVIDER */
-.divider { height: 1px; background: var(–border); margin: 14px 0; }
-
-/* SCROLLBAR */
-::-webkit-scrollbar { width: 3px; height: 3px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(–border2); border-radius: 3px; }
-
-/* CURRENCY BADGE */
-.curr-badge { font-size: 8px; background: var(–surface3); border: 1px solid var(–border2); color: var(–muted2); padding: 1px 5px; border-radius: 3px; }
-
-/* MATERIALITY INDICATOR */
-.mat-ok { color: var(–accent); }
-.mat-warn { color: var(–warn); }
-.mat-over { color: var(–danger); }
-
-/* TABS */
-.tabs { display: flex; border-bottom: 1px solid var(–border); flex-shrink: 0; }
-.tab { padding: 10px 16px; font-size: 10px; color: var(–muted2); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; }
-.tab:hover { color: var(–text); }
-.tab.active { color: var(–accent); border-bottom-color: var(–accent); }
+::-webkit-scrollbar{width:3px;height:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(–border2);border-radius:3px;}
+@media print{html,body{background:white;color:#111;}.export-bar,.sidebar{display:none;}.section{border:1px solid #ccc;}}
 </style>
 
 </head>
 <body>
-
 <div class="shell">
 
-<!-- ══ SIDEBAR ══ -->
+<!-- SIDEBAR -->
 
 <nav class="sidebar">
-  <div class="logo">
-    <div class="logo-name">ConsolIQ</div>
-    <div class="logo-sub">IC Eliminations · POC</div>
-  </div>
+  <div class="logo"><div class="logo-name">ConsolIQ</div><div class="logo-sub">UAT · ICE-001</div></div>
   <div class="nav">
-    <div class="nav-section">Workflow</div>
-    <div class="nav-item" onclick="showView('matrix')"><span class="nav-icon">⊞</span> Group Matrix</div>
-    <div class="nav-item active" id="nav-pair" onclick="showView('pair')"><span class="nav-icon">⇄</span> Pair Workbench <span class="nav-badge nb-warn">3</span></div>
-    <div class="nav-item" onclick="showView('jelog')"><span class="nav-icon">☰</span> JE Log <span class="nav-badge nb-green">12</span></div>
-    <div class="nav-section" style="margin-top:6px;">Module Links</div>
-    <div class="nav-item"><span class="nav-icon">⬆</span> TB Upload</div>
-    <div class="nav-item"><span class="nav-icon">⇄</span> GL Mapping</div>
-    <div class="nav-item"><span class="nav-icon">±</span> Consol Adj.</div>
-    <div class="nav-item"><span class="nav-icon">📄</span> Disclosures</div>
-    <div class="nav-section" style="margin-top:6px;">Config</div>
-    <div class="nav-item" onclick="openMaterialityModal()"><span class="nav-icon">⚖</span> Materiality</div>
-    <div class="nav-item" onclick="openEntityConfigModal()"><span class="nav-icon">⚙</span> Entity Config</div>
-    <div class="nav-item"><span class="nav-icon">☰</span> Audit Trail</div>
+    <div class="nav-sec">Test Sections</div>
+    <div class="nav-item active" onclick="goTo('s1')">01 Setup &amp; Navigation</div>
+    <div class="nav-item" onclick="goTo('s2')">02 Group Matrix</div>
+    <div class="nav-item" onclick="goTo('s3')">03 Transaction Tables</div>
+    <div class="nav-item" onclick="goTo('s4')">04 Matching Engine</div>
+    <div class="nav-item" onclick="goTo('s5')">05 Match Detail &amp; JE</div>
+    <div class="nav-item" onclick="goTo('s6')">06 One-Sided Transactions</div>
+    <div class="nav-item" onclick="goTo('s7')">07 Entity Pair Switching</div>
+    <div class="nav-item" onclick="goTo('s8')">08 Upload &amp; Re-upload</div>
+    <div class="nav-item" onclick="goTo('s9')">09 Config Modals</div>
+    <div class="nav-item" onclick="goTo('s10')">10 Copilot &amp; Chat</div>
+    <div class="nav-item" onclick="goTo('s11')">11 JE Log</div>
+    <div class="nav-sec" style="margin-top:6px;">Output</div>
+    <div class="nav-item" onclick="goTo('bugs')">&#x1F41B; Bug Report</div>
+    <div class="nav-item" onclick="goTo('signoff')">&#x2713; Sign-Off</div>
   </div>
-  <div class="sidebar-footer">
-    <div class="sf-label">Period</div>
-    <select class="sf-select"><option>FY2025 — Full Year</option><option>FY2025 — Q4</option><option>FY2025 — Q3</option></select>
-    <div class="sf-label">Reporting Currency</div>
-    <select class="sf-select"><option>USD</option><option>EUR</option><option>GBP</option></select>
+  <div class="progress-sidebar">
+    <div class="ps-label"><span>Progress</span><span id="sb-pct">0%</span></div>
+    <div class="ps-track"><div class="ps-fill" id="sb-fill" style="width:0%"></div></div>
+    <div class="ps-counts">
+      <span style="color:var(--accent)">&#x2713; <span id="sb-p">0</span></span>
+      <span style="color:var(--danger)">&#x2717; <span id="sb-f">0</span></span>
+      <span style="color:var(--muted2)">&#8212; <span id="sb-s">0</span></span>
+      <span style="color:var(--muted2);margin-left:auto"><span id="sb-r">47</span> left</span>
+    </div>
   </div>
 </nav>
 
-<!-- ══ MAIN ══ -->
+<!-- MAIN -->
 
 <div class="main">
-
   <div class="topbar">
-    <div class="topbar-title">Intercompany Eliminations</div>
-    <span class="period-chip">FY2025</span>
+    <div class="topbar-title">IC Eliminations UAT</div>
+    <span class="doc-ref">UAT-CONSOLIQ-ICE-001 v1.0</span>
     <div class="topbar-right">
-      <button class="btn btn-ghost" onclick="openUploadModal()">⬆ Upload Statement</button>
-      <button class="btn btn-ghost" onclick="openMaterialityModal()">⚖ Materiality</button>
-      <button class="btn btn-primary" onclick="showView('jelog')">☰ JE Log</button>
+      <button class="btn btn-ghost" onclick="resetAll()">&#8634; Reset</button>
+      <button class="btn btn-ghost" onclick="window.print()">&#x1F5A8; Print</button>
+      <button class="btn btn-primary" onclick="exportJSON()">&#x2193; Export JSON</button>
     </div>
   </div>
 
-  <!-- ══ MATRIX VIEW ══ -->
-
-  <div class="view active" id="view-matrix">
-    <div class="matrix-wrap">
-      <div class="matrix-header">
-        <div>
-          <div class="matrix-title">Group Elimination Matrix</div>
-          <div class="matrix-sub">11 entities · 55 pairs · showing active pairs only · FY2025</div>
-        </div>
-        <div style="display:flex;gap:8px;">
-          <button class="btn btn-ghost" onclick="openUploadModal()">⬆ Upload Statement</button>
-          <button class="btn btn-purple" onclick="showView('pair')">→ Open Pair Workbench</button>
-        </div>
-      </div>
+  <div class="content" id="content">
 
 ```
-  <div class="stats-row">
-    <div class="stat-card sc-green"><div class="stat-label">Eliminated</div><div class="stat-value">12</div><div class="stat-sub">Match sets confirmed</div></div>
-    <div class="stat-card sc-purple"><div class="stat-label">AI Suggested</div><div class="stat-value">8</div><div class="stat-sub">Pending approval</div></div>
-    <div class="stat-card sc-danger"><div class="stat-label">Unmatched</div><div class="stat-value">14</div><div class="stat-sub">Open transactions</div></div>
-    <div class="stat-card sc-warn"><div class="stat-label">Over Materiality</div><div class="stat-value">3</div><div class="stat-sub">Require decision</div></div>
-    <div class="stat-card sc-blue"><div class="stat-label">FCTR Posted</div><div class="stat-value">9</div><div class="stat-sub">OCI entries</div></div>
-    <div class="stat-card sc-muted"><div class="stat-label">Coverage</div><div class="stat-value">63%</div><div class="stat-sub">Of IC volume</div></div>
-  </div>
+<!-- META -->
+<div class="meta-header">
+  <div><div class="mh-label">Tester Name</div><input class="mh-input" id="mt" placeholder="Enter name..."></div>
+  <div><div class="mh-label">Test Date</div><input class="mh-input" id="md" type="date"></div>
+  <div><div class="mh-label">Browser / OS</div><input class="mh-input" id="mb" placeholder="e.g. Chrome 124 / macOS"></div>
+  <div><div class="mh-label">Total Tests</div><div class="mh-big">47</div></div>
+</div>
 
-  <!-- ENTITY MATRIX -->
-  <div class="entity-grid-wrap" style="margin-bottom:20px;">
-    <div class="eg-header">
-      <span class="eg-title">Entity Pair Status Matrix</span>
-      <span style="display:flex;gap:14px;font-size:9px;color:var(--muted2);">
-        <span>● Eliminated</span><span style="color:var(--warn)">● Suggested / Partial</span><span style="color:var(--danger)">● Pending</span><span style="color:var(--border2)">● No Activity</span>
-      </span>
-      <span class="eg-sub">Click pair to open workbench</span>
-    </div>
-    <div class="matrix-table-wrap">
-      <table class="matrix-table" id="matrix-table"></table>
-    </div>
-  </div>
 
-  <!-- UPLOAD STATUS -->
-  <div class="entity-grid-wrap">
-    <div class="eg-header"><span class="eg-title">Entity Upload Status</span><span class="eg-sub">FY2025 Full Year</span></div>
-    <div style="padding:16px;">
-      <div class="upload-status-grid" id="upload-status-grid"></div>
+<div class="section" id="s1">
+  <div class="sec-hdr" onclick="toggle('s1')">
+    <span class="sec-num">01</span>
+    <div><div class="sec-title">Setup &amp; Navigation</div><div class="sec-sub">Open file, dark theme, navigate all 3 views</div></div>
+    <span class="sec-count">5 tests</span>
+    <span class="sec-badge sb-pending" id="badge-s1">Pending</span>
+    <span class="sec-toggle" id="tgl-s1">&#x25BC;</span>
+  </div>
+  <div class="sec-body" id="body-s1">
+    <div class="prereq">&#x1F4CB; <strong>Before starting:</strong> Open <span class="ic">ic-eliminations-poc.html</span> in browser. Keep this UAT in a separate tab.</div>
+    
+<div class="tc" id="tc-01-01">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-01-01</div>
+    <div class="tc-main">
+      <div class="tc-action">Dark theme renders correctly on load</div>
+      <div class='tc-detail'>No white flash, unstyled content, or broken layout.</div>
+      <ol class="steps"><li>Open ic-eliminations-poc.html in browser</li><li>Observe background on first load</li><li>Confirm ConsolIQ logo visible in green top-left</li></ol>
+      <div class="box box-ok">Dark background (#0a0c12) renders immediately. Green ConsolIQ logo visible. Sidebar, topbar and main panel all styled correctly.</div>
     </div>
+    <div class="tc-icon" id="i-01-01">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('01-01','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('01-01','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('01-01','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-01-01" placeholder="Describe the bug..." oninput="noteChange('01-01')">
+    <select class="sev-sel" id="ss-01-01" onchange="noteChange('01-01')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical"selected>Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-01-02">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-01-02</div>
+    <div class="tc-main">
+      <div class="tc-action">Pair Workbench is the default active view</div>
+      <div class='tc-detail'>App should open directly to Pair Workbench.</div>
+      <ol class="steps"><li>Check which view loads on open</li><li>Verify sidebar highlights Pair Workbench</li><li>Confirm ALPHA-SA and BETA-UK in entity selectors</li></ol>
+      <div class="box box-ok">Pair Workbench active. Two transaction tables visible. Copilot panel on the right.</div>
+    </div>
+    <div class="tc-icon" id="i-01-02">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('01-02','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('01-02','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('01-02','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-01-02" placeholder="Describe the bug..." oninput="noteChange('01-02')">
+    <select class="sev-sel" id="ss-01-02" onchange="noteChange('01-02')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-01-03">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-01-03</div>
+    <div class="tc-main">
+      <div class="tc-action">Navigate to Group Matrix via sidebar</div>
+      
+      <ol class="steps"><li>Click Group Matrix in sidebar</li><li>Observe main content area</li></ol>
+      <div class="box box-ok">View switches to matrix grid. Stats row (6 cards) visible. Entity pair matrix visible. Upload status cards below.</div>
+    </div>
+    <div class="tc-icon" id="i-01-03">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('01-03','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('01-03','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('01-03','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-01-03" placeholder="Describe the bug..." oninput="noteChange('01-03')">
+    <select class="sev-sel" id="ss-01-03" onchange="noteChange('01-03')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-01-04">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-01-04</div>
+    <div class="tc-main">
+      <div class="tc-action">Navigate to JE Log and back</div>
+      
+      <ol class="steps"><li>Click JE Log in sidebar</li><li>Verify JE table loads with rows</li><li>Click back to Workbench button top-right</li></ol>
+      <div class="box box-ok">JE Log shows table with at least 2 rows. Back button returns to Pair Workbench cleanly.</div>
+    </div>
+    <div class="tc-icon" id="i-01-04">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('01-04','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('01-04','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('01-04','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-01-04" placeholder="Describe the bug..." oninput="noteChange('01-04')">
+    <select class="sev-sel" id="ss-01-04" onchange="noteChange('01-04')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-01-05">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-01-05</div>
+    <div class="tc-main">
+      <div class="tc-action">Clicking a matrix cell opens Pair Workbench for that pair</div>
+      
+      <ol class="steps"><li>Go to Group Matrix</li><li>Find ALPHA-SA / BETA-UK cell (amber)</li><li>Click it</li></ol>
+      <div class="box box-ok">Switches to Pair Workbench. Entity A = ALPHA-SA, Entity B = BETA-UK. Tables populate.</div>
+    </div>
+    <div class="tc-icon" id="i-01-05">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('01-05','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('01-05','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('01-05','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-01-05" placeholder="Describe the bug..." oninput="noteChange('01-05')">
+    <select class="sev-sel" id="ss-01-05" onchange="noteChange('01-05')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+  </div>
+</div>
+<div class="section" id="s2">
+  <div class="sec-hdr" onclick="toggle('s2')">
+    <span class="sec-num">02</span>
+    <div><div class="sec-title">Group Matrix</div><div class="sec-sub">Entity grid, colour coding, upload status, 11 entity cards</div></div>
+    <span class="sec-count">4 tests</span>
+    <span class="sec-badge sb-pending" id="badge-s2">Pending</span>
+    <span class="sec-toggle" id="tgl-s2">&#x25BC;</span>
+  </div>
+  <div class="sec-body" id="body-s2">
+    <div class="prereq">&#x1F4CB; Navigate to <strong>Group Matrix</strong> view.</div>
+    
+<div class="tc" id="tc-02-01">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-02-01</div>
+    <div class="tc-main">
+      <div class="tc-action">Matrix shows only active pairs, not all 55</div>
+      
+      <ol class="steps"><li>Count rows and columns in entity matrix</li><li>Check subtitle reads "showing active pairs only"</li></ol>
+      <div class="box box-ok">Fewer than 11 columns. Inactive pairs hidden. Subtitle confirms active-only.</div>
+    </div>
+    <div class="tc-icon" id="i-02-01">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('02-01','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('02-01','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('02-01','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-02-01" placeholder="Describe the bug..." oninput="noteChange('02-01')">
+    <select class="sev-sel" id="ss-02-01" onchange="noteChange('02-01')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-02-02">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-02-02</div>
+    <div class="tc-main">
+      <div class="tc-action">Cell colour coding: green=Eliminated, amber=Partial, red=Pending, grey=self</div>
+      
+      <ol class="steps"><li>Identify one cell of each colour</li><li>Verify grey diagonal cells are non-clickable</li></ol>
+      <div class="box box-ok">All 4 states visible. Each cell has a coloured dot and label. Grey diagonal is not interactive.</div>
+    </div>
+    <div class="tc-icon" id="i-02-02">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('02-02','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('02-02','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('02-02','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-02-02" placeholder="Describe the bug..." oninput="noteChange('02-02')">
+    <select class="sev-sel" id="ss-02-02" onchange="noteChange('02-02')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-02-03">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-02-03</div>
+    <div class="tc-main">
+      <div class="tc-action">Entity Upload Status shows all 11 entity cards</div>
+      
+      <ol class="steps"><li>Scroll below matrix to Upload Status section</li><li>Count entity cards</li><li>Check each shows entity, ERP, CCY, status, count, date</li></ol>
+      <div class="box box-ok">11 cards. EPSILON-JP, THETA-ZA, LAMBDA-CN show red Pending. Uploaded entities show green.</div>
+    </div>
+    <div class="tc-icon" id="i-02-03">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('02-03','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('02-03','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('02-03','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-02-03" placeholder="Describe the bug..." oninput="noteChange('02-03')">
+    <select class="sev-sel" id="ss-02-03" onchange="noteChange('02-03')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-02-04">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-02-04</div>
+    <div class="tc-main">
+      <div class="tc-action">Stats row shows 6 cards with correct labels and colours</div>
+      
+      <ol class="steps"><li>Check 6 stat cards at top of matrix view</li></ol>
+      <div class="box box-ok">Eliminated (green), AI Suggested (purple), Unmatched (red), Over Materiality (amber), FCTR Posted (blue), Coverage % (grey).</div>
+    </div>
+    <div class="tc-icon" id="i-02-04">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('02-04','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('02-04','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('02-04','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-02-04" placeholder="Describe the bug..." oninput="noteChange('02-04')">
+    <select class="sev-sel" id="ss-02-04" onchange="noteChange('02-04')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+  </div>
+</div>
+<div class="section" id="s3">
+  <div class="sec-hdr" onclick="toggle('s3')">
+    <span class="sec-num">03</span>
+    <div><div class="sec-title">Transaction Tables</div><div class="sec-sub">7+7 rows, 3-currency columns, status pills, n:n matching</div></div>
+    <span class="sec-count">6 tests</span>
+    <span class="sec-badge sb-pending" id="badge-s3">Pending</span>
+    <span class="sec-toggle" id="tgl-s3">&#x25BC;</span>
+  </div>
+  <div class="sec-body" id="body-s3">
+    <div class="prereq">&#x1F4CB; Navigate to <strong>Pair Workbench</strong>. ALPHA-SA &harr; BETA-UK selected.</div>
+    
+<div class="tc" id="tc-03-01">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-03-01</div>
+    <div class="tc-main">
+      <div class="tc-action">Entity A table shows 7 rows with all columns</div>
+      
+      <ol class="steps"><li>Count rows in ALPHA-SA table</li><li>Verify columns: Txn ID, Description, GL Code, Period, Txn CCY, Entity CCY, Status, Match, Actions</li></ol>
+      <div class="box box-ok">7 rows. Each has TXN-A-00X ID in blue, GL chip, period badge, 2 amount columns, status pill, match link, action buttons.</div>
+    </div>
+    <div class="tc-icon" id="i-03-01">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('03-01','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('03-01','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('03-01','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-03-01" placeholder="Describe the bug..." oninput="noteChange('03-01')">
+    <select class="sev-sel" id="ss-03-01" onchange="noteChange('03-01')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-03-02">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-03-02</div>
+    <div class="tc-main">
+      <div class="tc-action">BETA-UK transactions show GBP entity amounts lower than USD txn amounts</div>
+      <div class='tc-detail'>Confirms correct FX direction.</div>
+      <ol class="steps"><li>Find TXN-B-001 in BETA-UK table</li><li>Check Txn Currency column</li><li>Check Entity CCY column</li></ol>
+      <div class="box box-ok">USD 245,000 in Txn CCY. GBP 193,050 in Entity CCY. GBP amount is less than USD.</div><div class="box box-data">TXN-B-001: Txn CCY=USD 245,000 | Entity CCY=GBP 193,050 | Rate ~0.788</div>
+    </div>
+    <div class="tc-icon" id="i-03-02">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('03-02','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('03-02','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('03-02','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-03-02" placeholder="Describe the bug..." oninput="noteChange('03-02')">
+    <select class="sev-sel" id="ss-03-02" onchange="noteChange('03-02')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-03-03">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-03-03</div>
+    <div class="tc-main">
+      <div class="tc-action">Status pills render correctly for all states</div>
+      
+      <ol class="steps"><li>TXN-A-001 → green Eliminated</li><li>TXN-A-002 → purple AI Suggested</li><li>TXN-A-006 → red Unmatched</li></ol>
+      <div class="box box-ok">3 distinct pill styles visible. Each has a small colour dot and label text.</div>
+    </div>
+    <div class="tc-icon" id="i-03-03">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('03-03','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('03-03','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('03-03','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-03-03" placeholder="Describe the bug..." oninput="noteChange('03-03')">
+    <select class="sev-sel" id="ss-03-03" onchange="noteChange('03-03')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-03-04">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-03-04</div>
+    <div class="tc-main">
+      <div class="tc-action">n:n match MS-003 shows 1 Entity A leg and 2 Entity B legs</div>
+      <div class='tc-detail'>Core n:n matching concept.</div>
+      <ol class="steps"><li>In ALPHA-SA: find TXN-A-005 (Management Fee) — shows MS-003</li><li>In BETA-UK: find TXN-B-005a (Group Management Services) — shows MS-003</li><li>In BETA-UK: find TXN-B-005b (Advisory Fee) — shows MS-003</li></ol>
+      <div class="box box-ok">TXN-A-005 = USD 180,000 matched to TXN-B-005a (120,000) + TXN-B-005b (86,600). All three show MS-003.</div><div class="box box-data">A-side: USD 180,000 | B-side total: USD 206,600 | Diff: USD 26,600 — OVER materiality</div><div class="box box-note">Status should be AI Suggested, NOT Eliminated.</div>
+    </div>
+    <div class="tc-icon" id="i-03-04">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('03-04','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('03-04','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('03-04','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-03-04" placeholder="Describe the bug..." oninput="noteChange('03-04')">
+    <select class="sev-sel" id="ss-03-04" onchange="noteChange('03-04')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical"selected>Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-03-05">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-03-05</div>
+    <div class="tc-main">
+      <div class="tc-action">TXN-B-007 is unmatched with no match reference</div>
+      <div class='tc-detail'>One-sided transaction.</div>
+      <ol class="steps"><li>Find TXN-B-007 in BETA-UK table</li><li>Check Status and Match columns</li><li>Note currency is GBP not USD</li></ol>
+      <div class="box box-ok">Red Unmatched pill. Match column shows dash. Currency shows GBP 14,800.</div>
+    </div>
+    <div class="tc-icon" id="i-03-05">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('03-05','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('03-05','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('03-05','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-03-05" placeholder="Describe the bug..." oninput="noteChange('03-05')">
+    <select class="sev-sel" id="ss-03-05" onchange="noteChange('03-05')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-03-06">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-03-06</div>
+    <div class="tc-main">
+      <div class="tc-action">Suggested rows show 3 action buttons; others show only eye icon</div>
+      
+      <ol class="steps"><li>TXN-A-002 (Suggested): check action buttons</li><li>TXN-A-001 (Eliminated): check action buttons</li><li>TXN-A-006 (Unmatched): check action buttons</li></ol>
+      <div class="box box-ok">TXN-A-002: shows eye + tick + cross. TXN-A-001 and TXN-A-006: show eye only.</div>
+    </div>
+    <div class="tc-icon" id="i-03-06">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('03-06','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('03-06','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('03-06','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-03-06" placeholder="Describe the bug..." oninput="noteChange('03-06')">
+    <select class="sev-sel" id="ss-03-06" onchange="noteChange('03-06')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+  </div>
+</div>
+<div class="section" id="s4">
+  <div class="sec-hdr" onclick="toggle('s4')">
+    <span class="sec-num">04</span>
+    <div><div class="sec-title">Matching Engine</div><div class="sec-sub">Run button, animation, match cards, confidence layers, bulk accept</div></div>
+    <span class="sec-count">5 tests</span>
+    <span class="sec-badge sb-pending" id="badge-s4">Pending</span>
+    <span class="sec-toggle" id="tgl-s4">&#x25BC;</span>
+  </div>
+  <div class="sec-body" id="body-s4">
+    <div class="prereq">&#x1F4CB; Navigate to <strong>Pair Workbench</strong> &middot; ALPHA-SA &harr; BETA-UK.</div>
+    
+<div class="tc" id="tc-04-01">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-04-01</div>
+    <div class="tc-main">
+      <div class="tc-action">Run Matching Engine button animates and completes with toast and chat response</div>
+      
+      <ol class="steps"><li>Click purple/blue Run Matching Engine button in pair topbar</li><li>Watch button during execution (~2 seconds)</li><li>Wait for completion</li><li>Check copilot chat</li></ol>
+      <div class="box box-ok">Button pulses and shows Running. After ~2s returns to normal. Toast appears. Copilot chat shows new AI summary.</div>
+    </div>
+    <div class="tc-icon" id="i-04-01">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('04-01','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('04-01','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('04-01','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-04-01" placeholder="Describe the bug..." oninput="noteChange('04-01')">
+    <select class="sev-sel" id="ss-04-01" onchange="noteChange('04-01')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-04-02">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-04-02</div>
+    <div class="tc-main">
+      <div class="tc-action">Match cards show JE ID, both entity legs, amounts, difference, confidence and layer</div>
+      
+      <ol class="steps"><li>Look at Match Suggestions panel at bottom of workbench</li><li>Inspect any match card</li></ol>
+      <div class="box box-ok">Each card shows: ELIM-ALPHSA-BETAUK-FY25-00X, Entity A leg(s), Entity B leg(s), amounts, difference text, confidence bar %, layer label.</div>
+    </div>
+    <div class="tc-icon" id="i-04-02">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('04-02','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('04-02','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('04-02','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-04-02" placeholder="Describe the bug..." oninput="noteChange('04-02')">
+    <select class="sev-sel" id="ss-04-02" onchange="noteChange('04-02')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-04-03">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-04-03</div>
+    <div class="tc-main">
+      <div class="tc-action">MS-003 shows amber Review button — NOT a green Approve button</div>
+      <div class='tc-detail'>Over-materiality control.</div>
+      <ol class="steps"><li>Find MS-003 match card (1:2 Management Fee)</li><li>Check action buttons bottom-right of card</li><li>Confirm NO green Approve button</li><li>Confirm YES amber Review button</li></ol>
+      <div class="box box-ok">Only Review and X visible on MS-003. Difference text reads OVER MATERIALITY in red.</div><div class="box box-crit">MS-003 must NEVER show an auto-approve button. If it does, this is a critical control failure.</div>
+    </div>
+    <div class="tc-icon" id="i-04-03">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('04-03','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('04-03','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('04-03','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-04-03" placeholder="Describe the bug..." oninput="noteChange('04-03')">
+    <select class="sev-sel" id="ss-04-03" onchange="noteChange('04-03')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical"selected>Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-04-04">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-04-04</div>
+    <div class="tc-main">
+      <div class="tc-action">Quick approve MS-002 from match card updates transactions to Eliminated</div>
+      
+      <ol class="steps"><li>Find MS-002 match card (1:1 Sales/Purchase Timing Diff)</li><li>Click green Approve directly on card</li><li>Watch TXN-A-002 and TXN-B-002 in tables above</li></ol>
+      <div class="box box-ok">Toast confirms JE posted. MS-002 card disappears. TXN-A-002 and TXN-B-002 change to Eliminated.</div>
+    </div>
+    <div class="tc-icon" id="i-04-04">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('04-04','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('04-04','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('04-04','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-04-04" placeholder="Describe the bug..." oninput="noteChange('04-04')">
+    <select class="sev-sel" id="ss-04-04" onchange="noteChange('04-04')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical"selected>Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-04-05">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-04-05</div>
+    <div class="tc-main">
+      <div class="tc-action">Accept All Below Materiality skips MS-003</div>
+      
+      <ol class="steps"><li>Reload page to reset</li><li>Click Accept All Below Materiality in match suggestions header</li><li>Check whether MS-003 was approved</li></ol>
+      <div class="box box-ok">All within-materiality suggestions disappear. MS-003 REMAINS. Toast shows count excluding MS-003.</div><div class="box box-crit">MS-003 must remain after bulk accept. If eliminated, this is a critical control failure.</div>
+    </div>
+    <div class="tc-icon" id="i-04-05">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('04-05','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('04-05','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('04-05','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-04-05" placeholder="Describe the bug..." oninput="noteChange('04-05')">
+    <select class="sev-sel" id="ss-04-05" onchange="noteChange('04-05')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical"selected>Critical</option></select>
+  </div>
+</div>
+  </div>
+</div>
+<div class="section" id="s5">
+  <div class="sec-hdr" onclick="toggle('s5')">
+    <span class="sec-num">05</span>
+    <div><div class="sec-title">Match Detail Modal &amp; Journal Entry</div><div class="sec-sub">JE preview, FCTR-OCI-ALPHSA, 3-currency legs, approve/reject</div></div>
+    <span class="sec-count">6 tests</span>
+    <span class="sec-badge sb-pending" id="badge-s5">Pending</span>
+    <span class="sec-toggle" id="tgl-s5">&#x25BC;</span>
+  </div>
+  <div class="sec-body" id="body-s5">
+    <div class="prereq">&#x1F4CB; Pair Workbench &middot; ALPHA-SA &harr; BETA-UK.</div>
+    
+<div class="tc" id="tc-05-01">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-05-01</div>
+    <div class="tc-main">
+      <div class="tc-action">Eye button on a MATCHED transaction opens Match Detail modal</div>
+      
+      <ol class="steps"><li>In ALPHA-SA table find TXN-A-002</li><li>Click the eye icon in Actions column</li></ol>
+      <div class="box box-ok">Match Detail modal opens for MS-002. Contains: field rows, Entity A/B legs side by side, JE preview table with 3-currency columns, FCTR section, audit trail.</div>
+    </div>
+    <div class="tc-icon" id="i-05-01">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('05-01','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('05-01','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('05-01','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-05-01" placeholder="Describe the bug..." oninput="noteChange('05-01')">
+    <select class="sev-sel" id="ss-05-01" onchange="noteChange('05-01')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical"selected>Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-05-02">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-05-02</div>
+    <div class="tc-main">
+      <div class="tc-action">JE preview has Dr/Cr legs with all 3 currency columns and FCTR row</div>
+      
+      <ol class="steps"><li>With Match Detail open for MS-002</li><li>Find Journal Entry Preview table</li><li>Check columns: Leg, GL Code, Description, Txn CCY, Entity CCY, Reporting USD, Dr/Cr</li><li>Look for purple FCTR row</li><li>Check final Net Balance = USD 0 row</li></ol>
+      <div class="box box-ok">Dr row for ALPHA-SA revenue. Cr row for BETA-UK cost. Purple FCTR row. Final row: net USD 0.</div>
+    </div>
+    <div class="tc-icon" id="i-05-02">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('05-02','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('05-02','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('05-02','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-05-02" placeholder="Describe the bug..." oninput="noteChange('05-02')">
+    <select class="sev-sel" id="ss-05-02" onchange="noteChange('05-02')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-05-03">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-05-03</div>
+    <div class="tc-main">
+      <div class="tc-action">FCTR GL code is entity-specific: FCTR-OCI-ALPHSA</div>
+      
+      <ol class="steps"><li>In Match Detail modal find purple FCTR section below JE table</li><li>Read the GL code</li></ol>
+      <div class="box box-ok">GL code shows exactly FCTR-OCI-ALPHSA. Described as OCI equity line. Not a generic group code.</div><div class="box box-data">Expected: FCTR-OCI-ALPHSA | Type: OCI (Other Comprehensive Income) | Always equity, never P&L</div>
+    </div>
+    <div class="tc-icon" id="i-05-03">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('05-03','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('05-03','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('05-03','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-05-03" placeholder="Describe the bug..." oninput="noteChange('05-03')">
+    <select class="sev-sel" id="ss-05-03" onchange="noteChange('05-03')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-05-04">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-05-04</div>
+    <div class="tc-main">
+      <div class="tc-action">Approve button hidden for already-eliminated MS-001</div>
+      
+      <ol class="steps"><li>Click eye icon on TXN-A-001 (Eliminated, MS-001)</li><li>Look for Approve button in modal footer</li></ol>
+      <div class="box box-ok">No Approve button. Footer shows Cancel and Reject only. Audit trail shows Approved by J. Smith.</div>
+    </div>
+    <div class="tc-icon" id="i-05-04">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('05-04','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('05-04','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('05-04','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-05-04" placeholder="Describe the bug..." oninput="noteChange('05-04')">
+    <select class="sev-sel" id="ss-05-04" onchange="noteChange('05-04')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-05-05">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-05-05</div>
+    <div class="tc-main">
+      <div class="tc-action">Approve from modal posts JE and updates transaction status</div>
+      
+      <ol class="steps"><li>Open eye on TXN-A-004 (Suggested, MS-005 Rent Feb)</li><li>Click Approve and Post JE</li><li>Check transactions and JE Log</li></ol>
+      <div class="box box-ok">Modal closes. Toast confirms JE posted. TXN-A-004 and TXN-B-004 change to Eliminated. JE in log.</div>
+    </div>
+    <div class="tc-icon" id="i-05-05">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('05-05','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('05-05','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('05-05','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-05-05" placeholder="Describe the bug..." oninput="noteChange('05-05')">
+    <select class="sev-sel" id="ss-05-05" onchange="noteChange('05-05')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical"selected>Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-05-06">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-05-06</div>
+    <div class="tc-main">
+      <div class="tc-action">Reject match returns transactions to Unmatched with no JE posted</div>
+      
+      <ol class="steps"><li>Reload page. Open eye on TXN-A-004 (Suggested, MS-005)</li><li>Click Reject Match</li><li>Check TXN-A-004 and TXN-B-004 status</li></ol>
+      <div class="box box-ok">Both show red Unmatched. Match column shows dash. No JE in log for MS-005. Card disappears.</div>
+    </div>
+    <div class="tc-icon" id="i-05-06">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('05-06','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('05-06','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('05-06','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-05-06" placeholder="Describe the bug..." oninput="noteChange('05-06')">
+    <select class="sev-sel" id="ss-05-06" onchange="noteChange('05-06')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical"selected>Critical</option></select>
+  </div>
+</div>
+  </div>
+</div>
+<div class="section" id="s6">
+  <div class="sec-hdr" onclick="toggle('s6')">
+    <span class="sec-num">06</span>
+    <div><div class="sec-title">One-Sided Transactions</div><div class="sec-sub">Eye button on unmatched, one-sided modal, missing counter-entry JE</div></div>
+    <span class="sec-count">4 tests</span>
+    <span class="sec-badge sb-pending" id="badge-s6">Pending</span>
+    <span class="sec-toggle" id="tgl-s6">&#x25BC;</span>
+  </div>
+  <div class="sec-body" id="body-s6">
+    <div class="prereq">&#x1F4CB; Tests the <strong>fixed eye button</strong> on unmatched transactions &mdash; previously broken.</div>
+    
+<div class="tc" id="tc-06-01">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-06-01</div>
+    <div class="tc-main">
+      <div class="tc-action">Eye button on UNMATCHED transaction opens One-Sided Transaction modal</div>
+      <div class='tc-detail'>Previously a silent fail. Now fixed.</div>
+      <ol class="steps"><li>Find TXN-A-006 (IC Loan Advanced, Unmatched) in ALPHA-SA table</li><li>Click the eye icon</li></ol>
+      <div class="box box-ok">A One-Sided Transaction modal opens. Shows: transaction details, 4 possible reasons, JE preview with red MISSING counter-entry row, Flag to Entity Team button.</div>
+    </div>
+    <div class="tc-icon" id="i-06-01">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('06-01','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('06-01','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('06-01','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-06-01" placeholder="Describe the bug..." oninput="noteChange('06-01')">
+    <select class="sev-sel" id="ss-06-01" onchange="noteChange('06-01')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical"selected>Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-06-02">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-06-02</div>
+    <div class="tc-main">
+      <div class="tc-action">One-sided modal JE shows MISSING counter-entry and cannot-be-posted message</div>
+      
+      <ol class="steps"><li>Open eye on TXN-B-007 (IC Loan Interest GBP, Unmatched)</li><li>Read JE preview table in modal</li></ol>
+      <div class="box box-ok">Dr row shows TXN-B-007 amounts. Cr row shows MISSING in red. Final row: JE cannot be posted — held open until ALPHA-SA uploads.</div>
+    </div>
+    <div class="tc-icon" id="i-06-02">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('06-02','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('06-02','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('06-02','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-06-02" placeholder="Describe the bug..." oninput="noteChange('06-02')">
+    <select class="sev-sel" id="ss-06-02" onchange="noteChange('06-02')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-06-03">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-06-03</div>
+    <div class="tc-main">
+      <div class="tc-action">Flag to Entity Team button closes modal and shows toast</div>
+      
+      <ol class="steps"><li>Open one-sided modal for any unmatched transaction</li><li>Click Flag to Entity Team</li></ol>
+      <div class="box box-ok">Modal closes. Toast: Transaction flagged — entity team will be notified.</div>
+    </div>
+    <div class="tc-icon" id="i-06-03">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('06-03','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('06-03','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('06-03','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-06-03" placeholder="Describe the bug..." oninput="noteChange('06-03')">
+    <select class="sev-sel" id="ss-06-03" onchange="noteChange('06-03')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-06-04">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-06-04</div>
+    <div class="tc-main">
+      <div class="tc-action">Switching to a pair where one entity has no data shows upload prompt</div>
+      <div class='tc-detail'>Tests one-sided volume scenario.</div>
+      <ol class="steps"><li>Change Entity B dropdown to EPSILON-JP</li><li>Observe EPSILON-JP transaction table</li></ol>
+      <div class="box box-ok">EPSILON-JP table shows yellow warning No IC statement uploaded with an Upload Statement button. Not a blank table or error.</div><div class="box box-note">A toast should also appear warning that EPSILON-JP has not uploaded.</div>
+    </div>
+    <div class="tc-icon" id="i-06-04">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('06-04','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('06-04','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('06-04','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-06-04" placeholder="Describe the bug..." oninput="noteChange('06-04')">
+    <select class="sev-sel" id="ss-06-04" onchange="noteChange('06-04')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+  </div>
+</div>
+<div class="section" id="s7">
+  <div class="sec-hdr" onclick="toggle('s7')">
+    <span class="sec-num">07</span>
+    <div><div class="sec-title">Entity Pair Switching</div><div class="sec-sub">Change selectors, data reloads, all 11 entities, same-entity guard</div></div>
+    <span class="sec-count">3 tests</span>
+    <span class="sec-badge sb-pending" id="badge-s7">Pending</span>
+    <span class="sec-toggle" id="tgl-s7">&#x25BC;</span>
+  </div>
+  <div class="sec-body" id="body-s7">
+    <div class="prereq">&#x1F4CB; Tests the <strong>previously broken pair switching</strong> &mdash; now reloads data correctly.</div>
+    
+<div class="tc" id="tc-07-01">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-07-01</div>
+    <div class="tc-main">
+      <div class="tc-action">Both entity dropdowns contain all 11 entities</div>
+      
+      <ol class="steps"><li>Click Entity A dropdown and count options</li><li>Click Entity B dropdown and count options</li></ol>
+      <div class="box box-ok">Both show all 11: ALPHA-SA, BETA-UK, GAMMA-DE, DELTA-AE, EPSILON-JP, ZETA-SG, ETA-AU, THETA-ZA, IOTA-BR, KAPPA-FR, LAMBDA-CN.</div>
+    </div>
+    <div class="tc-icon" id="i-07-01">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('07-01','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('07-01','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('07-01','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-07-01" placeholder="Describe the bug..." oninput="noteChange('07-01')">
+    <select class="sev-sel" id="ss-07-01" onchange="noteChange('07-01')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-07-02">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-07-02</div>
+    <div class="tc-main">
+      <div class="tc-action">Switching to ALPHA-SA &harr; GAMMA-DE loads different transactions</div>
+      <div class='tc-detail'>Tests per-pair data reload.</div>
+      <ol class="steps"><li>Change Entity B to GAMMA-DE</li><li>Observe both tables reload</li><li>Check ALPHA-SA table for software licence transactions</li><li>Check GAMMA-DE table for German descriptions</li></ol>
+      <div class="box box-ok">ALPHA-SA shows 2 transactions (Software Licence, Technical Support). GAMMA-DE shows 1 transaction with German description (Softwarelizenzgebuhr). Pair meta updates to EUR currency.</div><div class="box box-note">GAMMA-DE has only 1 transaction &mdash; tests the one-sided scenario in a real pair context.</div>
+    </div>
+    <div class="tc-icon" id="i-07-02">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('07-02','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('07-02','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('07-02','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-07-02" placeholder="Describe the bug..." oninput="noteChange('07-02')">
+    <select class="sev-sel" id="ss-07-02" onchange="noteChange('07-02')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-07-03">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-07-03</div>
+    <div class="tc-main">
+      <div class="tc-action">Selecting same entity for A and B shows a warning toast</div>
+      
+      <ol class="steps"><li>Set Entity A = ALPHA-SA</li><li>Change Entity B to ALPHA-SA too</li><li>Observe result</li></ol>
+      <div class="box box-ok">Toast appears: An entity cannot transact with itself. Tables do not reload with invalid data.</div>
+    </div>
+    <div class="tc-icon" id="i-07-03">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('07-03','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('07-03','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('07-03','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-07-03" placeholder="Describe the bug..." oninput="noteChange('07-03')">
+    <select class="sev-sel" id="ss-07-03" onchange="noteChange('07-03')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+  </div>
+</div>
+<div class="section" id="s8">
+  <div class="sec-hdr" onclick="toggle('s8')">
+    <span class="sec-num">08</span>
+    <div><div class="sec-title">Upload &amp; Re-Upload Flow</div><div class="sec-sub">Upload modal, diff indicator, reversion signal</div></div>
+    <span class="sec-count">4 tests</span>
+    <span class="sec-badge sb-pending" id="badge-s8">Pending</span>
+    <span class="sec-toggle" id="tgl-s8">&#x25BC;</span>
+  </div>
+  <div class="sec-body" id="body-s8">
+    <div class="prereq">&#x1F4CB; Pair Workbench &middot; any pair.</div>
+    
+<div class="tc" id="tc-08-01">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-08-01</div>
+    <div class="tc-main">
+      <div class="tc-action">Upload Statement modal opens with correct fields</div>
+      
+      <ol class="steps"><li>Click Upload Statement in topbar</li><li>Review modal fields</li></ol>
+      <div class="box box-ok">Entity, Counter Entity, Period, Transaction Currency dropdowns. Upload zone. Re-upload diff note. Upload and Diff button.</div>
+    </div>
+    <div class="tc-icon" id="i-08-01">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('08-01','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('08-01','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('08-01','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-08-01" placeholder="Describe the bug..." oninput="noteChange('08-01')">
+    <select class="sev-sel" id="ss-08-01" onchange="noteChange('08-01')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-08-02">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-08-02</div>
+    <div class="tc-main">
+      <div class="tc-action">Simulated upload closes modal and shows re-upload indicator in pair topbar</div>
+      
+      <ol class="steps"><li>Open Upload modal, click Upload and Diff</li><li>Observe pair workbench topbar after modal closes</li></ol>
+      <div class="box box-ok">Modal closes. Red pulsing indicator appears: 3 new txns since last run. Toast confirms upload and diff summary.</div>
+    </div>
+    <div class="tc-icon" id="i-08-02">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('08-02','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('08-02','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('08-02','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-08-02" placeholder="Describe the bug..." oninput="noteChange('08-02')">
+    <select class="sev-sel" id="ss-08-02" onchange="noteChange('08-02')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-08-03">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-08-03</div>
+    <div class="tc-main">
+      <div class="tc-action">Re-upload indicator disappears after running matching engine</div>
+      
+      <ol class="steps"><li>Ensure red indicator is visible</li><li>Click Run Matching Engine</li><li>After completion check indicator</li></ol>
+      <div class="box box-ok">Red pulsing indicator disappears from topbar after matching engine completes.</div>
+    </div>
+    <div class="tc-icon" id="i-08-03">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('08-03','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('08-03','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('08-03','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-08-03" placeholder="Describe the bug..." oninput="noteChange('08-03')">
+    <select class="sev-sel" id="ss-08-03" onchange="noteChange('08-03')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-08-04">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-08-04</div>
+    <div class="tc-main">
+      <div class="tc-action">All modals close correctly via X button</div>
+      
+      <ol class="steps"><li>Open Upload modal, close via X</li><li>Open Materiality modal, close via Cancel</li><li>Open Entity Config modal, close via X</li></ol>
+      <div class="box box-ok">All three close cleanly. No overlay persists. Background content accessible.</div>
+    </div>
+    <div class="tc-icon" id="i-08-04">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('08-04','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('08-04','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('08-04','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-08-04" placeholder="Describe the bug..." oninput="noteChange('08-04')">
+    <select class="sev-sel" id="ss-08-04" onchange="noteChange('08-04')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+  </div>
+</div>
+<div class="section" id="s9">
+  <div class="sec-hdr" onclick="toggle('s9')">
+    <span class="sec-num">09</span>
+    <div><div class="sec-title">Configuration Modals</div><div class="sec-sub">Materiality per currency, FX rates, FCTR GL codes</div></div>
+    <span class="sec-count">3 tests</span>
+    <span class="sec-badge sb-pending" id="badge-s9">Pending</span>
+    <span class="sec-toggle" id="tgl-s9">&#x25BC;</span>
+  </div>
+  <div class="sec-body" id="body-s9">
+    <div class="prereq">&#x1F4CB; Accessible from sidebar or topbar.</div>
+    
+<div class="tc" id="tc-09-01">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-09-01</div>
+    <div class="tc-main">
+      <div class="tc-action">Materiality modal shows 5 currencies with editable thresholds</div>
+      
+      <ol class="steps"><li>Click Materiality in topbar or sidebar</li><li>Read the currency table</li></ol>
+      <div class="box box-ok">5 rows: USD=10,000, GBP=8,000, EUR=9,000, JPY=1,500,000, INR=800,000. All editable. JPY and INR are higher — correct for absolute local currency.</div><div class="box box-data">USD=10,000 | GBP=8,000 | EUR=9,000 | JPY=1,500,000 | INR=800,000</div>
+    </div>
+    <div class="tc-icon" id="i-09-01">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('09-01','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('09-01','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('09-01','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-09-01" placeholder="Describe the bug..." oninput="noteChange('09-01')">
+    <select class="sev-sel" id="ss-09-01" onchange="noteChange('09-01')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-09-02">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-09-02</div>
+    <div class="tc-main">
+      <div class="tc-action">Entity Config modal shows FX rate types and FCTR-OCI-ALPHSA GL code</div>
+      
+      <ol class="steps"><li>Click Entity Config in sidebar</li><li>Check 3 FX rate dropdowns</li><li>Find FCTR OCI GL Code field</li></ol>
+      <div class="box box-ok">P&L FX=Average, BS FX=Closing, Opening Equity=Opening. FCTR field shows FCTR-OCI-ALPHSA highlighted in purple. Audit trail shows config history.</div>
+    </div>
+    <div class="tc-icon" id="i-09-02">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('09-02','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('09-02','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('09-02','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-09-02" placeholder="Describe the bug..." oninput="noteChange('09-02')">
+    <select class="sev-sel" id="ss-09-02" onchange="noteChange('09-02')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-09-03">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-09-03</div>
+    <div class="tc-main">
+      <div class="tc-action">Materiality save button closes modal and shows toast</div>
+      
+      <ol class="steps"><li>Open Materiality modal</li><li>Change USD threshold</li><li>Click Save Thresholds</li></ol>
+      <div class="box box-ok">Modal closes. Toast confirms Materiality thresholds saved.</div>
+    </div>
+    <div class="tc-icon" id="i-09-03">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('09-03','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('09-03','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('09-03','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-09-03" placeholder="Describe the bug..." oninput="noteChange('09-03')">
+    <select class="sev-sel" id="ss-09-03" onchange="noteChange('09-03')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+  </div>
+</div>
+<div class="section" id="s10">
+  <div class="sec-hdr" onclick="toggle('s10')">
+    <span class="sec-num">10</span>
+    <div><div class="sec-title">AI Copilot &amp; Chat</div><div class="sec-sub">Insight cards, progress bars, natural language queries</div></div>
+    <span class="sec-count">4 tests</span>
+    <span class="sec-badge sb-pending" id="badge-s10">Pending</span>
+    <span class="sec-toggle" id="tgl-s10">&#x25BC;</span>
+  </div>
+  <div class="sec-body" id="body-s10">
+    <div class="prereq">&#x1F4CB; Pair Workbench &middot; Copilot panel on the right.</div>
+    
+<div class="tc" id="tc-10-01">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-10-01</div>
+    <div class="tc-main">
+      <div class="tc-action">Copilot panel shows 4 AI insight cards with correct content</div>
+      
+      <ol class="steps"><li>On Pair Workbench look at right Copilot panel</li><li>Scroll to AI Insights section</li><li>Count and read each card</li></ol>
+      <div class="box box-ok">4 cards: (1) Recurring pattern-monthly rent, (2) Over materiality-MS-003, (3) One-sided-TXN-B-007, (4) FCTR generated-MS-001. Each has title, body, and action link.</div>
+    </div>
+    <div class="tc-icon" id="i-10-01">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('10-01','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('10-01','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('10-01','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-10-01" placeholder="Describe the bug..." oninput="noteChange('10-01')">
+    <select class="sev-sel" id="ss-10-01" onchange="noteChange('10-01')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-10-02">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-10-02</div>
+    <div class="tc-main">
+      <div class="tc-action">Clicking an insight card triggers a chat query and AI response</div>
+      
+      <ol class="steps"><li>Click Recurring pattern detected insight card</li><li>Observe chat panel</li></ol>
+      <div class="box box-ok">Chat input auto-sends query about recurring rent. AI response appears explaining pattern and standing rule.</div>
+    </div>
+    <div class="tc-icon" id="i-10-02">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('10-02','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('10-02','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('10-02','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-10-02" placeholder="Describe the bug..." oninput="noteChange('10-02')">
+    <select class="sev-sel" id="ss-10-02" onchange="noteChange('10-02')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-10-03">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-10-03</div>
+    <div class="tc-main">
+      <div class="tc-action">Chat responds contextually to key topic queries</div>
+      
+      <ol class="steps"><li>Type 'which transactions are unmatched on BETA-UK?' and press Enter</li><li>Type 'explain the FCTR entry for MS-001' and press Enter</li><li>Type 'tell me about materiality on MS-003' and press Enter</li></ol>
+      <div class="box box-ok">Each query gets relevant response. Unmatched mentions TXN-B-007. FCTR explains USD/GBP differential and OCI. Materiality explains 26,600 vs 10,000 threshold.</div>
+    </div>
+    <div class="tc-icon" id="i-10-03">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('10-03','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('10-03','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('10-03','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-10-03" placeholder="Describe the bug..." oninput="noteChange('10-03')">
+    <select class="sev-sel" id="ss-10-03" onchange="noteChange('10-03')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-10-04">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-10-04</div>
+    <div class="tc-main">
+      <div class="tc-action">Enter sends message; Shift+Enter inserts new line</div>
+      
+      <ol class="steps"><li>Type a message and press Enter</li><li>Type another and press Shift+Enter</li></ol>
+      <div class="box box-ok">Enter sends and clears input. Shift+Enter inserts newline without sending.</div>
+    </div>
+    <div class="tc-icon" id="i-10-04">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('10-04','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('10-04','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('10-04','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-10-04" placeholder="Describe the bug..." oninput="noteChange('10-04')">
+    <select class="sev-sel" id="ss-10-04" onchange="noteChange('10-04')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+  </div>
+</div>
+<div class="section" id="s11">
+  <div class="sec-hdr" onclick="toggle('s11')">
+    <span class="sec-num">11</span>
+    <div><div class="sec-title">JE Log</div><div class="sec-sub">Confirmed eliminations only, row detail, newly approved entries appear</div></div>
+    <span class="sec-count">3 tests</span>
+    <span class="sec-badge sb-pending" id="badge-s11">Pending</span>
+    <span class="sec-toggle" id="tgl-s11">&#x25BC;</span>
+  </div>
+  <div class="sec-body" id="body-s11">
+    <div class="prereq">&#x1F4CB; Navigate to JE Log view.</div>
+    
+<div class="tc" id="tc-11-01">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-11-01</div>
+    <div class="tc-main">
+      <div class="tc-action">JE Log shows only confirmed Eliminated entries</div>
+      
+      <ol class="steps"><li>Navigate to JE Log</li><li>Check all rows</li><li>Verify all status pills are green Eliminated</li></ol>
+      <div class="box box-ok">Minimum 2 rows (MS-001 and MS-004 pre-confirmed). All pills green. No purple or red pills.</div>
+    </div>
+    <div class="tc-icon" id="i-11-01">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('11-01','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('11-01','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('11-01','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-11-01" placeholder="Describe the bug..." oninput="noteChange('11-01')">
+    <select class="sev-sel" id="ss-11-01" onchange="noteChange('11-01')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-11-02">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-11-02</div>
+    <div class="tc-main">
+      <div class="tc-action">View JE button on a log row opens Match Detail modal</div>
+      
+      <ol class="steps"><li>Click View JE on any log row</li></ol>
+      <div class="box box-ok">Match Detail modal opens. Approve button hidden (already eliminated). JE preview, FCTR, audit trail all visible.</div>
+    </div>
+    <div class="tc-icon" id="i-11-02">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('11-02','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('11-02','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('11-02','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-11-02" placeholder="Describe the bug..." oninput="noteChange('11-02')">
+    <select class="sev-sel" id="ss-11-02" onchange="noteChange('11-02')"><option value="minor">Minor</option><option value="major"selected>Major</option><option value="critical">Critical</option></select>
+  </div>
+</div>
+<div class="tc" id="tc-11-03">
+  <div class="tc-hdr">
+    <div class="tc-id">TC-11-03</div>
+    <div class="tc-main">
+      <div class="tc-action">Approving a match in Workbench causes it to appear in JE Log</div>
+      
+      <ol class="steps"><li>Go to Pair Workbench</li><li>Approve MS-005 (Rent Feb)</li><li>Navigate to JE Log</li><li>Find the new entry</li></ol>
+      <div class="box box-ok">ELIM-ALPHSA-BETAUK-FY25-005 appears in log. Shows Current User as approver. Reporting USD amount visible.</div>
+    </div>
+    <div class="tc-icon" id="i-11-03">&#9675;</div>
+  </div>
+  <div class="tc-result">
+    <button class="res-btn res-p" onclick="setResult('11-03','pass')">&#x2713; Pass</button>
+    <button class="res-btn res-f" onclick="setResult('11-03','fail')">&#x2717; Fail</button>
+    <button class="res-btn res-s" onclick="setResult('11-03','skip')">&#8212; Skip</button>
+    <input class="bug-inp" id="bi-11-03" placeholder="Describe the bug..." oninput="noteChange('11-03')">
+    <select class="sev-sel" id="ss-11-03" onchange="noteChange('11-03')"><option value="minor">Minor</option><option value="major">Major</option><option value="critical"selected>Critical</option></select>
+  </div>
+</div>
+  </div>
+</div>
+
+<!-- BUG REPORT -->
+<div class="bug-report" id="bugs">
+  <div class="br-hdr"><span>&#x1F41B;</span><div class="br-title">Bug Report</div><span style="font-size:10px;color:var(--danger)" id="bc-label">0 bugs</span></div>
+  <div id="bug-list"><div class="no-bugs" id="no-bugs-msg">No failures logged. Mark test cases as Fail to populate this report.</div></div>
+</div>
+
+<!-- SIGN OFF -->
+<div class="section" id="signoff">
+  <div class="sec-hdr" onclick="toggle('signoff')">
+    <span class="sec-num">&#x2713;</span>
+    <div><div class="sec-title">Sign-Off</div><div class="sec-sub">UAT completion and approval</div></div>
+    <span class="sec-toggle" id="tgl-signoff">&#x25BC;</span>
+  </div>
+  <div class="sec-body" id="body-signoff">
+    <div class="signoff-grid">
+      <div class="sof"><div class="sof-role">Prepared by &mdash; Tester</div><div class="sof-line"></div><div class="sof-date">Name: _______________ &nbsp; Date: _______________</div></div>
+      <div class="sof"><div class="sof-role">Reviewed by &mdash; Lead</div><div class="sof-line"></div><div class="sof-date">Name: _______________ &nbsp; Date: _______________</div></div>
+      <div class="sof"><div class="sof-role">Approved by &mdash; CAO / CFO</div><div class="sof-line"></div><div class="sof-date">Name: _______________ &nbsp; Date: _______________</div></div>
+    </div>
+    <div style="padding:0 18px 14px;font-size:9px;color:var(--muted)">UAT-CONSOLIQ-ICE-001 &middot; ConsolIQ IC Eliminations POC v1.0 &middot; Uniqus Consultech</div>
   </div>
 </div>
 ```
 
+  </div><!-- /content -->
+
+  <div class="export-bar">
+    <div class="exp-label" id="exp-label">0 of 47 completed</div>
+    <button class="btn btn-ghost" onclick="resetAll()">&#8634; Reset All</button>
+    <button class="btn btn-ghost" onclick="window.print()">&#x1F5A8; Print / PDF</button>
+    <button class="btn btn-primary" onclick="exportJSON()">&#x2193; Export Results JSON</button>
   </div>
-
-  <!-- ══ PAIR WORKBENCH VIEW ══ -->
-
-  <div class="view" id="view-pair">
-    <div class="pair-view">
-      <div class="pair-topbar">
-        <div class="pair-entity">
-          <select id="entity-a-select" style="background:var(--surface2);border:1px solid rgba(79,255,176,0.3);color:var(--accent);padding:5px 10px;border-radius:5px;font-family:var(--font-mono);font-size:11px;" onchange="loadPair()">
-            <option>ALPHA-SA</option><option>BETA-UK</option><option>GAMMA-DE</option><option>DELTA-AE</option><option>EPSILON-JP</option><option>ZETA-SG</option><option>ETA-AU</option><option>THETA-ZA</option><option>IOTA-BR</option><option>KAPPA-FR</option><option>LAMBDA-CN</option>
-          </select>
-        </div>
-        <span class="pair-arrow">⇄</span>
-        <div class="pair-entity">
-          <select id="entity-b-select" style="background:var(--surface2);border:1px solid rgba(61,224,255,0.3);color:var(--accent2);padding:5px 10px;border-radius:5px;font-family:var(--font-mono);font-size:11px;" onchange="loadPair()">
-            <option>BETA-UK</option><option>ALPHA-SA</option><option>GAMMA-DE</option><option>DELTA-AE</option><option>EPSILON-JP</option><option>ZETA-SG</option><option>ETA-AU</option><option>THETA-ZA</option><option>IOTA-BR</option><option>KAPPA-FR</option><option>LAMBDA-CN</option>
-          </select>
-        </div>
-        <span class="pair-meta" id="pair-meta">14 transactions · USD ↔ GBP → USD reporting</span>
-        <div class="pair-actions">
-          <div class="new-indicator" id="new-indicator" style="display:none"><span class="pulse-dot"></span>3 new txns since last run</div>
-          <button class="btn btn-ghost" onclick="openUploadModal()">⬆ Upload</button>
-          <button class="btn btn-ghost" onclick="showView('jelog')">☰ JE Log</button>
-          <button class="run-btn" id="run-btn" onclick="runMatching()">⬡ Run Matching Engine</button>
-        </div>
-      </div>
-
-```
-  <div class="pair-content">
-    <div class="pair-main">
-      <div class="txn-panels">
-
-        <!-- ENTITY A PANEL -->
-        <div class="txn-panel">
-          <div class="txn-panel-header">
-            <span class="entity-badge eb-a" id="panel-a-title">ALPHA-SA</span>
-            <span class="tph-meta">Intercompany Statement · Sales / Loans / Charges</span>
-            <div class="tph-right">
-              <span style="font-size:9px;color:var(--muted2);">7 transactions</span>
-              <button class="btn btn-ghost" style="font-size:9px;padding:4px 10px;" onclick="openUploadModal()">⬆ Re-upload</button>
-            </div>
-          </div>
-          <div class="txn-table-wrap">
-            <table>
-              <thead><tr>
-                <th>Txn ID</th><th>Description</th><th>GL Code</th><th>Period</th>
-                <th style="text-align:right">Txn Currency</th><th style="text-align:right">Entity CCY</th>
-                <th>Status</th><th>Match</th><th></th>
-              </tr></thead>
-              <tbody id="txn-a-body"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- ENTITY B PANEL -->
-        <div class="txn-panel">
-          <div class="txn-panel-header">
-            <span class="entity-badge eb-b" id="panel-b-title">BETA-UK</span>
-            <span class="tph-meta">Intercompany Statement · Purchases / Loans / Charges</span>
-            <div class="tph-right">
-              <span style="font-size:9px;color:var(--muted2);">7 transactions</span>
-              <button class="btn btn-ghost" style="font-size:9px;padding:4px 10px;" onclick="openUploadModal()">⬆ Re-upload</button>
-            </div>
-          </div>
-          <div class="txn-table-wrap">
-            <table>
-              <thead><tr>
-                <th>Txn ID</th><th>Description</th><th>GL Code</th><th>Period</th>
-                <th style="text-align:right">Txn Currency</th><th style="text-align:right">Entity CCY</th>
-                <th>Status</th><th>Match</th><th></th>
-              </tr></thead>
-              <tbody id="txn-b-body"></tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- MATCH SUGGESTIONS -->
-      <div class="match-area">
-        <div class="ma-header">
-          <div class="ai-orb" style="width:6px;height:6px;"></div>
-          <span class="ma-title">Match Suggestions</span>
-          <span class="ma-count" id="match-count">4 suggested · 1 over materiality</span>
-          <div class="ma-actions">
-            <button class="btn btn-ghost" style="font-size:9px;padding:4px 10px;" onclick="acceptAllMatches()">✓ Accept All Below Materiality</button>
-          </div>
-        </div>
-        <div id="match-cards"></div>
-      </div>
-    </div>
-
-    <!-- RIGHT: COPILOT -->
-    <div class="copilot-panel">
-      <div class="cp-section">
-        <div class="ai-orb-row"><div class="ai-orb"></div><span class="cp-panel-title">IC Copilot</span></div>
-      </div>
-
-      <div class="cp-section">
-        <div class="cp-section-title">Elimination Progress</div>
-        <div class="prog-row"><span>Eliminated</span><span>43%</span></div>
-        <div class="prog-track"><div class="prog-fill pf-green" style="width:43%"></div></div>
-        <div class="prog-row"><span>AI Matched</span><span>71%</span></div>
-        <div class="prog-track"><div class="prog-fill pf-purple" style="width:71%"></div></div>
-        <div class="prog-row"><span>Unmatched</span><span>29%</span></div>
-        <div class="prog-track"><div class="prog-fill pf-orange" style="width:29%"></div></div>
-      </div>
-
-      <div class="cp-section">
-        <div class="cp-section-title">AI Insights</div>
-        <div class="insight-card ic-warn" onclick="chatSay('Tell me about the recurring rent transaction')">
-          <div class="ic-title">⟳ Recurring pattern detected</div>
-          <div class="ic-body">Monthly rent cross-charge of ~USD 15,000 matches across 12 months. Standing rule proposed.</div>
-          <div class="ic-action">→ Create standing rule</div>
-        </div>
-        <div class="insight-card ic-danger" onclick="chatSay('Why is ELIM-ALPHSA-BETAUK-FY25-003 over materiality?')">
-          <div class="ic-title">⚠ Over materiality threshold</div>
-          <div class="ic-body">Match set MS-003 has a USD 28,400 difference. Materiality is USD 10,000. Consolidation team decision required.</div>
-          <div class="ic-action">→ Review match set</div>
-        </div>
-        <div class="insight-card ic-blue" onclick="chatSay('Which transactions on Entity B are still unmatched?')">
-          <div class="ic-title">↑ One-sided transaction</div>
-          <div class="ic-body">TXN-B-007 (IC Loan Interest — JPY) has no corresponding entry on ALPHA-SA. BETA-UK re-upload may be needed.</div>
-          <div class="ic-action">→ Flag to entity</div>
-        </div>
-        <div class="insight-card ic-ai" onclick="chatSay('Explain the FCTR entry for MS-001')">
-          <div class="ic-title">⬡ FCTR generated</div>
-          <div class="ic-body">Match set MS-001 generated an FCTR-OCI-ALPHSA entry of USD 1,240 due to USD/GBP rate differential (avg vs closing).</div>
-          <div class="ic-action">→ View FCTR detail</div>
-        </div>
-      </div>
-
-      <!-- JE PREVIEW -->
-      <div class="cp-section" id="je-preview-section" style="display:none">
-        <div class="cp-section-title">JE Preview — <span id="je-preview-id" style="color:var(--accent3)"></span></div>
-        <table class="je-table" id="je-preview-table"></table>
-        <div style="margin-top:8px;display:flex;gap:6px;justify-content:flex-end;">
-          <button class="btn btn-ghost" style="font-size:9px;padding:4px 10px;" onclick="document.getElementById('je-preview-section').style.display='none'">Close</button>
-          <button class="btn btn-primary" style="font-size:9px;padding:4px 10px;" onclick="approveFromPreview()">✓ Approve</button>
-        </div>
-      </div>
-
-      <div class="chat-wrap" id="chat-wrap">
-        <div class="chat-bubble cb-ai">Hello. I've analysed the ALPHA-SA ↔ BETA-UK intercompany statements. I found 4 match candidates across 5 matching layers. One set is over materiality and requires your decision. How can I help?</div>
-      </div>
-      <div class="chat-input-row">
-        <textarea class="chat-input" id="chat-input" rows="2" placeholder="Ask about matches, FCTR, materiality…" onkeydown="chatKeydown(event)"></textarea>
-        <button class="btn btn-primary" style="align-self:flex-end;padding:7px 12px;" onclick="sendChat()">↑</button>
-      </div>
-    </div>
-  </div>
-</div>
-```
-
-  </div>
-
-  <!-- ══ JE LOG VIEW ══ -->
-
-  <div class="view" id="view-jelog">
-    <div class="je-log-wrap">
-      <div class="matrix-header">
-        <div>
-          <div class="matrix-title">Elimination Journal Log</div>
-          <div class="matrix-sub">All confirmed IC elimination entries · FY2025 · Click to expand</div>
-        </div>
-        <div style="display:flex;gap:8px;">
-          <button class="btn btn-ghost">↓ Export XLSX</button>
-          <button class="btn btn-ghost">↓ Export PDF</button>
-          <button class="btn btn-primary" onclick="showView('pair')">← Back to Workbench</button>
-        </div>
-      </div>
-
-```
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius2);overflow:hidden;">
-    <div style="padding:12px 18px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center;">
-      <input style="flex:1;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:6px 10px;border-radius:var(--radius);font-family:var(--font-mono);font-size:10px;" placeholder="Search JE ID, entity pair, amount…">
-      <button class="btn btn-ghost" style="font-size:10px;">All Pairs ▾</button>
-      <button class="btn btn-ghost" style="font-size:10px;">All Status ▾</button>
-    </div>
-    <div style="overflow:auto;">
-      <table style="width:100%;border-collapse:collapse;">
-        <thead><tr>
-          <th style="background:var(--surface2);padding:8px 14px;text-align:left;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);">JE ID</th>
-          <th style="background:var(--surface2);padding:8px 14px;text-align:left;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);">Entity Pair</th>
-          <th style="background:var(--surface2);padding:8px 14px;text-align:left;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);">Match Type</th>
-          <th style="background:var(--surface2);padding:8px 14px;text-align:left;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);">Layer</th>
-          <th style="background:var(--surface2);padding:8px 14px;text-align:right;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);">Txn CCY</th>
-          <th style="background:var(--surface2);padding:8px 14px;text-align:right;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);">Reporting USD</th>
-          <th style="background:var(--surface2);padding:8px 14px;text-align:left;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);">FCTR</th>
-          <th style="background:var(--surface2);padding:8px 14px;text-align:left;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);">Status</th>
-          <th style="background:var(--surface2);padding:8px 14px;text-align:left;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);">Approved By</th>
-          <th style="background:var(--surface2);padding:8px 14px;text-align:left;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);"></th>
-        </tr></thead>
-        <tbody id="je-log-body"></tbody>
-      </table>
-    </div>
-  </div>
-</div>
-```
-
-  </div>
-
 </div><!-- /main -->
 </div><!-- /shell -->
 
-<!-- ══ MODALS ══ -->
-
-<!-- UPLOAD MODAL -->
-
-<div class="modal-overlay" id="upload-modal">
-  <div class="modal modal-sm">
-    <button class="modal-close" onclick="closeModal('upload-modal')">✕</button>
-    <div class="modal-title">Upload IC Statement</div>
-    <div class="modal-sub">Entity teams upload their own intercompany statements. Re-uploads will be diffed against prior version.</div>
-    <div class="field-row">
-      <div class="field"><div class="field-label">Entity</div>
-        <select class="field-input"><option>ALPHA-SA</option><option>BETA-UK</option><option>GAMMA-DE</option><option>DELTA-AE</option><option>EPSILON-JP</option></select>
-      </div>
-      <div class="field"><div class="field-label">Counter Entity</div>
-        <select class="field-input"><option>BETA-UK</option><option>ALPHA-SA</option><option>GAMMA-DE</option><option>DELTA-AE</option><option>EPSILON-JP</option></select>
-      </div>
-    </div>
-    <div class="field-row">
-      <div class="field"><div class="field-label">Period</div>
-        <select class="field-input"><option>FY2025 Full Year</option><option>FY2025 Q4</option><option>FY2025 Q3</option></select>
-      </div>
-      <div class="field"><div class="field-label">Transaction Currency</div>
-        <select class="field-input"><option>USD</option><option>GBP</option><option>EUR</option><option>JPY</option><option>INR</option><option>AED</option></select>
-      </div>
-    </div>
-    <div class="upload-zone" onclick="simulateUpload()">
-      <div class="uz-icon">⬆</div>
-      <div class="uz-text">Click to upload IC statement</div>
-      <div class="uz-sub">CSV, XLSX · Columns: Entity | GL Code | Amount | Description | Counter Entity | Period | Doc Ref (optional)</div>
-    </div>
-    <div style="font-size:9px;color:var(--muted2);line-height:1.6;margin-bottom:4px;">
-      ⬡ On upload: Copilot will detect new / changed lines vs prior upload, flag impacted confirmed matches for reversion, and queue the changed transactions for re-matching.
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal('upload-modal')">Cancel</button>
-      <button class="btn btn-primary" onclick="simulateUpload()">⬡ Upload & Diff</button>
-    </div>
-  </div>
-</div>
-
-<!-- MATERIALITY MODAL -->
-
-<div class="modal-overlay" id="materiality-modal">
-  <div class="modal modal-sm">
-    <button class="modal-close" onclick="closeModal('materiality-modal')">✕</button>
-    <div class="modal-title">Materiality Settings</div>
-    <div class="modal-sub">Absolute threshold per transaction currency. Differences below threshold are eliminated at the lower of two values. Differences above require consolidation team decision.</div>
-    <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;">
-      <table style="width:100%;border-collapse:collapse;">
-        <thead><tr>
-          <th style="background:var(--surface3);padding:7px 12px;text-align:left;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);">Currency</th>
-          <th style="background:var(--surface3);padding:7px 12px;text-align:right;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);">Threshold</th>
-          <th style="background:var(--surface3);padding:7px 12px;text-align:left;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);">Applies To</th>
-        </tr></thead>
-        <tbody>
-          <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:11px;color:var(--accent2);">USD</td><td style="padding:8px 12px;border-bottom:1px solid var(--border);text-align:right;"><input class="field-input" value="10,000" style="width:100px;text-align:right;padding:4px 8px;font-size:11px;"></td><td style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:9px;color:var(--muted2);">All USD pairs</td></tr>
-          <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:11px;color:var(--accent2);">GBP</td><td style="padding:8px 12px;border-bottom:1px solid var(--border);text-align:right;"><input class="field-input" value="8,000" style="width:100px;text-align:right;padding:4px 8px;font-size:11px;"></td><td style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:9px;color:var(--muted2);">All GBP pairs</td></tr>
-          <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:11px;color:var(--accent2);">EUR</td><td style="padding:8px 12px;border-bottom:1px solid var(--border);text-align:right;"><input class="field-input" value="9,000" style="width:100px;text-align:right;padding:4px 8px;font-size:11px;"></td><td style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:9px;color:var(--muted2);">All EUR pairs</td></tr>
-          <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:11px;color:var(--accent2);">JPY</td><td style="padding:8px 12px;border-bottom:1px solid var(--border);text-align:right;"><input class="field-input" value="1,500,000" style="width:100px;text-align:right;padding:4px 8px;font-size:11px;"></td><td style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:9px;color:var(--muted2);">All JPY pairs</td></tr>
-          <tr><td style="padding:8px 12px;font-size:11px;color:var(--accent2);">INR</td><td style="padding:8px 12px;text-align:right;"><input class="field-input" value="800,000" style="width:100px;text-align:right;padding:4px 8px;font-size:11px;"></td><td style="padding:8px 12px;font-size:9px;color:var(--muted2);">All INR pairs</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div style="font-size:9px;color:var(--muted2);line-height:1.6;">⬡ When a match set difference exceeds the threshold, the match is flagged for consolidation team review. The team can choose to eliminate at the lower value, split the difference, or reject the match entirely.</div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal('materiality-modal')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveMateriality()">Save Thresholds</button>
-    </div>
-  </div>
-</div>
-
-<!-- ENTITY CONFIG MODAL -->
-
-<div class="modal-overlay" id="entity-config-modal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('entity-config-modal')">✕</button>
-    <div class="modal-title">Entity Configuration</div>
-    <div class="modal-sub">FX rate types per GL category and FCTR OCI GL codes per entity</div>
-    <div class="field-row" style="margin-bottom:14px;">
-      <div class="field"><div class="field-label">Entity</div>
-        <select class="field-input" onchange="updateEntityConfig(this.value)">
-          <option>ALPHA-SA</option><option>BETA-UK</option><option>GAMMA-DE</option><option>DELTA-AE</option><option>EPSILON-JP</option>
-        </select>
-      </div>
-      <div class="field"><div class="field-label">Functional Currency</div><input class="field-input" value="USD" readonly></div>
-    </div>
-    <div class="field-row-3" style="margin-bottom:14px;">
-      <div class="field"><div class="field-label">P&L FX Rate</div><select class="field-input"><option selected>Average</option><option>Closing</option><option>Opening</option><option>Custom</option></select></div>
-      <div class="field"><div class="field-label">Balance Sheet FX Rate</div><select class="field-input"><option>Average</option><option selected>Closing</option><option>Opening</option><option>Custom</option></select></div>
-      <div class="field"><div class="field-label">Opening Equity FX Rate</div><select class="field-input"><option>Average</option><option>Closing</option><option selected>Opening</option><option>Custom</option></select></div>
-    </div>
-    <div class="divider"></div>
-    <div class="cp-section-title" style="margin-bottom:10px;">FCTR OCI GL Codes</div>
-    <div class="field-row">
-      <div class="field"><div class="field-label">FCTR OCI GL Code</div><input class="field-input highlight" value="FCTR-OCI-ALPHSA" readonly></div>
-      <div class="field"><div class="field-label">OCI Account Description</div><input class="field-input" value="Foreign Currency Translation Reserve" readonly></div>
-    </div>
-    <div class="divider"></div>
-    <div class="cp-section-title" style="margin-bottom:10px;">Audit Trail</div>
-    <div class="audit-item"><div class="audit-dot ad-green"></div><div><div class="audit-text"><strong>Config saved</strong> by J. Smith</div><div class="audit-time">14 Mar 2025 · 10:42</div></div></div>
-    <div class="audit-item"><div class="audit-dot ad-blue"></div><div><div class="audit-text">FCTR GL code updated from <strong>OCI-ALPHA</strong> to <strong>FCTR-OCI-ALPHSA</strong></div><div class="audit-time">02 Jan 2025 · 09:15</div></div></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal('entity-config-modal')">Cancel</button>
-      <button class="btn btn-primary">Save Config</button>
-    </div>
-  </div>
-</div>
-
-<!-- MATCH DETAIL MODAL -->
-
-<div class="modal-overlay" id="match-detail-modal">
-  <div class="modal modal-lg">
-    <button class="modal-close" onclick="closeModal('match-detail-modal')">✕</button>
-    <div class="modal-title" id="md-title">Match Set Detail</div>
-    <div class="modal-sub" id="md-sub">Review match set before approval</div>
-    <div id="md-content"></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal('match-detail-modal')">Cancel</button>
-      <button class="btn btn-danger" onclick="rejectMatch()">✕ Reject Match</button>
-      <button class="btn btn-primary" id="md-approve-btn" onclick="approveMatch()">✓ Approve & Post JE</button>
-    </div>
-  </div>
-</div>
-
-<!-- ONE-SIDED TRANSACTION MODAL -->
-
-<div class="modal-overlay" id="one-sided-modal">
-  <div class="modal modal-lg">
-    <button class="modal-close" onclick="closeModal('one-sided-modal')">✕</button>
-    <div class="modal-title" id="os-title">One-Sided Transaction</div>
-    <div class="modal-sub" id="os-sub">This transaction has no matching counter-entry</div>
-    <div id="os-content"></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal('one-sided-modal')">Close</button>
-      <button class="btn btn-warn" onclick="flagToEntity()">⚑ Flag to Entity Team</button>
-    </div>
-  </div>
-</div>
-
-<!-- TOAST -->
-
-<div class="toast" id="toast"><span id="toast-icon">✓</span><span id="toast-msg"></span></div>
-
 <script>
-// ═══════════════════════════════════════════════════
-//  DATA
-// ═══════════════════════════════════════════════════
+const TOTAL = 47;
+const results = {};
+const notes = {};
 
-const ENTITIES = ['ALPHA-SA','BETA-UK','GAMMA-DE','DELTA-AE','EPSILON-JP','ZETA-SG','ETA-AU','THETA-ZA','IOTA-BR','KAPPA-FR','LAMBDA-CN'];
+const SMAP = {
+  s1:['01-01','01-02','01-03','01-04','01-05'],
+  s2:['02-01','02-02','02-03','02-04'],
+  s3:['03-01','03-02','03-03','03-04','03-05','03-06'],
+  s4:['04-01','04-02','04-03','04-04','04-05'],
+  s5:['05-01','05-02','05-03','05-04','05-05','05-06'],
+  s6:['06-01','06-02','06-03','06-04'],
+  s7:['07-01','07-02','07-03'],
+  s8:['08-01','08-02','08-03','08-04'],
+  s9:['09-01','09-02','09-03'],
+  s10:['10-01','10-02','10-03','10-04'],
+  s11:['11-01','11-02','11-03'],
+};
 
-const ENTITY_CCY = { 'ALPHA-SA':'USD','BETA-UK':'GBP','GAMMA-DE':'EUR','DELTA-AE':'AED','EPSILON-JP':'JPY','ZETA-SG':'SGD','ETA-AU':'AUD','THETA-ZA':'ZAR','IOTA-BR':'BRL','KAPPA-FR':'EUR','LAMBDA-CN':'CNY' };
-
-const UPLOAD_STATUS = [
-  { entity:'ALPHA-SA', erp:'SAP S/4HANA', status:'uploaded', txns:7, updated:'Today 09:14' },
-  { entity:'BETA-UK',  erp:'Oracle Fusion', status:'uploaded', txns:7, updated:'Today 08:52' },
-  { entity:'GAMMA-DE', erp:'SAP S/4HANA', status:'partial', txns:4, updated:'Yesterday' },
-  { entity:'DELTA-AE', erp:'Microsoft D365', status:'uploaded', txns:3, updated:'Today 10:01' },
-  { entity:'EPSILON-JP', erp:'Oracle Fusion', status:'pending', txns:0, updated:'Not uploaded' },
-  { entity:'ZETA-SG', erp:'Sage Intacct', status:'uploaded', txns:5, updated:'Today 07:30' },
-  { entity:'ETA-AU',  erp:'SAP S/4HANA', status:'partial', txns:2, updated:'2 days ago' },
-  { entity:'THETA-ZA', erp:'Manual CSV', status:'pending', txns:0, updated:'Not uploaded' },
-  { entity:'IOTA-BR', erp:'Oracle Fusion', status:'uploaded', txns:6, updated:'Today 11:00' },
-  { entity:'KAPPA-FR', erp:'SAP S/4HANA', status:'uploaded', txns:4, updated:'Today 08:10' },
-  { entity:'LAMBDA-CN', erp:'Custom ERP', status:'pending', txns:0, updated:'Not uploaded' },
-];
-
-// Matrix status per pair [row][col]
-const MATRIX_DATA = {};
-const pairStatuses = ['full','partial','pending','empty'];
-ENTITIES.forEach((a,i) => {
-  ENTITIES.forEach((b,j) => {
-    if (i===j) { MATRIX_DATA[`${a}-${b}`]='self'; return; }
-    if ((i===0&&j===1)||(i===1&&j===0)) { MATRIX_DATA[`${a}-${b}`]='partial'; return; }
-    if ((i===0&&j===2)||(i===2&&j===0)) { MATRIX_DATA[`${a}-${b}`]='full'; return; }
-    if ((i===0&&j===3)||(i===3&&j===0)) { MATRIX_DATA[`${a}-${b}`]='pending'; return; }
-    if ((i===1&&j===2)||(i===2&&j===1)) { MATRIX_DATA[`${a}-${b}`]='pending'; return; }
-    if ((i===3&&j===5)||(i===5&&j===3)) { MATRIX_DATA[`${a}-${b}`]='full'; return; }
-    if ((i===4&&j===9)||(i===9&&j===4)) { MATRIX_DATA[`${a}-${b}`]='pending'; return; }
-    if ((i===8&&j===9)||(i===9&&j===8)) { MATRIX_DATA[`${a}-${b}`]='partial'; return; }
-    MATRIX_DATA[`${a}-${b}`]='empty';
+function setResult(id, status) {
+  results[id] = status;
+  const icons={pass:'&#x2713;',fail:'&#x2717;',skip:'&mdash;'};
+  const cols={pass:'var(--accent)',fail:'var(--danger)',skip:'var(--muted2)'};
+  const icon=document.getElementById('i-'+id);
+  if(icon){icon.innerHTML=icons[status];icon.style.color=cols[status];}
+  ['p','f','s'].forEach(function(s){
+    var btn=document.querySelector('#tc-'+id+' .res-'+s);
+    if(btn) btn.classList.toggle('on', (s==='p'&&status==='pass')||(s==='f'&&status==='fail')||(s==='s'&&status==='skip'));
   });
-});
-
-// Active pair data — populated by loadPair()
-let txnsA = [];
-let txnsB = [];
-const MATCH_SETS = [];
-let currentMatchId = null;
-
-// ═══════════════════════════════════════════════════
-//  HELPERS
-// ═══════════════════════════════════════════════════
-function fmt(n, ccy) {
-  const f = new Intl.NumberFormat('en-US',{minimumFractionDigits:0,maximumFractionDigits:0}).format(Math.abs(n));
-  return ccy ? `${ccy} ${f}` : f;
-}
-function confClass(c) { return c>=90?'cf-high':c>=70?'cf-med':'cf-low'; }
-function confMcClass(c) { return c>=90?'mc-high':c>=70?'mc-med':'mc-low'; }
-
-function statusPill(s) {
-  const m = {
-    eliminated: '<span class="pill pill-elim"><span class="pdot"></span>Eliminated</span>',
-    suggested:  '<span class="pill pill-suggested"><span class="pdot"></span>AI Suggested</span>',
-    open:       '<span class="pill pill-open"><span class="pdot"></span>Unmatched</span>',
-    review:     '<span class="pill pill-review"><span class="pdot"></span>Over Materiality</span>',
-    reverted:   '<span class="pill pill-reverted"><span class="pdot"></span>Reverted</span>',
-    partial:    '<span class="pill pill-partial"><span class="pdot"></span>Partial</span>',
-  };
-  return m[s] || '';
+  var row=document.getElementById('tc-'+id);
+  if(row){row.classList.remove('tc-pass','tc-fail');if(status==='pass')row.classList.add('tc-pass');if(status==='fail')row.classList.add('tc-fail');}
+  var bi=document.getElementById('bi-'+id), ss=document.getElementById('ss-'+id);
+  if(bi) bi.classList.toggle('show',status==='fail');
+  if(ss) ss.classList.toggle('show',status==='fail');
+  updateAll();
 }
 
-// ═══════════════════════════════════════════════════
-//  MATRIX
-// ═══════════════════════════════════════════════════
-function buildMatrix() {
-  const table = document.getElementById('matrix-table');
-  const active = ENTITIES.filter(e => {
-    return ENTITIES.some(f => f!==e && MATRIX_DATA[`${e}-${f}`] && MATRIX_DATA[`${e}-${f}`]!=='empty');
+function noteChange(id){
+  var bi=document.getElementById('bi-'+id), ss=document.getElementById('ss-'+id);
+  notes[id]={desc:bi?bi.value:'',sev:ss?ss.value:'minor'};
+  updateBugs();
+}
+
+function updateAll(){updateProgress();updateBadges();updateBugs();}
+
+function updateProgress(){
+  var p=0,f=0,s=0;
+  Object.values(results).forEach(function(v){if(v==='pass')p++;else if(v==='fail')f++;else if(v==='skip')s++;});
+  var done=p+f+s, pct=Math.round(done/TOTAL*100);
+  document.getElementById('sb-fill').style.width=pct+'%';
+  document.getElementById('sb-pct').textContent=pct+'%';
+  document.getElementById('sb-p').textContent=p;
+  document.getElementById('sb-f').textContent=f;
+  document.getElementById('sb-s').textContent=s;
+  document.getElementById('sb-r').textContent=TOTAL-done;
+  document.getElementById('exp-label').textContent=done+' of '+TOTAL+' completed \u00b7 '+p+' pass \u00b7 '+f+' fail';
+}
+
+function updateBadges(){
+  Object.entries(SMAP).forEach(function(e){
+    var sec=e[0], tests=e[1];
+    var badge=document.getElementById('badge-'+sec);
+    if(!badge) return;
+    var statuses=tests.map(function(t){return results[t];}).filter(Boolean);
+    if(!statuses.length){badge.className='sec-badge sb-pending';badge.textContent='Pending';return;}
+    if(statuses.includes('fail')){badge.className='sec-badge sb-fail';badge.textContent='Issues Found';return;}
+    if(statuses.length===tests.length){badge.className='sec-badge sb-pass';badge.textContent='All Pass';return;}
+    badge.className='sec-badge sb-partial';badge.textContent='In Progress';
   });
-
-  let html = '<tr><td class="matrix-corner"></td>';
-  active.forEach(e => { html += `<th class="matrix-col-header">${e}</th>`; });
-  html += '</tr>';
-
-  active.forEach(rowE => {
-    html += `<tr><th class="matrix-row-header">${rowE}</th>`;
-    active.forEach(colE => {
-      const st = MATRIX_DATA[`${rowE}-${colE}`] || 'empty';
-      if (st==='self') { html += `<td class="matrix-cell self"><div class="cell-inner"><div class="cell-dot" style="background:var(--border2)"></div></div></td>`; return; }
-      const labels = {full:'Eliminated',partial:'Partial',pending:'Unmatched',empty:'—'};
-      html += `<td class="matrix-cell cell-${st}" onclick="openPairFromMatrix('${rowE}','${colE}')">
-        <div class="cell-inner"><div class="cell-dot"></div><div class="cell-label">${labels[st]||''}</div></div>
-      </td>`;
-    });
-    html += '</tr>';
-  });
-  table.innerHTML = html;
 }
 
-function openPairFromMatrix(a, b) {
-  if (MATRIX_DATA[`${a}-${b}`]==='empty') return;
-  document.getElementById('entity-a-select').value = a;
-  document.getElementById('entity-b-select').value = b;
-  showView('pair');
-  loadPair();
-}
-
-// ═══════════════════════════════════════════════════
-//  UPLOAD STATUS GRID
-// ═══════════════════════════════════════════════════
-function buildUploadGrid() {
-  const grid = document.getElementById('upload-status-grid');
-  const statusMap = { uploaded:{dot:'uc-dot-green',text:'Uploaded'}, partial:{dot:'uc-dot-warn',text:'Partial'}, pending:{dot:'uc-dot-red',text:'Pending'} };
-  grid.innerHTML = UPLOAD_STATUS.map(u => {
-    const s = statusMap[u.status];
-    return `<div class="upload-card" onclick="toast('⬆','Opening upload for ${u.entity}')">
-      <div class="uc-entity">${u.entity}</div>
-      <div class="uc-erp">${u.erp} · ${ENTITY_CCY[u.entity]||'USD'}</div>
-      <div class="uc-status"><div class="uc-dot ${s.dot}"></div><span class="uc-status-text" style="color:var(--${u.status==='uploaded'?'accent':u.status==='partial'?'warn':'danger'})">${s.text}</span></div>
-      <div class="uc-txns">${u.txns>0?u.txns+' transactions uploaded':'No transactions'}</div>
-      <div class="uc-updated">${u.updated}</div>
-    </div>`;
+function updateBugs(){
+  var fails=Object.entries(results).filter(function(e){return e[1]==='fail';});
+  var list=document.getElementById('bug-list'), nm=document.getElementById('no-bugs-msg');
+  document.getElementById('bc-label').textContent=fails.length+' bug'+(fails.length!==1?'s':'');
+  if(!fails.length){list.innerHTML='';list.appendChild(nm);nm.style.display='block';return;}
+  nm.style.display='none';
+  var cls={critical:'sev-c',major:'sev-m',minor:'sev-n'};
+  list.innerHTML=fails.map(function(e){
+    var id=e[0], n=notes[id]||{desc:'',sev:'minor'};
+    return '<div class="bug-item"><span class="bug-id">BUG-'+id+'</span><span class="bug-desc">'+(n.desc||'(no description)')+'</span><span class="bug-tc">TC-'+id+'</span><span class="sev-tag '+(cls[n.sev]||'sev-n')+'">'+(n.sev||'minor').toUpperCase()+'</span></div>';
   }).join('');
 }
 
-// ═══════════════════════════════════════════════════
-//  PAIR WORKBENCH
-// ═══════════════════════════════════════════════════
-// Per-pair transaction store — all transactions keyed by entity pair
-const ALL_TXN_DATA = {
-  'ALPHA-SA|BETA-UK': {
-    A: [
-      { id:'TXN-A-001', desc:'Product Sales — Q1 Delivery', desc2:'Goods dispatched 31 Mar', gl:'IC-REV-5000', glType:'PL', period:'Mar 2025', txnCcy:'USD', txnAmt:245000, entityCcy:'USD', entityAmt:245000, status:'eliminated', matchId:'MS-001', conf:98 },
-      { id:'TXN-A-002', desc:'Product Sales — Q2 Delivery', desc2:'Goods dispatched 30 Jun', gl:'IC-REV-5000', glType:'PL', period:'Jun 2025', txnCcy:'USD', txnAmt:312000, entityCcy:'USD', entityAmt:312000, status:'suggested', matchId:'MS-002', conf:91 },
-      { id:'TXN-A-003', desc:'Rental Cross Charge — Jan', desc2:'Monthly office rent — Mumbai', gl:'IC-INC-6100', glType:'PL', period:'Jan 2025', txnCcy:'USD', txnAmt:15000, entityCcy:'USD', entityAmt:15000, status:'eliminated', matchId:'MS-004', conf:97 },
-      { id:'TXN-A-004', desc:'Rental Cross Charge — Feb', desc2:'Monthly office rent — Mumbai', gl:'IC-INC-6100', glType:'PL', period:'Feb 2025', txnCcy:'USD', txnAmt:15000, entityCcy:'USD', entityAmt:15000, status:'suggested', matchId:'MS-005', conf:96 },
-      { id:'TXN-A-005', desc:'Management Fee — FY25', desc2:'Annual management services', gl:'IC-MGMT-6200', glType:'PL', period:'Dec 2025', txnCcy:'USD', txnAmt:180000, entityCcy:'USD', entityAmt:180000, status:'suggested', matchId:'MS-003', conf:72 },
-      { id:'TXN-A-006', desc:'IC Loan Advanced — Tranche 1', desc2:'Intercompany facility drawdown', gl:'IC-LOAN-1500', glType:'BS', period:'Apr 2025', txnCcy:'USD', txnAmt:500000, entityCcy:'USD', entityAmt:500000, status:'open', matchId:null, conf:0 },
-      { id:'TXN-A-007', desc:'Interest on IC Loan', desc2:'6-month interest accrual', gl:'IC-INT-6300', glType:'PL', period:'Sep 2025', txnCcy:'USD', txnAmt:18750, entityCcy:'USD', entityAmt:18750, status:'open', matchId:null, conf:0 },
-    ],
-    B: [
-      { id:'TXN-B-001', desc:'Purchase of Goods — March', desc2:'Received at warehouse 04 Apr', gl:'IC-COGS-6000', glType:'PL', period:'Apr 2025', txnCcy:'USD', txnAmt:245000, entityCcy:'GBP', entityAmt:193050, status:'eliminated', matchId:'MS-001', conf:98 },
-      { id:'TXN-B-002', desc:'Goods Received Note — June', desc2:'Stock received 03 Jul', gl:'IC-COGS-6000', glType:'PL', period:'Jul 2025', txnCcy:'USD', txnAmt:312000, entityCcy:'GBP', entityAmt:245880, status:'suggested', matchId:'MS-002', conf:91 },
-      { id:'TXN-B-003', desc:'Rent Payable — January', desc2:'London office — charged by parent', gl:'IC-RENT-6100', glType:'PL', period:'Jan 2025', txnCcy:'USD', txnAmt:15000, entityCcy:'GBP', entityAmt:11820, status:'eliminated', matchId:'MS-004', conf:97 },
-      { id:'TXN-B-004', desc:'Rent Payable — February', desc2:'London office — charged by parent', gl:'IC-RENT-6100', glType:'PL', period:'Feb 2025', txnCcy:'USD', txnAmt:15000, entityCcy:'GBP', entityAmt:11820, status:'suggested', matchId:'MS-005', conf:96 },
-      { id:'TXN-B-005a', desc:'Group Management Services', desc2:'Per group cost allocation policy', gl:'IC-MGMT-6200', glType:'PL', period:'Dec 2025', txnCcy:'USD', txnAmt:120000, entityCcy:'GBP', entityAmt:94560, status:'suggested', matchId:'MS-003', conf:72 },
-      { id:'TXN-B-005b', desc:'Advisory Fee — Group Centre', desc2:'Additional advisory scope billed', gl:'IC-MGMT-6200', glType:'PL', period:'Dec 2025', txnCcy:'USD', txnAmt:86600, entityCcy:'GBP', entityAmt:68231, status:'suggested', matchId:'MS-003', conf:72 },
-      { id:'TXN-B-007', desc:'IC Loan Interest — GBP', desc2:'Interest on facility from parent', gl:'IC-INT-3300', glType:'BS', period:'Sep 2025', txnCcy:'GBP', txnAmt:14800, entityCcy:'GBP', entityAmt:14800, status:'open', matchId:null, conf:0 },
-    ],
-    matchSets: [
-      { id:'MS-001', jeId:'ELIM-ALPHSA-BETAUK-FY25-001', layer:1, layerLabel:'L1 — Exact Match', legsA:['TXN-A-001'], legsB:['TXN-B-001'], txnCcy:'USD', amtA:245000, amtB:245000, diff:0, matOk:true, type:'1:1 · IC Sales/Purchase', status:'eliminated', conf:98, fctr:{gl:'FCTR-OCI-ALPHSA',amt:1240,ccy:'USD'}, approvedBy:'J. Smith', approvedAt:'Today 10:15' },
-      { id:'MS-002', jeId:'ELIM-ALPHSA-BETAUK-FY25-002', layer:2, layerLabel:'L2 — Strong Match', legsA:['TXN-A-002'], legsB:['TXN-B-002'], txnCcy:'USD', amtA:312000, amtB:312000, diff:0, matOk:true, type:'1:1 · IC Sales/Purchase — Timing Diff', status:'suggested', conf:91, fctr:{gl:'FCTR-OCI-ALPHSA',amt:2100,ccy:'USD'}, approvedBy:null, approvedAt:null },
-      { id:'MS-003', jeId:'ELIM-ALPHSA-BETAUK-FY25-003', layer:3, layerLabel:'L3 — Semantic Match', legsA:['TXN-A-005'], legsB:['TXN-B-005a','TXN-B-005b'], txnCcy:'USD', amtA:180000, amtB:206600, diff:26600, matOk:false, type:'1:2 · IC Management Fee — Over Materiality', status:'review', conf:72, fctr:{gl:'FCTR-OCI-ALPHSA',amt:0,ccy:'USD'}, approvedBy:null, approvedAt:null },
-      { id:'MS-004', jeId:'ELIM-ALPHSA-BETAUK-FY25-004', layer:4, layerLabel:'L4 — Standing Rule', legsA:['TXN-A-003'], legsB:['TXN-B-003'], txnCcy:'USD', amtA:15000, amtB:15000, diff:0, matOk:true, type:'1:1 · Recurring Monthly Rent — Jan', status:'eliminated', conf:97, fctr:{gl:'FCTR-OCI-ALPHSA',amt:320,ccy:'USD'}, approvedBy:'A. Patel', approvedAt:'Yesterday 16:30' },
-      { id:'MS-005', jeId:'ELIM-ALPHSA-BETAUK-FY25-005', layer:4, layerLabel:'L4 — Standing Rule', legsA:['TXN-A-004'], legsB:['TXN-B-004'], txnCcy:'USD', amtA:15000, amtB:15000, diff:0, matOk:true, type:'1:1 · Recurring Monthly Rent — Feb', status:'suggested', conf:96, fctr:{gl:'FCTR-OCI-ALPHSA',amt:310,ccy:'USD'}, approvedBy:null, approvedAt:null },
-    ]
-  },
-  'ALPHA-SA|GAMMA-DE': {
-    A: [
-      { id:'TXN-AG-A-001', desc:'Software Licence Fee', desc2:'Annual group software licence', gl:'IC-LIC-6100', glType:'PL', period:'Jan 2025', txnCcy:'EUR', txnAmt:95000, entityCcy:'USD', entityAmt:103075, status:'eliminated', matchId:'MS-AG-001', conf:96 },
-      { id:'TXN-AG-A-002', desc:'Technical Support Services', desc2:'Q1 support recharge', gl:'IC-TECH-6200', glType:'PL', period:'Mar 2025', txnCcy:'EUR', txnAmt:22000, entityCcy:'USD', entityAmt:23870, status:'open', matchId:null, conf:0 },
-    ],
-    B: [
-      { id:'TXN-AG-B-001', desc:'Softwarelizenzgebühr', desc2:'Jährliche Gruppenlizenz', gl:'IC-KOST-6100', glType:'PL', period:'Jan 2025', txnCcy:'EUR', txnAmt:95000, entityCcy:'EUR', entityAmt:95000, status:'eliminated', matchId:'MS-AG-001', conf:96 },
-    ],
-    matchSets: [
-      { id:'MS-AG-001', jeId:'ELIM-ALPHSA-GAMMADE-FY25-001', layer:3, layerLabel:'L3 — Semantic Match', legsA:['TXN-AG-A-001'], legsB:['TXN-AG-B-001'], txnCcy:'EUR', amtA:95000, amtB:95000, diff:0, matOk:true, type:'1:1 · IC Licence Fee (EN/DE)', status:'eliminated', conf:96, fctr:{gl:'FCTR-OCI-ALPHSA',amt:890,ccy:'USD'}, approvedBy:'M. Mueller', approvedAt:'Today 11:20' },
-    ]
-  },
-};
-
-function getPairKey(a, b) {
-  // Canonical key — always alphabetical
-  return [a,b].sort().join('|');
+function toggle(id){
+  var body=document.getElementById('body-'+id), tgl=document.getElementById('tgl-'+id);
+  if(!body) return;
+  var h=body.classList.toggle('hidden');
+  if(tgl) tgl.classList.toggle('closed',h);
 }
 
-function getPairData(a, b) {
-  const key = getPairKey(a, b);
-  if (ALL_TXN_DATA[key]) return ALL_TXN_DATA[key];
-  // Return empty pair for pairs with no data
-  return { A:[], B:[], matchSets:[] };
+function goTo(id){
+  var el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function loadPair() {
-  const a = document.getElementById('entity-a-select').value;
-  const b = document.getElementById('entity-b-select').value;
-
-  if (a === b) {
-    toast('⚠','An entity cannot transact with itself', true);
-    return;
-  }
-
-  const data = getPairData(a, b);
-  txnsA = data.A;
-  txnsB = data.B;
-  // Replace global MATCH_SETS for this pair
-  MATCH_SETS.length = 0;
-  data.matchSets.forEach(m => MATCH_SETS.push(m));
-
-  document.getElementById('panel-a-title').textContent = a;
-  document.getElementById('panel-b-title').textContent = b;
-
-  const ccyA = ENTITY_CCY[a]||'USD';
-  const ccyB = ENTITY_CCY[b]||'USD';
-  const totalTxns = txnsA.length + txnsB.length;
-  document.getElementById('pair-meta').textContent =
-    `${totalTxns} transactions · ${ccyA} ↔ ${ccyB} → USD reporting · ${txnsA.length} from ${a} · ${txnsB.length} from ${b}`;
-
-  // Update panel header transaction counts
-  document.querySelector('#view-pair .txn-panels .txn-panel:first-child .tph-meta').textContent =
-    `${a} IC Statement · ${txnsA.length} transaction${txnsA.length!==1?'s':''}`;
-  document.querySelector('#view-pair .txn-panels .txn-panel:last-child .tph-meta').textContent =
-    `${b} IC Statement · ${txnsB.length} transaction${txnsB.length!==1?'s':''}`;
-
-  // Warn if one side is empty
-  if (txnsA.length === 0) {
-    toast('⚠', `${a} has not uploaded an IC statement for this pair`, true);
-  } else if (txnsB.length === 0) {
-    toast('⚠', `${b} has not uploaded an IC statement for this pair`, true);
-  }
-
-  renderTxnTable('txn-a-body', txnsA, 'A');
-  renderTxnTable('txn-b-body', txnsB, 'B');
-  renderMatchCards();
-  renderJELog();
+function resetAll(){
+  if(!confirm('Reset all results?')) return;
+  Object.keys(results).forEach(function(k){delete results[k];});
+  Object.keys(notes).forEach(function(k){delete notes[k];});
+  document.querySelectorAll('.res-btn').forEach(function(b){b.classList.remove('on');});
+  document.querySelectorAll('.tc-icon').forEach(function(e){e.innerHTML='&#9675;';e.style.color='';});
+  document.querySelectorAll('.tc').forEach(function(e){e.classList.remove('tc-pass','tc-fail');});
+  document.querySelectorAll('.bug-inp').forEach(function(e){e.classList.remove('show');e.value='';});
+  document.querySelectorAll('.sev-sel').forEach(function(e){e.classList.remove('show');});
+  updateAll();
 }
 
-function flagToEntity() {
-  closeModal('one-sided-modal');
-  toast('⚑', 'Transaction flagged — entity team will be notified to review their IC statement');
+function exportJSON(){
+  var p=0,f=0,s=0;
+  Object.values(results).forEach(function(v){if(v==='pass')p++;else if(v==='fail')f++;else if(v==='skip')s++;});
+  var payload={document:'UAT-CONSOLIQ-ICE-001',tester:document.getElementById('mt').value,date:document.getElementById('md').value,browser:document.getElementById('mb').value,summary:{total:TOTAL,pass:p,fail:f,skip:s,remaining:TOTAL-p-f-s},results:results,bugs:Object.entries(results).filter(function(e){return e[1]==='fail';}).map(function(e){var id=e[0],n=notes[id]||{desc:'',sev:'minor'};return {id:'BUG-'+id,testCase:'TC-'+id,desc:n.desc,severity:n.sev};})};
+  var blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='UAT-ICE-'+new Date().toISOString().slice(0,10)+'.json';a.click();
 }
 
-function renderTxnTable(bodyId, txns, side) {
-  const body = document.getElementById(bodyId);
-  if (!txns || txns.length === 0) {
-    const entity = document.getElementById(side==='A'?'entity-a-select':'entity-b-select').value;
-    body.innerHTML = `<tr><td colspan="9" style="padding:32px;text-align:center;">
-      <div style="font-size:12px;color:var(--warn);margin-bottom:6px;">⚠ No IC statement uploaded</div>
-      <div style="font-size:10px;color:var(--muted2);">${entity} has not uploaded an intercompany statement for this pair and period.</div>
-      <div style="margin-top:10px;"><button class="btn btn-ghost" style="font-size:10px;" onclick="openUploadModal()">⬆ Upload Statement for ${entity}</button></div>
-    </td></tr>`;
-    return;
-  }
-  body.innerHTML = txns.map(t => {
-    const isElim = t.status==='eliminated';
-    const rowClass = isElim ? 'matched-row' : '';
-    const matchLink = t.matchId
-      ? `<span class="match-link" onclick="openMatchDetail('${t.matchId}')">${t.matchId}</span>`
-      : '<span style="color:var(--muted);font-size:9px;">—</span>';
-
-    const confHtml = t.conf>0
-      ? `<div class="conf-wrap"><div class="conf-bar"><div class="conf-fill ${confClass(t.conf)}" style="width:${t.conf}%"></div></div><div class="conf-pct">${t.conf}%</div></div>`
-      : '<span style="color:var(--muted);font-size:9px;">—</span>';
-
-    let acts = `<div class="row-acts"><button class="icon-btn ib-view" data-tip="View detail" onclick="openTxnDetail('${t.id}','${side}')">⊙</button>`;
-    if (t.status==='suggested') acts += `<button class="icon-btn ib-accept" onclick="acceptTxnMatch('${t.id}','${side}')">✓</button><button class="icon-btn ib-reject" onclick="rejectTxnMatch('${t.id}','${side}')">✕</button>`;
-    acts += '</div>';
-
-    return `<tr class="${rowClass}" id="row-${t.id}">
-      <td><div class="txn-id">${t.id}</div></td>
-      <td><div class="txn-desc">${t.desc}</div><div class="txn-desc-sub">${t.desc2}</div></td>
-      <td><span class="gl-chip">${t.gl}</span><div style="font-size:8px;color:var(--muted2);margin-top:2px;">${t.glType}</div></td>
-      <td><span class="period-chip-sm">${t.period}</span></td>
-      <td>
-        <div class="amount-cell amt-base">${fmt(t.txnAmt)} <span class="curr-badge">${t.txnCcy}</span></div>
-        <div class="amount-cell amt-entity">${fmt(t.entityAmt)} ${t.entityCcy}</div>
-      </td>
-      <td><div class="amount-cell amt-entity">${fmt(t.entityAmt)} <span class="curr-badge">${t.entityCcy}</span></div></td>
-      <td>${statusPill(t.status)}</td>
-      <td>${matchLink}</td>
-      <td>${acts}</td>
-    </tr>`;
-  }).join('');
-}
-
-function renderMatchCards() {
-  const container = document.getElementById('match-cards');
-  const suggested = MATCH_SETS.filter(m => m.status==='suggested'||m.status==='review');
-  document.getElementById('match-count').textContent = `${suggested.length} suggested · ${MATCH_SETS.filter(m=>!m.matOk).length} over materiality`;
-
-  container.innerHTML = suggested.map(m => {
-    const diffClass = m.diff===0?'diff-ok':m.matOk?'diff-ok':'diff-over';
-    const diffText = m.diff===0?'✓ Amounts match':`Δ ${fmt(m.diff)} ${m.txnCcy} — ${m.matOk?'within materiality':'OVER MATERIALITY'}`;
-    const legsALabel = m.legsA.join(', ');
-    const legsBLabel = m.legsB.join(', ');
-    return `<div class="match-card ${confMcClass(m.conf)}" onclick="openMatchDetail('${m.id}')">
-      <div class="mc-header">
-        <span class="mc-je">${m.jeId}</span>
-        <span class="mc-type">${m.type}</span>
-        <div class="mc-conf">
-          <div class="conf-bar" style="width:60px"><div class="conf-fill ${confClass(m.conf)}" style="width:${m.conf}%"></div></div>
-          <span class="conf-pct">${m.conf}%</span>
-          <span class="mc-layer">${m.layerLabel}</span>
-        </div>
-      </div>
-      <div class="mc-legs">
-        <div class="mc-leg mc-leg-a">
-          <div class="mc-leg-entity">Entity A — ${document.getElementById('entity-a-select').value}</div>
-          <div class="mc-leg-txns">${legsALabel}</div>
-          <div class="mc-leg-amt">${fmt(m.amtA,m.txnCcy)}</div>
-        </div>
-        <div class="mc-arrow">⇄</div>
-        <div class="mc-leg mc-leg-b">
-          <div class="mc-leg-entity">Entity B — ${document.getElementById('entity-b-select').value}</div>
-          <div class="mc-leg-txns">${legsBLabel}</div>
-          <div class="mc-leg-amt">${fmt(m.amtB,m.txnCcy)}</div>
-        </div>
-      </div>
-      <div class="mc-footer">
-        <span class="mc-diff ${diffClass}">${diffText}</span>
-        ${m.fctr.amt>0?`<span style="font-size:9px;color:var(--accent3);">FCTR ${fmt(m.fctr.amt,m.fctr.ccy)}</span>`:''}
-        <div class="mc-acts">
-          ${m.matOk
-            ? `<button class="btn btn-primary" style="font-size:9px;padding:4px 10px;" onclick="event.stopPropagation();quickApprove('${m.id}')">✓ Approve</button>`
-            : `<button class="btn btn-warn" style="font-size:9px;padding:4px 10px;" onclick="event.stopPropagation();openMatchDetail('${m.id}')">⚠ Review</button>`}
-          <button class="btn btn-danger" style="font-size:9px;padding:4px 10px;" onclick="event.stopPropagation();rejectMatchSet('${m.id}')">✕</button>
-        </div>
-      </div>
-    </div>`;
-  }).join('') || '<div style="font-size:10px;color:var(--muted2);padding:8px 0;">No pending suggestions. Run matching engine to generate new suggestions.</div>';
-}
-
-// ═══════════════════════════════════════════════════
-//  MATCH DETAIL MODAL
-// ═══════════════════════════════════════════════════
-function openMatchDetail(id) {
-  if (!id) return;
-  const m = MATCH_SETS.find(x=>x.id===id);
-  if (!m) return;
-  currentMatchId = id;
-  document.getElementById('md-title').textContent = `Match Set — ${m.jeId}`;
-  document.getElementById('md-sub').textContent = `${m.type} · ${m.layerLabel} · Confidence ${m.conf}%`;
-
-  const eliminateAmt = Math.min(m.amtA, m.amtB);
-  const diffAmt = Math.abs(m.amtA - m.amtB);
-
-  const jeRows = buildJERows(m, eliminateAmt);
-
-  document.getElementById('md-content').innerHTML = `
-    <div class="field-row-3" style="margin-bottom:14px;">
-      <div class="field"><div class="field-label">JE Reference</div><input class="field-input highlight" value="${m.jeId}" readonly></div>
-      <div class="field"><div class="field-label">Match Type</div><input class="field-input" value="${m.type}" readonly></div>
-      <div class="field"><div class="field-label">Matching Layer</div><input class="field-input" value="${m.layerLabel}" readonly></div>
-    </div>
-    <div class="field-row" style="margin-bottom:14px;">
-      <div class="field"><div class="field-label">Elimination Amount (Lower of Two)</div><input class="field-input highlight" value="${fmt(eliminateAmt,m.txnCcy)}" readonly></div>
-      <div class="field"><div class="field-label">Difference</div><input class="field-input" value="${fmt(diffAmt,m.txnCcy)} ${m.matOk?'— Within Materiality':'— OVER MATERIALITY'}" readonly style="color:${m.matOk?'var(--accent)':'var(--danger)'}"></div>
-    </div>
-
-    <div style="font-size:10px;font-weight:500;color:var(--text);margin-bottom:8px;">Transaction Legs</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
-      <div style="background:var(--surface2);border:1px solid rgba(79,255,176,0.2);border-radius:var(--radius);padding:12px;">
-        <div style="font-size:9px;color:var(--accent);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">Entity A Legs</div>
-        ${m.legsA.map(lid => {
-          const t = txnsA.find(x=>x.id===lid);
-          if (!t) return '';
-          return `<div style="margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid var(--border);">
-            <div style="font-size:10px;color:var(--accent2);">${t.id}</div>
-            <div style="font-size:10px;color:var(--text);">${t.desc}</div>
-            <div style="font-size:9px;color:var(--muted2);">${t.gl} · ${t.period}</div>
-            <div style="font-size:11px;color:var(--accent);margin-top:2px;">${fmt(t.txnAmt,t.txnCcy)}</div>
-          </div>`;
-        }).join('')}
-        <div style="font-size:10px;font-weight:500;color:var(--accent);">Total: ${fmt(m.amtA,m.txnCcy)}</div>
-      </div>
-      <div style="background:var(--surface2);border:1px solid rgba(61,224,255,0.2);border-radius:var(--radius);padding:12px;">
-        <div style="font-size:9px;color:var(--accent2);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">Entity B Legs</div>
-        ${m.legsB.map(lid => {
-          const t = txnsB.find(x=>x.id===lid);
-          if (!t) return '';
-          return `<div style="margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid var(--border);">
-            <div style="font-size:10px;color:var(--accent2);">${t.id}</div>
-            <div style="font-size:10px;color:var(--text);">${t.desc}</div>
-            <div style="font-size:9px;color:var(--muted2);">${t.gl} · ${t.period}</div>
-            <div style="font-size:11px;color:var(--accent2);margin-top:2px;">${fmt(t.txnAmt,t.txnCcy)}</div>
-          </div>`;
-        }).join('')}
-        <div style="font-size:10px;font-weight:500;color:var(--accent2);">Total: ${fmt(m.amtB,m.txnCcy)}</div>
-      </div>
-    </div>
-
-    <div style="font-size:10px;font-weight:500;color:var(--text);margin-bottom:8px;">Journal Entry Preview — All Currencies</div>
-    <table class="je-table" style="margin-bottom:14px;">
-      <thead><tr><th>Leg</th><th>GL Code</th><th>Description</th><th style="text-align:right">Txn CCY</th><th style="text-align:right">Entity CCY</th><th style="text-align:right">Reporting USD</th><th>Dr/Cr</th></tr></thead>
-      <tbody>${jeRows}</tbody>
-    </table>
-
-    ${m.fctr.amt>0?`<div style="background:rgba(184,127,255,0.06);border:1px solid rgba(184,127,255,0.2);border-radius:var(--radius);padding:10px 12px;margin-bottom:14px;">
-      <div style="font-size:9px;color:var(--accent3);margin-bottom:3px;text-transform:uppercase;letter-spacing:1px;">FCTR — Foreign Currency Translation</div>
-      <div style="font-size:10px;color:var(--text2);">GL: <span style="color:var(--accent3);">${m.fctr.gl}</span> · Amount: ${fmt(m.fctr.amt,m.fctr.ccy)} · OCI equity line</div>
-    </div>`:''}
-
-    <div style="font-size:10px;font-weight:500;color:var(--text);margin-bottom:8px;">Audit Trail</div>
-    <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius);padding:12px;">
-      <div class="audit-item"><div class="audit-dot ad-purple"></div><div><div class="audit-text"><strong>AI Match Suggested</strong> — ${m.layerLabel} · ${m.conf}% confidence</div><div class="audit-time">Today 09:30</div></div></div>
-      ${m.approvedBy?`<div class="audit-item"><div class="audit-dot ad-green"></div><div><div class="audit-text"><strong>Approved</strong> by ${m.approvedBy} — JE posted</div><div class="audit-time">${m.approvedAt}</div></div></div>`:''}
-      <div class="audit-item"><div class="audit-dot ad-blue"></div><div><div class="audit-text">Matching engine run triggered by <strong>consolidation team</strong></div><div class="audit-time">Today 09:20</div></div></div>
-    </div>
-  `;
-
-  document.getElementById('md-approve-btn').style.display = (m.status==='eliminated') ? 'none' : 'inline-flex';
-  document.getElementById('match-detail-modal').classList.add('open');
-}
-
-// View detail for ANY transaction — matched or unmatched
-function openTxnDetail(txnId, side) {
-  const txns = side==='A' ? txnsA : txnsB;
-  const t = txns.find(x=>x.id===txnId);
-  if (!t) return;
-  // If matched — open the normal match detail modal
-  if (t.matchId) { openMatchDetail(t.matchId); return; }
-  // If unmatched — open one-sided modal
-  openOneSidedModal(t, side);
-}
-
-function openOneSidedModal(t, side) {
-  const entityA = document.getElementById('entity-a-select').value;
-  const entityB = document.getElementById('entity-b-select').value;
-  const entity = side==='A' ? entityA : entityB;
-  const counterEntity = side==='A' ? entityB : entityA;
-
-  document.getElementById('os-title').textContent = `One-Sided Transaction — ${t.id}`;
-  document.getElementById('os-sub').textContent = `${entity} has booked this transaction. No corresponding entry found on ${counterEntity}.`;
-
-  document.getElementById('os-content').innerHTML = `
-    <div style="background:rgba(255,92,122,0.06);border:1px solid rgba(255,92,122,0.2);border-radius:var(--radius);padding:14px;margin-bottom:14px;">
-      <div style="font-size:9px;color:var(--danger);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">⚠ No Counter-Entry Found on ${counterEntity}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
-        <div><div style="font-size:9px;color:var(--muted2);">Transaction ID</div><div style="font-size:11px;color:var(--accent2);margin-top:2px;">${t.id}</div></div>
-        <div><div style="font-size:9px;color:var(--muted2);">GL Code</div><div style="font-size:11px;color:var(--text);margin-top:2px;">${t.gl}</div></div>
-        <div><div style="font-size:9px;color:var(--muted2);">GL Type</div><div style="font-size:11px;color:var(--text);margin-top:2px;">${t.glType==='PL'?'Profit & Loss':'Balance Sheet'}</div></div>
-        <div><div style="font-size:9px;color:var(--muted2);">Period</div><div style="font-size:11px;color:var(--text);margin-top:2px;">${t.period}</div></div>
-        <div><div style="font-size:9px;color:var(--muted2);">Txn Currency</div><div style="font-size:12px;color:var(--accent);margin-top:2px;font-weight:500;">${t.txnCcy} ${new Intl.NumberFormat('en-US').format(t.txnAmt)}</div></div>
-        <div><div style="font-size:9px;color:var(--muted2);">Entity Currency</div><div style="font-size:11px;color:var(--text2);margin-top:2px;">${t.entityCcy} ${new Intl.NumberFormat('en-US').format(t.entityAmt)}</div></div>
-      </div>
-      <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:10px;color:var(--text2);">${t.desc}<br><span style="color:var(--muted2);font-size:9px;">${t.desc2}</span></div>
-    </div>
-
-    <div style="font-size:10px;font-weight:500;color:var(--text);margin-bottom:8px;">Possible Reasons</div>
-    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;">
-      <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:5px;padding:10px 12px;font-size:10px;color:var(--text2);">
-        <span style="color:var(--warn);">①</span> ${counterEntity} has not yet uploaded their IC statement for this period
-      </div>
-      <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:5px;padding:10px 12px;font-size:10px;color:var(--text2);">
-        <span style="color:var(--warn);">②</span> ${counterEntity} booked the transaction in a different period (timing difference)
-      </div>
-      <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:5px;padding:10px 12px;font-size:10px;color:var(--text2);">
-        <span style="color:var(--warn);">③</span> ${counterEntity} has not yet recognised the transaction in their books
-      </div>
-      <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:5px;padding:10px 12px;font-size:10px;color:var(--text2);">
-        <span style="color:var(--warn);">④</span> GL code mismatch — ${counterEntity} may have coded it differently, preventing a match
-      </div>
-    </div>
-
-    <div style="font-size:10px;font-weight:500;color:var(--text);margin-bottom:8px;">JE Position if Eliminated Unilaterally</div>
-    <table class="je-table" style="margin-bottom:14px;">
-      <thead><tr><th>Leg</th><th>GL Code</th><th>Description</th><th style="text-align:right">Txn CCY</th><th style="text-align:right">Entity CCY</th><th style="text-align:right">Reporting USD</th><th>Note</th></tr></thead>
-      <tbody>
-        <tr>
-          <td class="je-dr">Dr</td>
-          <td class="je-dr">${t.gl}</td>
-          <td style="color:var(--text2);">Eliminate IC entry — ${entity}</td>
-          <td style="text-align:right" class="je-dr">${t.txnCcy} ${new Intl.NumberFormat('en-US').format(t.txnAmt)}</td>
-          <td style="text-align:right" class="je-dr">${t.entityCcy} ${new Intl.NumberFormat('en-US').format(t.entityAmt)}</td>
-          <td style="text-align:right" class="je-dr">USD ${new Intl.NumberFormat('en-US').format(Math.round(t.txnAmt))}</td>
-          <td><span class="pill pill-elim" style="font-size:7px;">Dr</span></td>
-        </tr>
-        <tr>
-          <td class="je-cr" style="color:var(--danger);">Cr</td>
-          <td class="je-cr" style="color:var(--danger);">MISSING</td>
-          <td style="color:var(--danger);font-size:10px;">⚠ No counter-entry — ${counterEntity} statement required</td>
-          <td style="text-align:right;color:var(--danger);">—</td>
-          <td style="text-align:right;color:var(--danger);">—</td>
-          <td style="text-align:right;color:var(--danger);">—</td>
-          <td><span class="pill pill-open" style="font-size:7px;">Open</span></td>
-        </tr>
-        <tr class="je-total">
-          <td colspan="3" style="color:var(--danger);">⚠ JE cannot be posted — one-sided. Held open until ${counterEntity} uploads.</td>
-          <td colspan="4"></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius);padding:12px;">
-      <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Audit Trail</div>
-      <div class="audit-item"><div class="audit-dot ad-red"></div><div><div class="audit-text"><strong>Transaction held open</strong> — no counter-entry on ${counterEntity}</div><div class="audit-time">Today · matching engine run</div></div></div>
-      <div class="audit-item"><div class="audit-dot ad-blue"></div><div><div class="audit-text">Flagged in <strong>AI Insights</strong> panel for consolidation team attention</div><div class="audit-time">Today 09:30</div></div></div>
-    </div>
-  `;
-
-  document.getElementById('one-sided-modal').classList.add('open');
-}
-
-function buildJERows(m, eliminateAmt) {
-  const a = document.getElementById('entity-a-select').value;
-  const b = document.getElementById('entity-b-select').value;
-  const ccyA = ENTITY_CCY[a]||'USD';
-  const ccyB = ENTITY_CCY[b]||'USD';
-  const fxA = ccyA==='USD'?1:ccyA==='GBP'?1.268:ccyA==='EUR'?1.085:ccyA==='JPY'?0.0067:1;
-  const fxB = ccyB==='USD'?1:ccyB==='GBP'?1.268:ccyB==='EUR'?1.085:ccyB==='JPY'?0.0067:1;
-  const repA = Math.round(eliminateAmt*fxA);
-  const repB = Math.round(eliminateAmt*fxB);
-  const fctrAmt = Math.abs(repA-repB);
-
-  let rows = '';
-  m.legsA.forEach(lid => {
-    const t = txnsA.find(x=>x.id===lid)||{};
-    const legAmt = m.legsA.length>1 ? Math.round(eliminateAmt/m.legsA.length) : eliminateAmt;
-    rows += `<tr><td class="je-dr">Dr</td><td class="je-dr">${t.gl||'IC-REV'}</td><td style="color:var(--text2);">Eliminate IC Revenue (${a})</td><td style="text-align:right" class="je-dr">${fmt(legAmt,m.txnCcy)}</td><td style="text-align:right" class="je-dr">${fmt(legAmt,m.txnCcy)}</td><td style="text-align:right" class="je-dr">${fmt(Math.round(legAmt*fxA),'USD')}</td><td><span class="pill pill-elim" style="font-size:7px;">Dr</span></td></tr>`;
-  });
-  m.legsB.forEach(lid => {
-    const t = txnsB.find(x=>x.id===lid)||{};
-    const legAmt = m.legsB.length>1 ? Math.round(eliminateAmt/m.legsB.length) : eliminateAmt;
-    rows += `<tr><td class="je-cr">Cr</td><td class="je-cr">${t.gl||'IC-COGS'}</td><td style="color:var(--text2);">Eliminate IC Cost (${b})</td><td style="text-align:right" class="je-cr">${fmt(legAmt,m.txnCcy)}</td><td style="text-align:right" class="je-cr">${fmt(Math.round(legAmt/fxB*fxB),ccyB)}</td><td style="text-align:right" class="je-cr">${fmt(Math.round(legAmt*fxB),'USD')}</td><td><span class="pill pill-review" style="font-size:7px;">Cr</span></td></tr>`;
-  });
-  if (fctrAmt>0) {
-    rows += `<tr class="je-total"><td class="je-fctr">Dr/Cr</td><td class="je-fctr">${m.fctr.gl}</td><td class="je-fctr">FCTR — Translation Difference (OCI)</td><td style="text-align:right" class="je-fctr">—</td><td style="text-align:right" class="je-fctr">—</td><td style="text-align:right" class="je-fctr">${fmt(fctrAmt,'USD')}</td><td><span class="pill pill-suggested" style="font-size:7px;">OCI</span></td></tr>`;
-  }
-  rows += `<tr class="je-total"><td colspan="3" style="color:var(--text);">Net Balance (should be zero after FCTR)</td><td style="text-align:right;color:var(--accent);">${fmt(0,m.txnCcy)}</td><td style="text-align:right;color:var(--accent);">—</td><td style="text-align:right;color:var(--accent);">USD 0</td><td></td></tr>`;
-  return rows;
-}
-
-function approveMatch() {
-  const m = MATCH_SETS.find(x=>x.id===currentMatchId);
-  if (!m) return;
-  m.status='eliminated'; m.approvedBy='Current User'; m.approvedAt='Just now';
-  m.legsA.forEach(id => { const t=txnsA.find(x=>x.id===id); if(t) t.status='eliminated'; });
-  m.legsB.forEach(id => { const t=txnsB.find(x=>x.id===id); if(t) t.status='eliminated'; });
-  closeModal('match-detail-modal');
-  toast('✓',`${m.jeId} posted — elimination confirmed`);
-  loadPair();
-}
-
-function approveFromPreview() {
-  approveMatch();
-  document.getElementById('je-preview-section').style.display='none';
-}
-
-function rejectMatch() {
-  const m = MATCH_SETS.find(x=>x.id===currentMatchId);
-  if (!m) return;
-  m.status='open';
-  m.legsA.forEach(id => { const t=txnsA.find(x=>x.id===id); if(t){t.status='open';t.matchId=null;} });
-  m.legsB.forEach(id => { const t=txnsB.find(x=>x.id===id); if(t){t.status='open';t.matchId=null;} });
-  closeModal('match-detail-modal');
-  toast('✕',`Match ${currentMatchId} rejected — transactions returned to unmatched pool`,true);
-  loadPair();
-}
-
-function quickApprove(id) {
-  currentMatchId = id;
-  approveMatch();
-}
-
-function rejectMatchSet(id) {
-  currentMatchId = id;
-  rejectMatch();
-}
-
-function acceptTxnMatch(id, side) {
-  const txns = side==='A'?txnsA:txnsB;
-  const t = txns.find(x=>x.id===id);
-  if (!t||!t.matchId) return;
-  currentMatchId = t.matchId;
-  approveMatch();
-}
-
-function rejectTxnMatch(id, side) {
-  const txns = side==='A'?txnsA:txnsB;
-  const t = txns.find(x=>x.id===id);
-  if (!t) return;
-  t.status='open'; t.matchId=null; t.conf=0;
-  toast('✕',`${t.id} returned to unmatched pool`,true);
-  loadPair();
-}
-
-function acceptAllMatches() {
-  let count=0;
-  MATCH_SETS.filter(m=>m.status==='suggested'&&m.matOk).forEach(m=>{
-    m.status='eliminated'; m.approvedBy='Bulk Accept'; m.approvedAt='Just now';
-    m.legsA.forEach(id=>{const t=txnsA.find(x=>x.id===id);if(t)t.status='eliminated';});
-    m.legsB.forEach(id=>{const t=txnsB.find(x=>x.id===id);if(t)t.status='eliminated';});
-    count++;
-  });
-  toast('⚡',`${count} match sets approved — JEs posted`);
-  loadPair();
-}
-
-// ═══════════════════════════════════════════════════
-//  MATCHING ENGINE SIMULATION
-// ═══════════════════════════════════════════════════
-function runMatching() {
-  const btn = document.getElementById('run-btn');
-  btn.classList.add('running');
-  btn.textContent = '⬡ Running…';
-  document.getElementById('new-indicator').style.display='none';
-  setTimeout(()=>{
-    btn.classList.remove('running');
-    btn.innerHTML = '⬡ Run Matching Engine';
-    toast('⬡','Matching engine complete — 4 suggestions generated across 5 layers');
-    addChatBubble('Matching complete. I analysed 14 transactions across 5 layers. Found 4 match candidates: 2 via Layer 1 (exact), 1 via Layer 3 (semantic), 1 via Layer 4 (standing rule). MS-003 is over materiality — requires your review.','ai');
-    loadPair();
-  },2200);
-}
-
-// ═══════════════════════════════════════════════════
-//  JE LOG
-// ═══════════════════════════════════════════════════
-function renderJELog() {
-  const body = document.getElementById('je-log-body');
-  const eliminated = MATCH_SETS.filter(m=>m.status==='eliminated');
-  body.innerHTML = eliminated.map(m=>{
-    const fxA = 1; const fxB = 1.268;
-    const repAmt = Math.round(Math.min(m.amtA,m.amtB)*((m.txnCcy==='USD')?1:fxB));
-    return `<tr onclick="openMatchDetail('${m.id}')" style="cursor:pointer;">
-      <td style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:10px;color:var(--accent3);">${m.jeId}</td>
-      <td style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:10px;">${document.getElementById('entity-a-select').value} ↔ ${document.getElementById('entity-b-select').value}</td>
-      <td style="padding:10px 14px;border-bottom:1px solid var(--border);">${m.type}</td>
-      <td style="padding:10px 14px;border-bottom:1px solid var(--border);"><span style="font-size:9px;background:var(--surface2);border:1px solid var(--border2);color:var(--muted2);padding:2px 7px;border-radius:3px;">${m.layerLabel}</span></td>
-      <td style="padding:10px 14px;border-bottom:1px solid var(--border);text-align:right;font-size:11px;font-variant-numeric:tabular-nums;">${fmt(Math.min(m.amtA,m.amtB),m.txnCcy)}</td>
-      <td style="padding:10px 14px;border-bottom:1px solid var(--border);text-align:right;font-size:11px;color:var(--accent);font-variant-numeric:tabular-nums;">${fmt(repAmt,'USD')}</td>
-      <td style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:10px;color:var(--accent3);">${m.fctr.amt>0?m.fctr.gl:'—'}</td>
-      <td style="padding:10px 14px;border-bottom:1px solid var(--border);">${statusPill('eliminated')}</td>
-      <td style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:10px;color:var(--muted2);">${m.approvedBy||'—'}</td>
-      <td style="padding:10px 14px;border-bottom:1px solid var(--border);"><button class="btn btn-ghost" style="font-size:9px;padding:3px 8px;" onclick="event.stopPropagation();openMatchDetail('${m.id}')">View JE</button></td>
-    </tr>`;
-  }).join('') || '<tr><td colspan="10" style="padding:24px;text-align:center;font-size:11px;color:var(--muted);">No eliminations posted yet. Approve match suggestions to generate JEs.</td></tr>';
-}
-
-// ═══════════════════════════════════════════════════
-//  CHAT
-// ═══════════════════════════════════════════════════
-const AI_RESPONSES = {
-  'rent':        'The monthly rent cross-charge of USD 15,000 appears consistently across all 12 months between ALPHA-SA and BETA-UK. I\'ve created a Standing Rule (SR-001) that will auto-propose this match each period. You\'ll still need to approve each month.',
-  'materiality': 'MS-003 (Management Fee) has Entity A booking USD 180,000 and Entity B booking USD 206,600 — a difference of USD 26,600. Your materiality threshold for USD is USD 10,000. This exceeds it, so the team must decide: eliminate at the lower value (USD 180,000) or investigate the USD 26,600 gap.',
-  'unmatched':   'Currently unmatched on BETA-UK side: TXN-B-007 (IC Loan Interest GBP 14,800). There\'s no corresponding interest income on ALPHA-SA\'s statement. This could mean ALPHA-SA hasn\'t booked the interest yet, or it\'s in a different period. I\'d recommend flagging ALPHA-SA entity team.',
-  'fctr':        'MS-001 generated FCTR of USD 1,240 posted to FCTR-OCI-ALPHSA. This arose because the USD 245,000 elimination converted to USD at the average P&L rate on ALPHA-SA\'s side, but to USD at the closing BS rate on BETA-UK\'s GBP-denominated books. The difference hits OCI and doesn\'t affect the P&L elimination.',
-  'default':     'I\'ve analysed all transactions in this pair. The matching engine ran 5 layers: exact reference match, amount+entity+GL match, semantic description similarity, recurring pattern detection, and residual. Current status: 2 eliminated, 3 suggested, 2 unmatched. What would you like to investigate?',
-};
-
-function chatSay(msg) { document.getElementById('chat-input').value=msg; sendChat(); }
-function chatKeydown(e) { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();} }
-function sendChat() {
-  const input = document.getElementById('chat-input');
-  const msg = input.value.trim();
-  if (!msg) return;
-  addChatBubble(msg,'user');
-  input.value='';
-  setTimeout(()=>{
-    const low=msg.toLowerCase();
-    let reply=AI_RESPONSES.default;
-    if(low.includes('rent')||low.includes('recurring')) reply=AI_RESPONSES.rent;
-    else if(low.includes('material')||low.includes('ms-003')||low.includes('003')) reply=AI_RESPONSES.materiality;
-    else if(low.includes('unmatched')||low.includes('beta-uk')||low.includes('007')) reply=AI_RESPONSES.unmatched;
-    else if(low.includes('fctr')||low.includes('translation')||low.includes('ms-001')) reply=AI_RESPONSES.fctr;
-    addChatBubble(reply,'ai');
-  },600);
-}
-
-function addChatBubble(msg,role) {
-  const wrap=document.getElementById('chat-wrap');
-  const div=document.createElement('div');
-  div.className=`chat-bubble cb-${role}`;
-  div.textContent=msg;
-  wrap.appendChild(div);
-  wrap.scrollTop=wrap.scrollHeight;
-}
-
-// ═══════════════════════════════════════════════════
-//  VIEW ROUTING
-// ═══════════════════════════════════════════════════
-function showView(v) {
-  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
-  document.getElementById(`view-${v}`).classList.add('active');
-  if(v==='pair') renderJELog();
-}
-
-// ═══════════════════════════════════════════════════
-//  MODALS
-// ═══════════════════════════════════════════════════
-function openUploadModal() { document.getElementById('upload-modal').classList.add('open'); }
-function openMaterialityModal() { document.getElementById('materiality-modal').classList.add('open'); }
-function openEntityConfigModal() { document.getElementById('entity-config-modal').classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-function saveMateriality() { closeModal('materiality-modal'); toast('✓','Materiality thresholds saved'); }
-function simulateUpload() {
-  closeModal('upload-modal');
-  document.getElementById('new-indicator').style.display='flex';
-  toast('⬡','Statement uploaded — diff complete. 3 changed lines found. 1 confirmed match flagged for reversion.');
-}
-
-// ═══════════════════════════════════════════════════
-//  TOAST
-// ═══════════════════════════════════════════════════
-let toastTimer;
-function toast(icon,msg,warn) {
-  const el=document.getElementById('toast');
-  el.style.borderColor=warn?'var(--warn)':'var(--accent3)';
-  document.getElementById('toast-icon').textContent=icon;
-  document.getElementById('toast-msg').textContent=msg;
-  el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>el.classList.remove('show'),3200);
-}
-
-// ═══════════════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════════════
-buildMatrix();
-buildUploadGrid();
-loadPair();
-showView('pair');
+document.getElementById('md').value=new Date().toISOString().slice(0,10);
+updateAll();
 </script>
 
 </body>
