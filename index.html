@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>ConsolIQ — IC Eliminations</title>
 <style>
@@ -42,9 +42,8 @@ font-family: var(–font-mono);
 background: var(–bg);
 color: var(–text);
 min-height: 100vh;
-font-size: 12px;
+font-size: 13px;
 line-height: 1.6;
-overflow: hidden;
 }
 
 /* ═══════════════════════════════
@@ -110,20 +109,35 @@ border: 1px solid rgba(79,255,176,0.2);
 .topbar-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 
 .btn {
-padding: 6px 14px; border-radius: var(–radius); border: none;
-font-family: var(–font-mono); font-size: 10px; cursor: pointer;
-transition: all 0.15s; display: inline-flex; align-items: center; gap: 5px;
+padding: 7px 16px;
+border-radius: var(–radius);
+border: none;
+font-family: var(–font-mono);
+font-size: 11px;
+cursor: pointer;
+transition: all 0.15s;
+display: inline-flex;
+align-items: center;
+gap: 6px;
+white-space: nowrap;
+font-weight: 500;
 }
-.btn-ghost { background: transparent; color: var(–text2); border: 1px solid var(–border2); }
-.btn-ghost:hover { color: var(–text); border-color: var(–border3); }
-.btn-primary { background: var(–accent); color: #000; font-weight: 500; }
+.btn-ghost {
+background: transparent;
+color: var(–text2);
+border: 1px solid var(–border2);
+font-weight: 400;
+}
+.btn-ghost:hover { color: var(–text); border-color: var(–muted); }
+.btn-primary { background: var(–accent); color: #000; }
 .btn-primary:hover { background: #6effc2; }
-.btn-accent2 { background: var(–accent2); color: #000; font-weight: 500; }
-.btn-accent2:hover { background: #6ae8ff; }
-.btn-warn { background: var(–warn); color: #000; font-weight: 500; }
-.btn-danger { background: transparent; color: var(–danger); border: 1px solid rgba(255,92,122,0.4); }
-.btn-danger:hover { background: rgba(255,92,122,0.1); }
-.btn-purple { background: var(–accent3); color: #000; font-weight: 500; }
+.btn-warn { background: var(–warn); color: #000; }
+.btn-warn:hover { background: #ffc76a; }
+.btn-danger { background: var(–danger); color: #000; }
+.btn-danger:hover { background: #ff7a91; }
+.btn-purple { background: var(–accent3); color: #000; }
+.btn-purple:hover { background: #c99aff; }
+.btn-sm { padding: 4px 10px; font-size: 10px; font-weight: 400; }
 
 /* ═══════════════════════════════
 VIEWS
@@ -167,7 +181,7 @@ border-radius: var(–radius); padding: 14px 16px; position: relative; overflow:
 .eg-title { font-size: 12px; font-weight: 500; }
 .eg-sub { font-size: 10px; color: var(–muted2); margin-left: auto; }
 
-.matrix-table-wrap { overflow: auto; }
+.matrix-table-wrap { overflow: auto; -webkit-overflow-scrolling: touch; }
 .matrix-table { border-collapse: collapse; }
 .matrix-table th, .matrix-table td { padding: 0; }
 .matrix-corner { width: 110px; min-width: 110px; height: 40px; background: var(–surface2); border-right: 1px solid var(–border); border-bottom: 1px solid var(–border); }
@@ -245,15 +259,8 @@ border: 1px solid; white-space: nowrap;
 .pair-meta { font-size: 10px; color: var(–muted2); }
 .pair-actions { margin-left: auto; display: flex; gap: 8px; }
 
-.run-btn {
-display: flex; align-items: center; gap: 6px;
-padding: 7px 16px; border-radius: var(–radius);
-background: linear-gradient(135deg, var(–accent3), var(–accent2));
-color: #000; font-family: var(–font-mono); font-size: 11px; font-weight: 500;
-border: none; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;
-}
-.run-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(184,127,255,0.3); }
-.run-btn.running { animation: runPulse 1.5s infinite; }
+/* run button uses btn btn-purple with animation extension */
+.btn-purple.running { animation: runPulse 1.5s infinite; }
 @keyframes runPulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
 
 .new-indicator {
@@ -265,11 +272,11 @@ display: flex; align-items: center; gap: 5px;
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
 /* PAIR CONTENT */
-.pair-content { flex: 1; display: grid; grid-template-columns: 1fr 320px; overflow: hidden; }
+.pair-content { flex: 1; display: grid; grid-template-columns: 1fr 320px; overflow: hidden; min-height: 0; }
 .pair-main { display: flex; flex-direction: column; overflow: hidden; border-right: 1px solid var(–border); }
 
 /* TXN PANELS */
-.txn-panels { flex: 1; display: grid; grid-template-rows: 1fr 1fr; overflow: hidden; }
+.txn-panels { flex: 1; display: grid; grid-template-rows: 1fr 1fr; overflow: hidden; min-height: 0; }
 .txn-panel { display: flex; flex-direction: column; overflow: hidden; border-bottom: 1px solid var(–border); }
 .txn-panel:last-child { border-bottom: none; }
 .txn-panel-header {
@@ -281,7 +288,7 @@ background: var(–surface);
 .tph-meta { font-size: 9px; color: var(–muted2); }
 .tph-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 
-.txn-table-wrap { overflow: auto; flex: 1; }
+.txn-table-wrap { overflow: auto; flex: 1; -webkit-overflow-scrolling: touch; }
 table { width: 100%; border-collapse: collapse; }
 thead { position: sticky; top: 0; z-index: 2; }
 th {
@@ -334,15 +341,20 @@ tr.highlight-flash td { animation: rowFlash 0.7s ease; }
 /* ROW ACTIONS */
 .row-acts { display: flex; gap: 4px; }
 .icon-btn {
-background: transparent; border: 1px solid var(–border2);
-color: var(–text2); width: 24px; height: 24px;
-border-radius: 5px; display: flex; align-items: center; justify-content: center;
-cursor: pointer; font-size: 11px; transition: all 0.15s; flex-shrink: 0;
+background: var(–surface2);
+border: 1px solid var(–border2);
+color: var(–text2);
+width: 26px; height: 26px;
+border-radius: 5px;
+display: flex; align-items: center; justify-content: center;
+cursor: pointer; font-size: 12px; transition: all 0.15s; flex-shrink: 0;
 }
-.icon-btn:hover { color: var(–text); border-color: var(–border3); }
-.icon-btn.ib-accept:hover { border-color: var(–accent); color: var(–accent); }
-.icon-btn.ib-reject:hover { border-color: var(–danger); color: var(–danger); }
-.icon-btn.ib-view:hover { border-color: var(–accent2); color: var(–accent2); }
+.icon-btn:hover { background: var(–surface3); color: var(–text); border-color: var(–border3); }
+.icon-btn.ib-accept { background: rgba(79,255,176,0.08); color: var(–accent); border-color: rgba(79,255,176,0.3); }
+.icon-btn.ib-accept:hover { background: var(–accent); color: #000; border-color: var(–accent); }
+.icon-btn.ib-reject { background: rgba(255,92,122,0.08); color: var(–danger); border-color: rgba(255,92,122,0.3); }
+.icon-btn.ib-reject:hover { background: var(–danger); color: #000; border-color: var(–danger); }
+.icon-btn.ib-view:hover { background: rgba(61,224,255,0.12); color: var(–accent2); border-color: rgba(61,224,255,0.4); }
 
 /* ═══════════════════════════════
 MATCH SUGGESTIONS AREA
@@ -549,8 +561,39 @@ box-shadow: 0 4px 24px rgba(0,0,0,0.4); max-width: 300px;
 .tab { padding: 10px 16px; font-size: 10px; color: var(–muted2); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; }
 .tab:hover { color: var(–text); }
 .tab.active { color: var(–accent); border-bottom-color: var(–accent); }
-</style>
 
+/* ═══════════════════════════════
+IPAD OPTIMISATION (768–1100px)
+═══════════════════════════════ */
+@media (max-width: 1100px) {
+/* Narrow the sidebar slightly */
+.sidebar { width: 180px; min-width: 180px; }
+
+/* Copilot panel — slightly narrower to give tables more room */
+.pair-content { grid-template-columns: 1fr 280px; }
+
+/* Stats — 3 across instead of 6 */
+.stats-row { grid-template-columns: repeat(3, 1fr); }
+
+/* Upload status — 3 across */
+.upload-status-grid { grid-template-columns: repeat(3, 1fr) !important; }
+
+/* Pair topbar — allow wrap so buttons don’t squash */
+.pair-topbar { flex-wrap: wrap; height: auto; min-height: 52px; padding: 10px 16px; }
+.pair-meta { order: 10; width: 100%; font-size: 10px; color: var(–muted2); }
+
+/* Tables — ensure horizontal scroll on overflow */
+.txn-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { min-width: 560px; }
+
+/* Modals — cap width sensibly on iPad */
+.modal-lg { width: 90vw; }
+
+/* Matrix table — horizontal scroll */
+.matrix-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+</style>
 </head>
 <body>
 
@@ -594,7 +637,7 @@ box-shadow: 0 4px 24px rgba(0,0,0,0.4); max-width: 300px;
     <div class="topbar-title">Intercompany Eliminations</div>
     <span class="period-chip">FY2025</span>
     <div class="topbar-right">
-      <button class="btn btn-ghost" onclick="openUploadModal()">⬆ Upload Statement</button>
+      <button class="btn btn-ghost" onclick="openUploadModal()">⬆ Upload</button>
       <button class="btn btn-ghost" onclick="openMaterialityModal()">⚖ Materiality</button>
       <button class="btn btn-primary" onclick="showView('jelog')">☰ JE Log</button>
     </div>
@@ -672,7 +715,7 @@ box-shadow: 0 4px 24px rgba(0,0,0,0.4); max-width: 300px;
           <div class="new-indicator" id="new-indicator" style="display:none"><span class="pulse-dot"></span>3 new txns since last run</div>
           <button class="btn btn-ghost" onclick="openUploadModal()">⬆ Upload</button>
           <button class="btn btn-ghost" onclick="showView('jelog')">☰ JE Log</button>
-          <button class="run-btn" id="run-btn" onclick="runMatching()">⬡ Run Matching Engine</button>
+          <button class="btn btn-purple" id="run-btn" onclick="runMatching()">⬡ Run Matching Engine</button>
         </div>
       </div>
 
@@ -688,7 +731,7 @@ box-shadow: 0 4px 24px rgba(0,0,0,0.4); max-width: 300px;
             <span class="tph-meta">Intercompany Statement · Sales / Loans / Charges</span>
             <div class="tph-right">
               <span style="font-size:9px;color:var(--muted2);">7 transactions</span>
-              <button class="btn btn-ghost" style="font-size:9px;padding:4px 10px;" onclick="openUploadModal()">⬆ Re-upload</button>
+              <button class="btn btn-ghost btn-sm" onclick="openUploadModal()">⬆ Re-upload</button>
             </div>
           </div>
           <div class="txn-table-wrap">
@@ -710,7 +753,7 @@ box-shadow: 0 4px 24px rgba(0,0,0,0.4); max-width: 300px;
             <span class="tph-meta">Intercompany Statement · Purchases / Loans / Charges</span>
             <div class="tph-right">
               <span style="font-size:9px;color:var(--muted2);">7 transactions</span>
-              <button class="btn btn-ghost" style="font-size:9px;padding:4px 10px;" onclick="openUploadModal()">⬆ Re-upload</button>
+              <button class="btn btn-ghost btn-sm" onclick="openUploadModal()">⬆ Re-upload</button>
             </div>
           </div>
           <div class="txn-table-wrap">
@@ -734,7 +777,7 @@ box-shadow: 0 4px 24px rgba(0,0,0,0.4); max-width: 300px;
           <span class="ma-title">Match Suggestions</span>
           <span class="ma-count" id="match-count">4 suggested · 1 over materiality</span>
           <div class="ma-actions">
-            <button class="btn btn-ghost" style="font-size:9px;padding:4px 10px;" onclick="acceptAllMatches()">✓ Accept All Below Materiality</button>
+            <button class="btn btn-ghost btn-sm" onclick="acceptAllMatches()">✓ Accept All Below Materiality</button>
           </div>
         </div>
         <div id="match-cards"></div>
@@ -786,8 +829,8 @@ box-shadow: 0 4px 24px rgba(0,0,0,0.4); max-width: 300px;
         <div class="cp-section-title">JE Preview — <span id="je-preview-id" style="color:var(--accent3)"></span></div>
         <table class="je-table" id="je-preview-table"></table>
         <div style="margin-top:8px;display:flex;gap:6px;justify-content:flex-end;">
-          <button class="btn btn-ghost" style="font-size:9px;padding:4px 10px;" onclick="document.getElementById('je-preview-section').style.display='none'">Close</button>
-          <button class="btn btn-primary" style="font-size:9px;padding:4px 10px;" onclick="approveFromPreview()">✓ Approve</button>
+          <button class="btn btn-ghost btn-sm" onclick="document.getElementById('je-preview-section').style.display='none'">Close</button>
+          <button class="btn btn-primary btn-sm" onclick="approveFromPreview()">✓ Approve</button>
         </div>
       </div>
 
@@ -796,7 +839,7 @@ box-shadow: 0 4px 24px rgba(0,0,0,0.4); max-width: 300px;
       </div>
       <div class="chat-input-row">
         <textarea class="chat-input" id="chat-input" rows="2" placeholder="Ask about matches, FCTR, materiality…" onkeydown="chatKeydown(event)"></textarea>
-        <button class="btn btn-primary" style="align-self:flex-end;padding:7px 12px;" onclick="sendChat()">↑</button>
+        <button class="btn btn-primary" onclick="sendChat()">↑</button>
       </div>
     </div>
   </div>
@@ -825,8 +868,8 @@ box-shadow: 0 4px 24px rgba(0,0,0,0.4); max-width: 300px;
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius2);overflow:hidden;">
     <div style="padding:12px 18px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center;">
       <input style="flex:1;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:6px 10px;border-radius:var(--radius);font-family:var(--font-mono);font-size:10px;" placeholder="Search JE ID, entity pair, amount…">
-      <button class="btn btn-ghost" style="font-size:10px;">All Pairs ▾</button>
-      <button class="btn btn-ghost" style="font-size:10px;">All Status ▾</button>
+      <button class="btn btn-ghost btn-sm">All Pairs ▾</button>
+      <button class="btn btn-ghost btn-sm">All Status ▾</button>
     </div>
     <div style="overflow:auto;">
       <table style="width:100%;border-collapse:collapse;">
@@ -1233,7 +1276,7 @@ function renderTxnTable(bodyId, txns, side) {
     body.innerHTML = `<tr><td colspan="9" style="padding:32px;text-align:center;">
       <div style="font-size:12px;color:var(--warn);margin-bottom:6px;">⚠ No IC statement uploaded</div>
       <div style="font-size:10px;color:var(--muted2);">${entity} has not uploaded an intercompany statement for this pair and period.</div>
-      <div style="margin-top:10px;"><button class="btn btn-ghost" style="font-size:10px;" onclick="openUploadModal()">⬆ Upload Statement for ${entity}</button></div>
+      <div style="margin-top:10px;"><button class="btn btn-primary btn-sm" onclick="openUploadModal()">⬆ Upload Statement for ${entity}</button></div>
     </td></tr>`;
     return;
   }
@@ -1307,9 +1350,9 @@ function renderMatchCards() {
         ${m.fctr.amt>0?`<span style="font-size:9px;color:var(--accent3);">FCTR ${fmt(m.fctr.amt,m.fctr.ccy)}</span>`:''}
         <div class="mc-acts">
           ${m.matOk
-            ? `<button class="btn btn-primary" style="font-size:9px;padding:4px 10px;" onclick="event.stopPropagation();quickApprove('${m.id}')">✓ Approve</button>`
-            : `<button class="btn btn-warn" style="font-size:9px;padding:4px 10px;" onclick="event.stopPropagation();openMatchDetail('${m.id}')">⚠ Review</button>`}
-          <button class="btn btn-danger" style="font-size:9px;padding:4px 10px;" onclick="event.stopPropagation();rejectMatchSet('${m.id}')">✕</button>
+            ? `<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();quickApprove('${m.id}')">✓ Approve</button>`
+            : `<button class="btn btn-warn btn-sm" onclick="event.stopPropagation();openMatchDetail('${m.id}')">⚠ Review</button>`}
+          <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();rejectMatchSet('${m.id}')">✕</button>
         </div>
       </div>
     </div>`;
@@ -1618,7 +1661,7 @@ function renderJELog() {
       <td style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:10px;color:var(--accent3);">${m.fctr.amt>0?m.fctr.gl:'—'}</td>
       <td style="padding:10px 14px;border-bottom:1px solid var(--border);">${statusPill('eliminated')}</td>
       <td style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:10px;color:var(--muted2);">${m.approvedBy||'—'}</td>
-      <td style="padding:10px 14px;border-bottom:1px solid var(--border);"><button class="btn btn-ghost" style="font-size:9px;padding:3px 8px;" onclick="event.stopPropagation();openMatchDetail('${m.id}')">View JE</button></td>
+      <td style="padding:10px 14px;border-bottom:1px solid var(--border);"><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openMatchDetail('${m.id}')">View JE</button></td>
     </tr>`;
   }).join('') || '<tr><td colspan="10" style="padding:24px;text-align:center;font-size:11px;color:var(--muted);">No eliminations posted yet. Approve match suggestions to generate JEs.</td></tr>';
 }
